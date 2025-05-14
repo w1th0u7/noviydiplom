@@ -1,0 +1,60 @@
+body {
+  background-color: #173751;
+}
+
+label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+select,
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.result {
+  font-size: 18px;
+  text-align: center;
+}
+
+.flex-container {
+  display: flex; /* Используем Flexbox для размещения контейнеров рядом */
+  justify-content: space-between; /* Распределяем пространство между контейнерами */
+  width: 100%;
+}
+
+.form-container {
+  flex: 1; /* Занимает равное пространство */
+  margin-right: 20px; /* Отступ между контейнерами */
+}
+
+.result-container {
+  flex: 1; /* Занимает равное пространство */
+  background-color: #f8f9fa; /* Светлый фон для результата */
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  height: 200px;
+  margin-left: 30px;
+}
+
+.result-title {
+  font-size: 24px;
+  text-align: center;
+}
+
+.insurance-label {
+  display: flex;
+  align-items: center; /* Выравнивание по центру по вертикали */
+  margin: 10px 0; /* Отступы сверху и снизу */
+  flex-direction: column-reverse;
+}
+
+.insurance-label input {
+  margin-right: 1px; /* Отступ справа от чекбокса */
+}
