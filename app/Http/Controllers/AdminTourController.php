@@ -11,7 +11,11 @@ class AdminTourController extends Controller
     public function index()
     {
         $tours = Tour::all(); // Получение всех туров
-        return view('adminpanel', compact('tours'));
+        $tourCount = Tour::count();
+        $userCount = \App\Models\User::count();
+        $adminCount = \App\Models\User::where('role', 'admin')->count();
+        
+        return view('admin.dashboard', compact('tours', 'tourCount', 'userCount', 'adminCount'));
     }
 
     // Метод для добавления нового тура

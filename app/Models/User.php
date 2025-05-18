@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail; // Optional, if you're using email verification
+use Illuminate\Contracts\Auth\MustVerifyEmail; 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens; // If you're using Laravel Sanctum for API authentication
+use Laravel\Sanctum\HasApiTokens; 
 
 class User extends Authenticatable
 {
@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role', // Add the 'role' field here
+        'api_token',
     ];
 
     /**
@@ -52,7 +53,7 @@ class User extends Authenticatable
      */
     public function isAdmin()
     {
-        return $this->role === 'admin';  // Or whatever value you use for admin role
+        return $this->role === 'admin';
     }
 
     // Optionally, add this if you need an attribute accessor for isAdmin (less common)

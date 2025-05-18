@@ -1,189 +1,451 @@
-<!DOCTYPE html>
-<html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/media.css">
-    <link rel="stylesheet" href="/css/login.css">
-    <link rel="stylesheet" href="/css/calculate.css">
-    <title>Калькулятор туров</title>
-  </head>
-  <body>
-    <header class="home">
-        <div class="max">
-            <div class="header-top">
-                <a href="index.html" class="logo"><img src="/img/logo__rodina-tur__top 2.svg" alt="" srcset=""></a>
-                <div class="soc">
-                    <a href="http:// " class="tg" target="_blank">
-                    <svg>
-                        <g id="#tg">
-                            <img src="img/Vector.svg" alt="" srcset="">
-                        </g>
-                        <use xlink:href = "#tg"></use>
-                    </svg>  
-                    </a>
-                    <a href="http://" class="wp" target="_blank">
-                    <svg>
-                        <g id="#wp">
-                            <img src="/img/wtsp.svg" alt="" srcset="">
-                        </g>
-                        <use xlink:href = "#wp"></use>
-                    </svg>
-                    </a>
-                    <a href="http://" class="vk" target="_blank">
-                    <svg>
-                        <g id="#vk">
-                            <img src="/img/vk.svg" alt="" srcset="">
-                        </g>
-                        <use xlink:href = "#vk"></use>
-                    </svg>
-                    </a>
-                    <a href="http://" class="ytb" target="_blank">
-                    <svg>
-                        <g id="#ytb">
-                            <img src="/img/ytb.svg" alt="" srcset="">
-                        </g>
-                        <use xlink:href = "#ytb"></use>
-                    </svg>
-                    </a>
+@extends('layouts.calculator')
+
+@section('title', 'Рассчитайте стоимость путешествия мечты | Rodina-tur')
+
+@section('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+<link rel="stylesheet" href="{{ asset('css/calculate.css') }}">
+<script src="https://api-maps.yandex.ru/2.1/?apikey=YOUR_API_KEY&lang=ru_RU"></script>
+@endsection
+
+@section('content')
+<div class="container">
+    <div class="calculator-banner">
+        <h1>Умный калькулятор путешествий</h1>
+        <p>Спланируйте идеальное путешествие и узнайте точную стоимость в несколько кликов</p>
+    </div>
+    
+    <div class="calculator-container">
+        <div class="calculator-header">
+            <h1>Куда хотите отправиться?</h1>
+            <p>Выберите параметры вашего будущего путешествия</p>
+        </div>
+        
+        <div class="calculator-body">
+            <div id="errorMessage" class="error-message"></div>
+            
+            <!-- Выбор типа тура -->
+            <div class="tour-type-selector">
+                <div class="tour-type active" data-type="beach">
+                    <i class="fas fa-umbrella-beach"></i>
+                    <span class="tour-type-label">Пляжный отдых</span>
                 </div>
-                <div class="header-info">
-                    <div class="phone">
-                        <a href="tel:88002003152">8-800-200-31-52</a>
-                        <span>по России Бесплатный</span>
-                    </div>
-                    <div class="js-open-modal zakaz-zvonka">
-                        <img src="/img/Phone.svg" class="img-phone">
-                        <p>+7 (920) 904-13-83</p>
-                        <p>Заказать звонок</p>
-                    </div>
-                    <a href="login.html">
-                        <div class="login">
-                            <svg>
-                                <img src="/img/login.svg" alt="" srcset="">
-                            </svg>
-                            <button id="loginBtn" type="submit">ВОЙТИ</button>
+                <div class="tour-type" data-type="excursion">
+                    <i class="fas fa-monument"></i>
+                    <span class="tour-type-label">Экскурсионный</span>
+                </div>
+                <div class="tour-type" data-type="skiing">
+                    <i class="fas fa-skiing"></i>
+                    <span class="tour-type-label">Горнолыжный</span>
+                </div>
+                <div class="tour-type" data-type="health">
+                    <i class="fas fa-spa"></i>
+                    <span class="tour-type-label">Оздоровительный</span>
+                </div>
+                <div class="tour-type" data-type="cruise">
+                    <i class="fas fa-ship"></i>
+                    <span class="tour-type-label">Круиз</span>
+                </div>
+            </div>
+            
+            <form id="tourForm" method="POST">
+                @csrf
+                <input type="hidden" id="tourType" name="tourType" value="beach">
+                
+                <div class="calculator-form">
+                    <div>
+                        <div class="form-group">
+                            <label for="country">Страна</label>
+                            <select id="country" name="country" class="form-control" required>
+                                <option value="">Выберите страну</option>
+                                @foreach($countries ?? ['Россия' => 'Россия', 'Турция' => 'Турция', 'Египет' => 'Египет', 'ОАЭ' => 'ОАЭ', 'Таиланд' => 'Таиланд'] as $key => $country)
+                                    <option value="{{ $key }}">{{ $country }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                    </a>
-                </div>
-            </div>
-            <div class="header-mid">
-                <div class="max">
-                    <nav>
-                        <ul class="menu">
-                            <li class="menu-item"><a href="" class="menu-link">Расписание</a></li>
-                            <li class="menu-item"><a href="" class="menu-link">Хит сезона</a></li>
-                            <li class="menu-item"><a href="" class="menu-link">Контакты</a></li>
-                            <li class="menu-item"><a href="" class="menu-link">Экскурсии</a></li>
-                            <li class="menu-item"><a href="" class="menu-link">Туристам</a></li>
-                            <li class="menu-item"><a href="" class="menu-link">Горящие туры</a></li>
-                            <li class="menu-item"><a href="calculate.html" class="menu-link">Калькулятор туров</a></li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
-    <section class="banner-home">
-        <div class="max">
-            <div class="swiperloc">
-                <div class="swiper spiwer-initialized swiper-horisontal swiper-backface-hidden">
-                    <div class="swiper-wrapper" id="swiper-wrapper-7106f2bb2da1645dd" aria-live="polite">
-                            <div class="swiper-slide swiper-slide-active swiper-slide-next" role="group" aria-label="1 / 1" data-swiper-slide-index="0" style="width: 765px; margin-right: 20px;">
-                                <div class="registr">
-                                        <div class="registr-wrapper">
-                                            <div class="flex-container">
-                                                <form id="tourForm">
-                                                    <h1 class="h1" style="font-size: 36px; text-align: center;" >Калькулятор туров</h1>
-                                                    <div class="form-group">
-                                                        <label for="country" style="color: #fff;">Страна:</label>
-                                                        <select id="country" required>
-                                                        <option value="">Выберите страну</option>
-                                                        <option value="Россия">Россия</option>
-                                                        <option value="Турция">Турция</option>
-                                                        <option value="Египет">Египет</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="resort" style="color: #fff;">Курорт:</label>
-                                                        <select id="resort" required>
-                                                            <option value="">Выберите курорт</option>
-                                                        </select>
-                                                    </div>
-                                                    
-                                                    <div class="form-group">
-                                                        <label for="hotel" style="color: #fff;">Отель:</label>
-                                                        <select id="hotel" required>
-                                                            <option value="">Выберите отель</option>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label for="hotelClass" style="color: #fff;">Класс отеля:</label>
-                                                        <select id="hotelClass" required>
-                                                            <option value="эконом">Эконом</option>
-                                                            <option value="стандарт">Стандарт</option>
-                                                            <option value="люкс">Люкс</option>
-                                                        </select>
-                                                    </div>
-                                                    
-                                                    <div class="form-group">
-                                                        <label for="nights" style="color: #fff;">Количество ночей: </label>
-                                                        <select name="nights" id="nights">
-                                                            <option value="1">1</option>
-                                                            <option value="2">2</option>
-                                                            <option value="3">3 </option>
-                                                            <option value="4">4</option>
-                                                            <option value="5">5</option>
-                                                            <option value="6">6</option>
-                                                            <option value="7">7</option>
-                                                            <option value="8">8</option>
-                                                        </select>
-                                                    </div>
-                                                    <label for="departureDate" style="color: #fff;">Дата вылета:</label>
-                                                    <input type="date" id="departureDate" min="2025-01-01" max="2026-12-31" required>
-
-                                                    <label for="nights" style="color: #fff;">Ночей:</label>
-                                                    <input type="number" id="nights" min="1" max="8" required />
-
-                                                    <label for="tourists" style="color: #fff;">Количество туристов:</label>
-                                                    <input type="number" id="tourists" min="1" required />
-                                                    
-                                                    <div class="form-group">
-                                                        <label for="meal" style="color: #fff;">Питание:</label>
-                                                        <select id="meal" required>
-                                                        <option value="без питания">Без питания</option>
-                                                        <option value="завтрак">Завтрак</option>
-                                                        <option value="полупансион">Полупансион</option>
-                                                        <option value="все включено">Все включено</option>
-                                                        </select>
-                                                    </div>
-
-                                                    <label for="insurance-label" class="insurance-label" style="color: #fff;">
-                                                        <input name="insurance" type="checkbox" id="insurance" required> Страховка(1000 рублей)
-                                                    </label>
-
-                                                    <button type="submit" class="btn">Рассчитать</button>
-                                                </form>
-                                                <div id="result" class="result-container">
-                                                    <h2 class="result-title">Итого: </h2>
-                                                    <div id="resultText" class="result"></div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
+                        
+                        <div class="form-group">
+                            <label for="resort">Курорт</label>
+                            <select id="resort" name="resort" class="form-control" required>
+                                <option value="">Выберите курорт</option>
+                                <!-- Курорты будут загружены динамически -->
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="departureCity">Город вылета</label>
+                            <select id="departureCity" name="departureCity" class="form-control" required>
+                                <option value="">Выберите город</option>
+                                <option value="Москва">Москва</option>
+                                <option value="Санкт-Петербург">Санкт-Петербург</option>
+                                <option value="Казань">Казань</option>
+                                <option value="Екатеринбург">Екатеринбург</option>
+                                <option value="Новосибирск">Новосибирск</option>
+                                <option value="Краснодар">Краснодар</option>
+                                <option value="Сочи">Сочи</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="form-group">
+                            <label for="departureDate">Дата вылета</label>
+                            <input type="date" id="departureDate" name="departureDate" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Количество ночей</label>
+                            <div class="nights-slider-container">
+                                <div class="nights-label">
+                                    <span>1 ночь</span>
+                                    <span id="nightsDisplay" class="nights-display">7</span>
+                                    <span>21 ночь</span>
+                                </div>
+                                <input type="range" min="1" max="21" value="7" class="slider" id="nightsSlider" name="nights">
                             </div>
-                    <div class="swiper-pagination swiper-pagination-bullets swiper-pagination-horisontal swiper-pagination-block">
-                        <span class="swiper-pagination-bullet swiper-pagination-bullet-active" aria-current="true"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Количество туристов</label>
+                            <div class="tourists-container">
+                                <div class="tourists-control">
+                                    <button type="button" id="decreaseTourists" class="btn-counter">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="number" id="tourists" name="tourists" min="1" max="10" value="2" readonly>
+                                    <button type="button" id="increaseTourists" class="btn-counter">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                                <div id="childrenContainer" class="children-container" style="display: none;">
+                                    <p>Укажите возраст детей</p>
+                                    <div id="childrenAges" class="children-ages">
+                                        <!-- Возраст детей будет добавлен динамически -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <span class="swiper-notification" aria-current="assertive" aria-atomic="true"></span>
+                </div>
+                
+                <div class="tour-options">
+                    <h3>Класс отеля</h3>
+                    <input type="hidden" id="hotelClass" name="hotelClass" value="стандарт">
+                    <div class="hotel-categories">
+                        <div class="hotel-category" data-value="эконом">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <div>Эконом</div>
+                        </div>
+                        <div class="hotel-category active" data-value="стандарт">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <div>Стандарт</div>
+                        </div>
+                        <div class="hotel-category" data-value="комфорт">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <div>Комфорт</div>
+                        </div>
+                        <div class="hotel-category" data-value="люкс">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <div>Люкс</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tour-options">
+                    <h3>Питание</h3>
+                    <input type="hidden" id="meal" name="meal" value="завтрак">
+                    <div class="options-grid">
+                        <div class="meal-type" data-value="без питания">
+                            <i class="fas fa-utensils"></i>
+                            <span>Без питания (RO)</span>
+                        </div>
+                        <div class="meal-type active" data-value="завтрак">
+                            <i class="fas fa-coffee"></i>
+                            <span>Завтрак (BB)</span>
+                        </div>
+                        <div class="meal-type" data-value="полупансион">
+                            <i class="fas fa-hamburger"></i>
+                            <span>Полупансион (HB)</span>
+                        </div>
+                        <div class="meal-type" data-value="полный пансион">
+                            <i class="fas fa-concierge-bell"></i>
+                            <span>Полный пансион (FB)</span>
+                        </div>
+                        <div class="meal-type" data-value="все включено">
+                            <i class="fas fa-cocktail"></i>
+                            <span>Всё включено (AI)</span>
+                        </div>
+                        <div class="meal-type" data-value="ультра всё включено">
+                            <i class="fas fa-glass-cheers"></i>
+                            <span>Ультра всё включено (UAI)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tour-options">
+                    <h3>Дополнительные опции</h3>
+                    <div class="options-grid">
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="insurance" name="insurance" value="1">
+                            <label for="insurance">Страховка</label>
+                        </div>
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="transfer" name="transfer" value="1">
+                            <label for="transfer">Трансфер</label>
+                        </div>
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="excursions" name="excursions" value="1">
+                            <label for="excursions">Экскурсии</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Добавляем новую опцию - Близость к морю -->
+                <div class="tour-options">
+                    <h3>Близость к морю</h3>
+                    <input type="hidden" id="seaProximity" name="seaProximity" value="any">
+                    <div class="options-grid">
+                        <div class="sea-proximity-type active" data-value="any">
+                            <i class="fas fa-globe-americas"></i>
+                            <span>Любая</span>
+                        </div>
+                        <div class="sea-proximity-type" data-value="first-line">
+                            <i class="fas fa-water"></i>
+                            <span>1-я линия</span>
+                        </div>
+                        <div class="sea-proximity-type" data-value="up-to-500">
+                            <i class="fas fa-shoe-prints"></i>
+                            <span>До 500 метров</span>
+                        </div>
+                        <div class="sea-proximity-type" data-value="over-500">
+                            <i class="fas fa-walking"></i>
+                            <span>Более 500 метров</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calculator-actions">
+                    <button type="submit" id="calculateButton" class="btn btn-primary">
+                        <i class="fas fa-calculator"></i>
+                        Рассчитать стоимость
+                    </button>
+                </div>
+            </form>
+            
+            <div id="calculationResult" class="calculation-result">
+                <div class="result-header">
+                    <div>
+                        <h3 class="result-title">Результаты расчета</h3>
+                        <p id="tourSummary"></p>
+                    </div>
+                    <div class="total-price">
+                        <span>Итого:</span>
+                        <span id="totalPriceValue">0 ₽</span>
+                    </div>
+                </div>
+                
+                <div class="price-breakdown">
+                    <div class="price-item">
+                        <div class="price-label">Проживание</div>
+                        <div id="accommodationPrice" class="price-value">0 ₽</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="price-label">Перелет</div>
+                        <div id="flightPrice" class="price-value">0 ₽</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="price-label">Питание</div>
+                        <div id="mealPrice" class="price-value">0 ₽</div>
+                    </div>
+                    <div id="additionalServices"></div>
+                </div>
+                
+                <div class="calculator-actions">
+                    <button type="button" id="bookTourButton" class="btn btn-primary">
+                        <i class="fas fa-bookmark"></i>
+                        Забронировать тур
+                    </button>
+                    <button type="button" id="shareButton" class="btn btn-secondary">
+                        <i class="fas fa-share-alt"></i>
+                        Поделиться
+                    </button>
+                    <button type="button" id="printButton" class="btn btn-outline">
+                        <i class="fas fa-print"></i>
+                        Распечатать
+                    </button>
+                </div>
+            </div>
+            
+            <div id="loader" class="loader"></div>
+            
+            <div id="hotelsSection" style="display: none;">
+                <h2 class="section-title">Рекомендуемые отели</h2>
+                
+                <div class="hotel-filters">
+                    <div class="filter-chip active" data-filter="all">Все</div>
+                    <div class="filter-chip" data-filter="beach">У пляжа</div>
+                    <div class="filter-chip" data-filter="pool">С бассейном</div>
+                    <div class="filter-chip" data-filter="center">В центре</div>
+                    <div class="filter-chip" data-filter="family">Для семей</div>
+                </div>
+                
+                <div id="hotelCards" class="hotel-cards"></div>
+            </div>
+            
+            <div id="mapSection" class="resort-map-container" style="display: none;">
+                <h2 class="section-title">Карта курорта</h2>
+                <div id="resortMap" style="width: 100%; height: 400px;"></div>
+            </div>
+            
+            <div class="popular-destinations">
+                <h2 class="section-title">Популярные направления</h2>
+                
+                <div class="destinations-grid">
+                    <div class="destination-card">
+                        <img src="/img/BKPQSJucT0c 1.jpg" alt="Сочи">
+                        <div class="destination-content">
+                            <div class="destination-name">Сочи</div>
+                            <div class="destination-price">от 25 000 ₽</div>
+                        </div>
+                    </div>
+                    <div class="destination-card">
+                        <img src="/img/image 6.jpg" alt="Турция">
+                        <div class="destination-content">
+                            <div class="destination-name">Турция</div>
+                            <div class="destination-price">от 60 000 ₽</div>
+                        </div>
+                    </div>
+                    <div class="destination-card">
+                        <img src="/img/image 7.jpg" alt="Египет">
+                        <div class="destination-content">
+                            <div class="destination-name">Египет</div>
+                            <div class="destination-price">от 70 000 ₽</div>
+                        </div>
+                    </div>
+                    <div class="destination-card">
+                        <img src="/img/image 8.jpg" alt="ОАЭ">
+                        <div class="destination-content">
+                            <div class="destination-name">ОАЭ</div>
+                            <div class="destination-price">от 85 000 ₽</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <script src="/js/calculate.js"></script>
-  </body>
-</html>
+    </div>
+</div>
+
+<!-- Модальное окно для просмотра деталей тура -->
+<div id="tour-detail-modal" class="tour-modal">
+    <div class="tour-modal-content">
+        <span class="tour-modal-close">&times;</span>
+        <div class="tour-modal-header">
+            <h2 id="tour-title">Название тура</h2>
+            <div class="tour-rating">
+                <div class="stars" id="tour-stars"></div>
+                <span class="rating-value" id="tour-rating">4.5</span>
+                <span class="reviews-count" id="tour-reviews">(42 отзыва)</span>
+            </div>
+        </div>
+        
+        <div class="tour-modal-body">
+            <div class="tour-gallery">
+                <div class="tour-main-image-container">
+                    <img id="tour-main-image" src="" alt="Фото тура">
+                </div>
+                <div class="tour-thumbnails">
+                    <img class="thumbnail active" src="" alt="Миниатюра 1">
+                    <img class="thumbnail" src="" alt="Миниатюра 2">
+                    <img class="thumbnail" src="" alt="Миниатюра 3">
+                    <img class="thumbnail" src="" alt="Миниатюра 4">
+                </div>
+            </div>
+            
+            <div class="tour-details">
+                <div class="tour-info-grid">
+                    <div class="tour-info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <span class="label">Расположение</span>
+                            <span id="tour-location">Анталия, Турция</span>
+                        </div>
+                    </div>
+                    <div class="tour-info-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <div>
+                            <span class="label">Дата</span>
+                            <span id="tour-date">10 июля - 17 июля 2023</span>
+                        </div>
+                    </div>
+                    <div class="tour-info-item">
+                        <i class="fas fa-moon"></i>
+                        <div>
+                            <span class="label">Длительность</span>
+                            <span id="tour-duration">7 ночей</span>
+                        </div>
+                    </div>
+                    <div class="tour-info-item">
+                        <i class="fas fa-users"></i>
+                        <div>
+                            <span class="label">Туристы</span>
+                            <span id="tour-group-size">2 человека</span>
+                        </div>
+                    </div>
+                    <div class="tour-info-item">
+                        <i class="fas fa-water"></i>
+                        <div>
+                            <span class="label">До моря</span>
+                            <span id="tour-sea-distance">1-я линия</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tour-description">
+                    <h3>Описание тура</h3>
+                    <p id="tour-description-text">
+                        Насладитесь незабываемым отдыхом на лазурном побережье. Вас ждут первоклассные отели, чистейшие пляжи с бирюзовой водой и богатое культурное наследие.
+                    </p>
+                </div>
+                
+                <div class="tour-features">
+                    <h3>Включено в стоимость</h3>
+                    <ul id="tour-features-list">
+                        <li><i class="fas fa-check"></i> Проживание в отеле 5* (7 ночей)</li>
+                        <li><i class="fas fa-check"></i> Питание "всё включено"</li>
+                        <li><i class="fas fa-check"></i> Авиаперелет туда-обратно</li>
+                        <li><i class="fas fa-check"></i> Групповой трансфер из/в аэропорт</li>
+                        <li><i class="fas fa-check"></i> Медицинская страховка</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tour-modal-footer">
+            <div class="tour-price">
+                <span>Стоимость тура:</span>
+                <span id="tour-price-value" class="price-value">84 800 ₽</span>
+            </div>
+            <div class="tour-buttons">
+                <button class="btn btn-primary btn-book-tour">
+                    <i class="fas fa-bookmark"></i> Забронировать
+                </button>
+                <button class="btn btn-secondary btn-add-favorite">
+                    <i class="far fa-heart"></i> В избранное
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@endsection

@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
+use App\Models\Tours;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+
+
+
     public function index()
     {
         $users = User::paginate(10); // Возвращает объект пагинации
@@ -36,32 +39,24 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422); // Ошибка валидации
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
         }
 
-        // Поиск пользователя по email
-        $user = User::where('email', $request->email)->first();
-
-        // Проверка, существует ли пользователь и совпадает ли пароль
-        if ($user && Hash::check($request->password, $user->password)) {
-            // Успешная аутентификация
-            $api_token = Str::random(60);
-            $user->api_token = $api_token;
-            $user->save();
-
-            return response()->json([
-                'message' => 'Login successful',
-                'user' => [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'api_token' => $user->api_token,
-                ],
-            ], 200);
+        // Попытка аутентификации
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->filled('remember'))) {
+            // Аутентификация успешна
+            $request->session()->regenerate();
+            
+            // Перенаправление в личный кабинет
+            return redirect()->route('cabinet');
         }
 
         // Ошибка аутентификации
-        return response()->json(['message' => 'Invalid credentials'], 401);
+        return redirect()->back()
+            ->withErrors(['email' => 'Неверный email или пароль.'])
+            ->withInput($request->only('email'));
     }
 
     public function logout(Request $request)
@@ -126,5 +121,6 @@ class UserController extends Controller
         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
         'password' => ['required', 'string', 'min:8'], //  "confirmed" требует наличия поля "password_confirmation"
     ]);
+
 }
 }

@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
 
         $user = User::create([
             'name' => 'Artem',
-            'email' => 'unique_email@example.com', // Убедитесь, что это значение уникально
+            'email' => 'unique_email666@example.com', // Убедитесь, что это значение уникально
             'password' => Hash::make('12345678'),
             'email_verified_at' => now(),
         ]);

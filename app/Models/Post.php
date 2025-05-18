@@ -9,5 +9,5 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'content', 'user_id']; // Укажите, какие поля можно массово заполнять
+    protected $fillable = ['title', 'content', 'user_id']; 
 }

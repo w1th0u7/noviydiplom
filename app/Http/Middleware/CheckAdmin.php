@@ -5,24 +5,27 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class CheckAdmin
 {
     /**
-     * Handle an incoming request.
+     * Проверяет, является ли пользователь администратором.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
-     * @param   \Illuminate\View\Middleware\ShareErrorsFromSession::class
+     * @param  \Closure  $next
+     * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->isAdmin()) { // Замените isAdmin() на ваш метод проверки прав
-            return $next($request);
+        if (!Auth::check() || !Auth::user()->isAdmin()) {
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'Доступ запрещен. Требуются права администратора.'], 403);
+            }
+            
+            return redirect()->route('home')->with('error', 'Доступ запрещен. Требуются права администратора.');
         }
 
-        //  Если не админ, перенаправляем куда-нибудь (например, на главную)
-        return redirect('home')->with('error', 'У вас нет прав администратора.');
+        return $next($request);
     }
 }

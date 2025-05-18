@@ -18,3 +18,5 @@ protected $fillable = [
     'price',
 ];
 }
+
+

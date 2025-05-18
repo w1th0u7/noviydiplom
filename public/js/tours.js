@@ -4,8 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const tabButtons = tabsNav.querySelectorAll("li");
   const tabPanels = tabsList.querySelectorAll(".tab__element");
   const showMoreButton = document.querySelector(".btn-add"); // Кнопка "Показать еще"
-  let currentTabIndex = 0; // Индекс текущей активной вкладки
-  let toursLoaded = 3; // Сколько туров загружено (можно начать с 3 или другого числа)
 
   function activateTab(tabIndex) {
     // Удаляем класс 'active' у всех вкладок и панелей
@@ -15,79 +13,23 @@ document.addEventListener("DOMContentLoaded", function () {
     // Добавляем класс 'active' к выбранной вкладке и панели
     tabButtons[tabIndex].classList.add("active");
     tabPanels[tabIndex].classList.add("active");
-    currentTabIndex = tabIndex; // Обновляем индекс текущей вкладки
 
-    // Обновляем отображение туров для текущей вкладки
-    updateTours(tabIndex);
+    // После переключения вкладки проверяем, есть ли скрытые туры
+    updateShowMoreButtonVisibility();
   }
 
-  // Функция для обновления отображения туров
-  function updateTours(tabIndex) {
-    // Определите, какую переменную с турами использовать в зависимости от вкладки
-    let tourVariable;
+  // Обновление видимости кнопки "Показать еще"
+  function updateShowMoreButtonVisibility() {
+    if (!showMoreButton) return;
 
-    switch (tabIndex) {
-      case 0:
-        tourVariable = "newTours";
-        break;
-      case 1:
-        tourVariable = "upcomingTours";
-        break;
-      case 2:
-        tourVariable = "popularTours";
-        break;
-      case 3:
-        tourVariable = "summerTours";
-        break;
-      case 4:
-        tourVariable = "winterTours";
-        break;
-      case 5:
-        tourVariable = "autumnTours";
-        break;
-      case 6:
-        tourVariable = "springTours";
-        break;
-      default:
-        tourVariable = "tours"; // Общий список туров
-        break;
-    }
+    const activeTabIndex = Array.from(tabButtons).findIndex((btn) =>
+      btn.classList.contains("active")
+    );
+    const activePanel = tabPanels[activeTabIndex];
+    const hiddenTours = activePanel.querySelectorAll(".block:not(.show)");
 
-    // Отправьте AJAX-запрос на сервер, чтобы получить больше туров
-    fetch(`/load-more-tours?tab=${tourVariable}&offset=${toursLoaded}`)
-      .then((response) => response.json())
-      .then((data) => {
-        // Обработайте полученные данные и добавьте их на страницу
-        const tabPanel = tabPanels[tabIndex].querySelector(".cont-tury"); // Найдите контейнер туров
-        data.forEach((tour) => {
-          // Создайте HTML для нового тура
-          const tourHTML = `
-                      <div class="block show">
-                          <a href="/tours/${tour.id}">
-                              <img src="" alt="${tour.name}" srcset="">
-                              <div class="info">
-                                  <h1>${tour.name}</h1>
-                                  <h3 class="name">${tour.description}</h3>
-                                  <p class="data">${tour.data}</p>
-                                  <p class="price">Цена: ${tour.price}₽</p>
-                              </div>
-                          </a>
-                      </div>
-                  `;
-
-          // Добавьте новый тур в контейнер
-          tabPanel.insertAdjacentHTML("beforeend", tourHTML);
-        });
-
-        toursLoaded += data.length; // Обновите количество загруженных туров
-        if (data.length < 6) {
-          //Скрываем кнопку
-          showMoreButton.style.display = "none";
-        }
-      })
-      .catch((error) => {
-        console.error("Error loading more tours:", error);
-      });
+    // Показываем кнопку только если есть скрытые туры
+    showMoreButton.style.display = hiddenTours.length > 0 ? "flex" : "none";
   }
 
   // Назначаем обработчик клика для каждой вкладки
@@ -98,25 +40,38 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Обработчик клика на кнопке "Показать еще"
-  showMoreButton.addEventListener("click", function (event) {
-    event.preventDefault();
-    updateTours(currentTabIndex);
-  });
+  // Обработчик клика на кнопке "Показать еще туры"
+  if (showMoreButton) {
+    showMoreButton.addEventListener("click", function (event) {
+      event.preventDefault();
+      // Получаем активную вкладку
+      const activeTabIndex = Array.from(tabButtons).findIndex((btn) =>
+        btn.classList.contains("active")
+      );
+      const activePanel = tabPanels[activeTabIndex];
 
-  // Активируем первую вкладку по умолчанию (если нужно)
+      // Получаем все скрытые блоки туров в активной вкладке
+      const hiddenTours = activePanel.querySelectorAll(".block:not(.show)");
+
+      // Показываем все скрытые туры
+      hiddenTours.forEach((tour) => {
+        tour.classList.add("show");
+      });
+
+      // Скрываем кнопку, если все туры уже показаны
+      if (hiddenTours.length === 0) {
+        this.style.display = "none";
+      }
+    });
+  }
+
+  // Активируем первую вкладку по умолчанию и проверяем статус кнопки
   activateTab(0);
+  updateShowMoreButtonVisibility();
 
   function getCsrfToken() {
     return document
       .querySelector('meta[name="csrf-token"]')
       .getAttribute("content");
   }
-
-  fetch("/load-more-tours?tab=${tourVariable}&offset=${toursLoaded}", {
-    method: "GET",
-    headers: {
-      "X-CSRF-TOKEN": getCsrfToken(),
-    },
-  });
 });

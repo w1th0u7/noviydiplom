@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/media.css">
-    <link rel="stylesheet" href="css/login.css">
-    <script src="js/login.js" defer></script>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/media.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+    <script src="{{ asset('js/login.js') }}" defer></script>
     <script src="js/adminpanel.js" defer></script>
-    <title>Rodina-tur</title>
+    <title>Вход - Rodina-tur</title>
 </head>
 <body>
     <header class="home">
@@ -18,36 +19,16 @@
                 <a href="{{ route('home') }}" class="logo"><img src="/img/logo__rodina-tur__top 2.svg" alt="" srcset=""></a>
                 <div class="soc">
                     <a href="http:// " class="tg" target="_blank">
-                    <svg>
-                        <g id="#tg">
-                            <img src="img/Vector.svg" alt="" srcset="">
-                        </g>
-                        <use xlink:href = "#tg"></use>
-                    </svg>
+                        <img src="img/Vector.svg" alt="" srcset="">
                     </a>
                     <a href="http://" class="wp" target="_blank">
-                    <svg>
-                        <g id="#wp">
-                            <img src="/img/wtsp.svg" alt="" srcset="">
-                        </g>
-                        <use xlink:href = "#wp"></use>
-                    </svg>
+                        <img src="/img/wtsp.svg" alt="" srcset="">
                     </a>
                     <a href="http://" class="vk" target="_blank">
-                    <svg>
-                        <g id="#vk">
-                            <img src="/img/vk.svg" alt="" srcset="">
-                        </g>
-                        <use xlink:href = "#vk"></use>
-                    </svg>
+                        <img src="/img/vk.svg" alt="" srcset="">
                     </a>
                     <a href="http://" class="ytb" target="_blank">
-                    <svg>
-                        <g id="#ytb">
-                            <img src="/img/ytb.svg" alt="" srcset="">
-                        </g>
-                        <use xlink:href = "#ytb"></use>
-                    </svg>
+                        <img src="/img/ytb.svg" alt="" srcset="">
                     </a>
                 </div>
                 <div class="header-info">
@@ -60,11 +41,9 @@
                         <p>+7 (920) 904-13-83</p>
                         <p>Заказать звонок</p>
                     </div>
-                    <a href="{{ route('home') }}">
+                    <a href="{{ route('login') }}">
                         <div class="login">
-                            <svg>
                                 <img src="/img/login.svg" alt="" srcset="">
-                            </svg>
                             <button id="loginBtn" type="submit">ВОЙТИ</button>
                         </div>
                     </a>
@@ -90,29 +69,45 @@
     <section class="banner-home">
         <div class="max">
             <div class="swiperloc">
-                <div class="swiper spiwer-initialized swiper-horisontal swiper-backface-hidden">
-                    <div class="swiper-wrapper" id="swiper-wrapper-7106f2bb2da1645dd" aria-live="polite">
-                            <div class="swiper-slide swiper-slide-active swiper-slide-next" role="group" aria-label="1 / 1" data-swiper-slide-index="0" style="width: 765px; margin-right: 20px;">
-                                <div class="registr">
-                                        <div class="registr-wrapper">
-                                            <div class="flex-container">
-                                            <form id="registerForm" method="POST" action="{{ route('login') }}">
+                <div class="swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="registr">
+                                <div class="registr-wrapper">
+                                    <div class="flex-container">
+                                        @if(session('success'))
+                                            <div class="alert alert-success">
+                                                {{ session('success') }}
+                                            </div>
+                                        @endif
+
+                                        @if($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
+                                        
+                                        <form id="loginForm" method="POST" action="{{ route('login.post') }}">
                                             @csrf
 
-                                            <h1 class="h1" style="font-size: 36px; text-align: center;">Вход</h1>
+                                            <h1 class="h1">Вход</h1>
                                             <div class="form-group">
-                                                <label for="username" style="color: #fff;">Имя пользователя:</label>
-                                                <input type="text" id="username" name="username" required>
+                                                <label for="email">Email:</label>
+                                                <input type="email" id="email" name="email" value="{{ old('email') }}" required>
                                             </div>
                                             
                                             <div class="form-group">
-                                                <label for="password" style="color: #fff;">Пароль:</label>
+                                                <label for="password">Пароль:</label>
                                                 <input type="password" id="password" name="password" required>
                                             </div>
                                             
                                             <div class="remember">
-                                                <label for="rememberMe" style="color: #fff;">
-                                                    <input type="checkbox" id="rememberMe" name="rememberMe">Запомнить меня
+                                                <label for="remember">
+                                                    <input type="checkbox" id="remember" name="remember">Запомнить меня
                                                 </label>
                                                 <a href='#'>Забыли пароль?</a>
                                             </div>
@@ -123,20 +118,15 @@
                                                 <p>Еще не зарегистрированы? <a href="{{ route('register') }}">Зарегистрироваться</a></p>
                                             </div>
                                         </form>
-
-                                        </div>
                                     </div>
+                                </div>
                             </div>
-                    <div class="swiper-pagination swiper-pagination-bullets swiper-pagination-horisontal swiper-pagination-block">
-                        <span class="swiper-pagination-bullet swiper-pagination-bullet-active" aria-current="true"></span>
-                    </div>
-                    <span class="swiper-notification" aria-current="assertive" aria-atomic="true"></span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <script src="js/login.js"></script>
-    
+    <script src="{{ asset('js/login.js') }}"></script>
   </body>
 </html>

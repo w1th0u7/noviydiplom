@@ -22,37 +22,25 @@
                     </div>
                     <div class="block">
                         <img src="/img/rodion.jpg" class="rodion" alt="">
+                        <img src="/img/rodion-mob.jpg" alt="" class="mob">
                         <div class="info">
                             <p class="name">Анюта Родионовна</p>
                             <p class="prof">Заместитель ген.директора</p>
                         </div>
                         <div class="soc">
                             <a href="http:// " class="tg" target="_blank">
-                            <svg>
-                                <g id="#tg">
-                                    <img src="/img/Vector.svg" alt="" srcset="">
-                                </g>
-                                <use xlink:href = "#tg"></use>
-                            </svg>
+                                <img src="img/Vector.svg" alt="" srcset="">
                             </a>
                             <a href="http://" class="wp" target="_blank">
-                            <svg>
-                                <g id="#wp">
-                                    <img src="/img/wtsp.svg" alt="" srcset="">
-                                </g>
-                                <use xlink:href = "#wp"></use>
-                            </svg>
+                                <img src="/img/wtsp.svg" alt="" srcset="">
                             </a>
-                            <a href="http://" class="vk" target="_blank">
-                            <svg>
-                                <g id="#vk">
-                                    <img src="/img/vk.svg" alt="" srcset="">
-                                </g>
-                                <use xlink:href = "#vk"></use>
-                            </svg>
+                             <a href="http://" class="vk" target="_blank">
+                                <img src="/img/vk.svg" alt="" srcset="">
                             </a>
-                        </div>
+                </div>
                     </div>
                 </div>
         </section>
+        
 @endsection
+

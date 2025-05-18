@@ -3,8 +3,8 @@
 @section('content')
 <section>
     <head>
-        <link rel="stylesheet" href="{{ asset('css/media.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/media.css') }}" defer>
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}" defer>
         <script src="{{ asset('js/tours.js') }}" defer></script>
     </head>
         <div class="max">
@@ -27,20 +27,18 @@
                 </div>
                 <div class="tab__panels" data-tabs-list>
 
-                <div class="tab__element active" data-index="0">  <!-- Все туры -->
+                <div class="tab__element active" data-index="0">  
     <div class="cont-tury">
         @if(isset($newTours) && !$newTours->isEmpty())
-            @foreach($newTours as $tour)
-                <div class="block show">
-                    <a href="{{ route('tours.show', $tour->id) }}">
-                        <img src="" alt="{{ $tour->name }}" srcset="">
+            @foreach($newTours as $index => $tour)
+                <div class="block {{ $index < 3 ? 'show' : '' }}">
+                    <a href="{{ route('tours.show', $tour->id) }}"></a>
+                    <img src="{{ asset('storage/' . $tour->image) }}" alt="{{ $tour->name }}" srcset="">
                         <div class="info">
-                            <h1>{{ $tour->name }}</h1>
-                            <h3 class="name">{{ $tour->description }}</h3>
+                            <p class="name">{{ $tour->name }}</p>
                             <p class="data">{{ $tour->data }}</p>
                             <p class="price">Цена: {{ $tour->price }}₽</p>
                         </div>
-                    </a>
                 </div>
             @endforeach
         @else
@@ -49,20 +47,18 @@
     </div>
 </div>
 
-    <div class="tab__element" data-index="1">  <!--  Добавлено data-index -->
+    <div class="tab__element" data-index="1">  
             <div class="cont-tury">
                 @if(isset($upcomingTours) && !$upcomingTours->isEmpty())
-                    @foreach($upcomingTours as $tour)
-                        <div class="block show">
-                            <a href="{{ route('tours.show', $tour->id) }}">
-                                <img src="" alt="{{ $tour->name }}" srcset="">
+                    @foreach($upcomingTours as $index => $tour)
+                        <div class="block {{ $index < 3 ? 'show' : '' }}">
+                            <a href="{{ route('tours.show', $tour->id) }}"></a>
+                            <img src="{{ asset('storage/' . $tour->image) }}" alt="{{ $tour->name }}" srcset="">
                                 <div class="info">
-                                    <h1>{{ $tour->name }}</h1>
-                                    <h3 class="name">{{ $tour->description }}</h3>
+                                    <p class="name">{{ $tour->name }}</p>
                                     <p class="data">{{ $tour->data }}</p>
                                     <p class="price">Цена: {{ $tour->price }}₽</p>
                                 </div>
-                            </a>
                         </div>
                     @endforeach
                 @else
@@ -74,17 +70,15 @@
     <div class="tab__element" data-index="2">
         <div class="cont-tury">
             @if(isset($popularTours) && !$popularTours->isEmpty())
-                @foreach($popularTours as $tour)
-                    <div class="block show">
-                        <a href="{{ route('tours.show', $tour->id) }}">
-                            <img src="" alt="{{ $tour->name }}" srcset="">
+                @foreach($popularTours as $index => $tour)
+                    <div class="block {{ $index < 3 ? 'show' : '' }}">
+                        <a href="{{ route('tours.show', $tour->id) }}"></a>
+                        <img src="{{ asset('storage/' . $tour->image) }}" alt="{{ $tour->name }}" srcset="">
                             <div class="info">
-                                <h1>{{ $tour->name }}</h1>
-                                <h3 class="name">{{ $tour->description }}</h3>
+                                <p class="name">{{ $tour->name }}</p>
                                 <p class="data">{{ $tour->data }}</p>
                                 <p class="price">Цена: {{ $tour->price }}₽</p>
                             </div>
-                        </a>
                     </div>
                 @endforeach
             @else
@@ -96,17 +90,15 @@
     <div class="tab__element" data-index="3">
         <div class="cont-tury">
             @if(isset($summerTours) && !$summerTours->isEmpty())
-                @foreach($summerTours as $tour)
-                    <div class="block show">
-                        <a href="{{ route('tours.show', $tour->id) }}">
-                            <img src="" alt="{{ $tour->name }}" srcset="">
+                @foreach($summerTours as $index => $tour)
+                    <div class="block {{ $index < 3 ? 'show' : '' }}">
+                        <a href="{{ route('tours.show', $tour->id) }}"></a>
+                        <img src="{{ asset('storage/' . $tour->image) }}" alt="{{ $tour->name }}" srcset="">
                             <div class="info">
-                                <h1>{{ $tour->name }}</h1>
-                                <h3 class="name">{{ $tour->description }}</h3>
+                                <p class="name">{{ $tour->name }}</p>
                                 <p class="data">{{ $tour->data }}</p>
                                 <p class="price">Цена: {{ $tour->price }}₽</p>
-                            </div>
-                        </a>
+                            </div> 
                     </div>
                 @endforeach
             @else
@@ -115,20 +107,19 @@
         </div>
     </div>
 
+
     <div class="tab__element" data-index="4">
         <div class="cont-tury">
             @if(isset($winterTours) && !$winterTours->isEmpty())
-                @foreach($winterTours as $tour)
-                    <div class="block show">
-                        <a href="{{ route('tours.show', $tour->id) }}">
-                            <img src="" alt="{{ $tour->name }}" srcset="">
+                @foreach($winterTours as $index => $tour)
+                    <div class="block {{ $index < 3 ? 'show' : '' }}">
+                        <a href="{{ route('tours.show', $tour->id) }}"></a>
+                        <img src="{{ asset('storage/' . $tour->image) }}" alt="{{ $tour->name }}" srcset="">
                             <div class="info">
-                                <h1>{{ $tour->name }}</h1>
-                                <h3 class="name">{{ $tour->description }}</h3>
+                                <p class="name">{{ $tour->name }}</p>
                                 <p class="data">{{ $tour->data }}</p>
                                 <p class="price">Цена: {{ $tour->price }}₽</p>
                             </div>
-                        </a>
                     </div>
                 @endforeach
             @else
@@ -139,45 +130,37 @@
 
     <div class="tab__element" data-index="5">
         <div class="cont-tury">
-            @if(isset($autumnTours) && !$autumnTours->isEmpty())
-                @foreach($autumnTours as $tour)
-                    <div class="block show">
-                        <a href="{{ route('tours.show', $tour->id) }}">
-                            <img src="" alt="{{ $tour->name }}" srcset="">
-                            <div class="info">
-                                <h1>{{ $tour->name }}</h1>
-                                <h3 class="name">{{ $tour->description }}</h3>
-                                <p class="data">{{ $tour->data }}</p>
-                                <p class="price">Цена: {{ $tour->price }}₽</p>
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
-            @else
+            @forelse($autumnTours ?? [] as $index => $tour)
+                <div class="block {{ $index < 3 ? 'show' : '' }}">
+                    <a href="{{ route('tours.show', $tour->id) }}"></a>
+                    <img src="{{ asset('storage/' . $tour->image) }}" alt="{{ $tour->name }}" srcset="">
+                        <div class="info">
+                            <p class="name">{{ $tour->name }}</p>
+                            <p class="data">{{ $tour->data }}</p>
+                            <p class="price">Цена: {{ $tour->price }}₽</p>
+                        </div>
+                </div>
+            @empty
                 <p>Нет осенних туров.</p>
-            @endif
+            @endforelse
         </div>
     </div>
-
+    
     <div class="tab__element" data-index="6">
         <div class="cont-tury">
-            @if(isset($springTours) && !$springTours->isEmpty())
-                @foreach($springTours as $tour)
-                    <div class="block show">
-                        <a href="{{ route('tours.show', $tour->id) }}">
-                            <img src="" alt="{{ $tour->name }}" srcset="">
-                            <div class="info">
-                                <h1>{{ $tour->name }}</h1>
-                                <h3 class="name">{{ $tour->description }}</h3>
-                                <p class="data">{{ $tour->data }}</p>
-                                <p class="price">Цена: {{ $tour->price }}₽</p>
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
-            @else
+            @forelse($springTours ?? [] as $index => $tour)
+                <div class="block {{ $index < 3 ? 'show' : '' }}">
+                    <a href="{{ route('tours.show', $tour->id) }}"></a>
+                    <img src="{{ asset('storage/' . $tour->image) }}" alt="{{ $tour->name }}" srcset="">
+                        <div class="info">
+                            <p class="name">{{ $tour->name }}</p>
+                            <p class="data">{{ $tour->data }}</p>
+                            <p class="price">Цена: {{ $tour->price }}₽</p>
+                        </div>
+                </div>
+            @empty
                 <p>Нет весенних туров.</p>
-            @endif
+            @endforelse
         </div>
     </div>
 </div>

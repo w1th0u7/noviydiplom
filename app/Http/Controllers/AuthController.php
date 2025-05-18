@@ -20,9 +20,9 @@ class AuthController extends Controller
             $user = Auth::user();
             
             // Проверка, является ли пользователь администратором
-            if ($user->is_admin) {
-                // Если пользователь администратор, перенаправляем его на представление adminpanel
-                return redirect()->route('adminpanel')->with('success', 'Добро пожаловать в админ-панель!');
+            if ($user->role === 'admin') {
+                // Если пользователь администратор, перенаправляем его на админ-панель
+                return redirect()->route('admin.dashboard')->with('success', 'Добро пожаловать в админ-панель!');
             } else {
                 // Если не администратор, перенаправляем на обычную панель
                 return redirect()->route('home')->with('success', 'Добро пожаловать!');

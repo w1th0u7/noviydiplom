@@ -17,7 +17,7 @@ class ToursTableSeeder extends Seeder
             'name' => 'Новый летний тур',
             'season' => 'летние',
             'description' => 'Это новый летний тур, который вы не захотите пропустить.',
-            'image' => '/img/image 5.jpg',
+            'image' => 'storage/images/image5.jpg',
             'data' => now()->addDays(1),
             'price' => 25000,
             'created_at' => now(),
@@ -28,7 +28,7 @@ class ToursTableSeeder extends Seeder
             'name' => 'Ближайший осенний тур',
             'season' => 'осенние',
             'description' => 'Не пропустите наш ближайший осенний тур!',
-            'image' => '/img/image 6.jpg',
+            'image' => 'storage/images/image6.jpg',
             'data' => Carbon::createFromFormat('d.m.Y', '15.09.2023'), // Преобразуйте строку в дату
             'price' => 30000,
         ]);
@@ -37,8 +37,8 @@ class ToursTableSeeder extends Seeder
             'name' => 'Популярный зимний тур', //  <<<--- Использовать 'name'
             'season' => 'зимние',
             'description' => 'Этот зимний тур пользуется огромной популярностью.',
-            'image' => '/img/image 8.jpg',
-            'data' => '10.12.2023',
+            'image' => 'storage/images/image8.jpg',
+            'data' => Carbon::now()->addDays(1)->format('Y-m-d'),
             'price' => 40000,
         ]);
 
@@ -46,7 +46,7 @@ class ToursTableSeeder extends Seeder
             'name' => 'Новый летний тур',
             'season' => 'летние',
             'description' => 'Это новый летний тур, который вы не захотите пропустить.',
-            'image' => '/img/image 5.jpg',
+            'image' => 'storage/images/image5.jpg',
             'data' => now()->addDays(1),
             'price' => 25000,
         ]);
@@ -55,8 +55,8 @@ class ToursTableSeeder extends Seeder
             'name' => 'Летний пляжный отдых', //  <<<--- Использовать 'name'
             'season' => 'летние',
             'description' => 'Отличный летний отдых на пляже.',
-            'image' => '/img/image 8.jpg',
-            'data' => '20.08.2023',
+            'image' => 'storage/images/image8.jpg',
+            'data' => Carbon::now()->addDays(1)->format('Y-m-d'),
             'price' => 22000,
         ]);
 
@@ -64,8 +64,8 @@ class ToursTableSeeder extends Seeder
             'name' => 'Летний пляжный отдых', //  <<<--- Использовать 'name'
             'season' => 'летние',
             'description' => 'Отличный летний отдых на пляже.',
-            'image' => '/img/image 8.jpg',
-            'data' => '20.06.2023',
+            'image' => 'storage/images/image8.jpg',
+            'data' => Carbon::now()->addDays(1)->format('Y-m-d'),
             'price' => 23000,
         ]);
 
