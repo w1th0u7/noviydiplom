@@ -34,11 +34,11 @@
                 <div class="tour-type" data-type="excursion">
                     <i class="fas fa-monument"></i>
                     <span class="tour-type-label">Экскурсионный</span>
-                </div>
+                    </div>
                 <div class="tour-type" data-type="skiing">
                     <i class="fas fa-skiing"></i>
                     <span class="tour-type-label">Горнолыжный</span>
-                </div>
+                    </div>
                 <div class="tour-type" data-type="health">
                     <i class="fas fa-spa"></i>
                     <span class="tour-type-label">Оздоровительный</span>
@@ -49,31 +49,31 @@
                 </div>
             </div>
             
-            <form id="tourForm" method="POST">
+            <form id="tourForm" method="POST" action="javascript:void(0)">
                 @csrf
                 <input type="hidden" id="tourType" name="tourType" value="beach">
                 
                 <div class="calculator-form">
                     <div>
-                        <div class="form-group">
+                                                    <div class="form-group">
                             <label for="country">Страна</label>
                             <select id="country" name="country" class="form-control" required>
-                                <option value="">Выберите страну</option>
+                                                        <option value="">Выберите страну</option>
                                 @foreach($countries ?? ['Россия' => 'Россия', 'Турция' => 'Турция', 'Египет' => 'Египет', 'ОАЭ' => 'ОАЭ', 'Таиланд' => 'Таиланд'] as $key => $country)
                                     <option value="{{ $key }}">{{ $country }}</option>
                                 @endforeach
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
+                                                        </select>
+                                                    </div>
+                                                    
+                                                    <div class="form-group">
                             <label for="resort">Курорт</label>
                             <select id="resort" name="resort" class="form-control" required>
                                 <option value="">Выберите курорт</option>
                                 <!-- Курорты будут загружены динамически -->
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group">
                             <label for="departureCity">Город вылета</label>
                             <select id="departureCity" name="departureCity" class="form-control" required>
                                 <option value="">Выберите город</option>
@@ -84,28 +84,28 @@
                                 <option value="Новосибирск">Новосибирск</option>
                                 <option value="Краснодар">Краснодар</option>
                                 <option value="Сочи">Сочи</option>
-                            </select>
+                                                        </select>
                         </div>
-                    </div>
-                    
+                                                    </div>
+                                                    
                     <div>
-                        <div class="form-group">
+                                                    <div class="form-group">
                             <label for="departureDate">Дата вылета</label>
                             <input type="date" id="departureDate" name="departureDate" class="form-control" required>
-                        </div>
-                        
-                        <div class="form-group">
+                                                    </div>
+                                                    
+                                                    <div class="form-group">
                             <label>Количество ночей</label>
                             <div class="nights-slider-container">
                                 <div class="nights-label">
                                     <span>1 ночь</span>
                                     <span id="nightsDisplay" class="nights-display">7</span>
                                     <span>21 ночь</span>
-                                </div>
+                                                    </div>
                                 <input type="range" min="1" max="21" value="7" class="slider" id="nightsSlider" name="nights">
-                            </div>
-                        </div>
-                        
+                                                </div>
+                                            </div>
+                                            
                         <div class="form-group">
                             <label>Количество туристов</label>
                             <div class="tourists-container">
@@ -122,8 +122,8 @@
                                     <p>Укажите возраст детей</p>
                                     <div id="childrenAges" class="children-ages">
                                         <!-- Возраст детей будет добавлен динамически -->
+                                        </div>
                                     </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -298,6 +298,14 @@
                     <div class="filter-chip" data-filter="pool">С бассейном</div>
                     <div class="filter-chip" data-filter="center">В центре</div>
                     <div class="filter-chip" data-filter="family">Для семей</div>
+                </div>
+                
+                <!-- Добавляем фильтры по близости к морю -->
+                <div class="hotel-filters sea-filters">
+                    <span class="filter-group-label">Близость к морю:</span>
+                    <div class="filter-chip" data-sea-filter="first-line">1-я линия</div>
+                    <div class="filter-chip" data-sea-filter="up-to-500">До 500 метров</div>
+                    <div class="filter-chip" data-sea-filter="over-500">Более 500 метров</div>
                 </div>
                 
                 <div id="hotelCards" class="hotel-cards"></div>

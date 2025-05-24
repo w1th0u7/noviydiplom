@@ -20,8 +20,10 @@
                     <th>ID</th>
                     <th>Изображение</th>
                     <th>Название</th>
-                    <th>Сезон</th>
-                    <th>Дата</th>
+                    <th>Тип</th>
+                    <th>Даты</th>
+                    <th>Продолжительность</th>
+                    <th>Мест</th>
                     <th>Цена</th>
                     <th>Действия</th>
                 </tr>
@@ -32,14 +34,22 @@
                     <td>{{ $tour->id }}</td>
                     <td>
                         @if($tour->image)
-                            <img src="{{ asset('storage/' . $tour->image) }}" alt="{{ $tour->name }}" class="tour-thumbnail">
+                            <img src="{{ asset(str_starts_with($tour->image, 'img/') ? $tour->image : 'storage/' . $tour->image) }}" alt="{{ $tour->name }}" class="tour-thumbnail">
                         @else
                             <span class="no-image">Нет изображения</span>
                         @endif
                     </td>
                     <td>{{ $tour->name }}</td>
-                    <td>{{ $tour->season }}</td>
-                    <td>{{ \Carbon\Carbon::parse($tour->data)->format('d.m.Y') }}</td>
+                    <td>{{ $tour->type ?? 'Не указан' }}</td>
+                    <td>
+                        @if($tour->start_date && $tour->end_date)
+                            {{ $tour->start_date->format('d.m.Y') }} - {{ $tour->end_date->format('d.m.Y') }}
+                        @else
+                            {{ $tour->data ? $tour->data->format('d.m.Y') : 'Не указана' }}
+                        @endif
+                    </td>
+                    <td>{{ $tour->duration ? $tour->duration_text : 'Не указана' }}</td>
+                    <td>{{ $tour->available_seats }}</td>
                     <td>{{ number_format($tour->price, 0, ',', ' ') }} ₽</td>
                     <td class="actions">
                         <a href="{{ route('admin.tours.edit', $tour) }}" class="edit-btn" title="Редактировать">
@@ -56,7 +66,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7" class="empty-table">Туры не найдены. <a href="{{ route('admin.tours.create') }}">Добавить первый тур</a></td>
+                    <td colspan="9" class="empty-table">Туры не найдены. <a href="{{ route('admin.tours.create') }}">Добавить первый тур</a></td>
                 </tr>
                 @endforelse
             </tbody>

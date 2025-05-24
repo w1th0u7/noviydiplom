@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Админ-панель | @yield('title', 'Rodina-tur')</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/admin.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -16,7 +16,7 @@
             <div class="admin-sidebar-header">
                 <h2>Панель управления</h2>
                 <div class="admin-logo">
-                    <img src="{{ asset('img/logo__rodina-tur__top 2.svg') }}" alt="Rodina-tur">
+                    <img src="/img/logo__rodina-tur__top 2.svg" alt="Rodina-tur">
                 </div>
             </div>
             
@@ -30,6 +30,16 @@
                     <li>
                         <a href="{{ route('admin.tours') }}" class="{{ request()->routeIs('admin.tours') ? 'active' : '' }}">
                             <i class="fas fa-umbrella-beach"></i> Управление турами
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.excursions.index') }}" class="{{ request()->routeIs('admin.excursions.*') ? 'active' : '' }}">
+                            <i class="fas fa-map-marked-alt"></i> Управление экскурсиями
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.bookings.index') }}" class="{{ request()->routeIs('admin.bookings.*') ? 'active' : '' }}">
+                            <i class="fas fa-calendar-check"></i> Управление бронированиями
                         </a>
                     </li>
                     <li>
@@ -98,7 +108,7 @@
         </div>
     </div>
 
-    <script src="{{ asset('js/admin.js') }}"></script>
+    <script src="http://127.0.0.1:8000/js/admin.js"></script>
     @yield('scripts')
 </body>
 </html> 

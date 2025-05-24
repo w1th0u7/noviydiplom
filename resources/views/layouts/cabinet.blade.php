@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет - @yield('title')</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/cabinet.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/media.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/cabinet.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="cabinet-wrapper">
@@ -26,9 +28,9 @@
                             <i class="cabinet-icon home-icon"></i> Главная
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ route('trips') }}" class="{{ request()->routeIs('trips') ? 'active' : '' }}">
-                            <i class="cabinet-icon trips-icon"></i> Мои поездки
+                    <li class="sidenav-item {{ request()->routeIs('trips') ? 'active' : '' }}">
+                        <a href="{{ route('trips') }}" class="sidenav-link">
+                            <i class="fas fa-suitcase"></i> Мои бронирования
                         </a>
                     </li>
                     <li>
@@ -53,7 +55,7 @@
                 <div class="cabinet-header-container">
                     <div class="cabinet-logo">
                         <a href="{{ route('home') }}">
-                            <img src="{{ asset('img/logo__rodina-tur__top 2.svg') }}" alt="Rodina-tur">
+                            <img src="/img/logo__rodina-tur__top 2.svg" alt="Rodina-tur">
                         </a>
                     </div>
                     <div class="cabinet-user-controls">
@@ -73,6 +75,6 @@
         </div>
     </div>
 
-    <script src="{{ asset('js/cabinet.js') }}"></script>
+    <script src="/js/cabinet.js"></script>
 </body>
 </html> 

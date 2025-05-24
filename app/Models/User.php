@@ -56,6 +56,14 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
+    /**
+     * Получить бронирования пользователя.
+     */
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
     // Optionally, add this if you need an attribute accessor for isAdmin (less common)
     
 

@@ -43,6 +43,8 @@ class TourController extends Controller
     public function show($id)
     {
         $tour = Tour::findOrFail($id);
+        
+        // Передаем модель напрямую в представление
         return view('tours.show', compact('tour'));
     }
 

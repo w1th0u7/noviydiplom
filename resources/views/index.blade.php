@@ -5,6 +5,7 @@
     <head>
         <link rel="stylesheet" href="{{ asset('css/media.css') }}" defer>
         <link rel="stylesheet" href="{{ asset('css/style.css') }}" defer>
+        <link rel="stylesheet" href="{{ asset('css/mobile.css') }}" defer>
         <script src="{{ asset('js/tours.js') }}" defer></script>
     </head>
         <div class="max">

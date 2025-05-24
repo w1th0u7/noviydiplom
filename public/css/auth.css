@@ -1,0 +1,356 @@
+/* Стили для форм авторизации и регистрации */
+.registr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.registr-wrapper {
+  background: rgba(25, 62, 90, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 480px;
+  width: 100%;
+  margin: 20px auto;
+  transition: all 0.3s ease;
+}
+
+.registr-wrapper h1.h1 {
+  color: #fff;
+  font-size: 38px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.registr-wrapper .form-group {
+  width: 100%;
+  margin: 20px 0;
+  position: relative;
+}
+
+.form-group label {
+  display: block;
+  color: #fff;
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  height: 55px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  font-size: 16px;
+  color: #fff;
+  padding: 0 20px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: #ffdb63;
+  box-shadow: 0 0 10px rgba(255, 219, 99, 0.3);
+}
+
+.form-group input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.registr-wrapper .remember {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  color: #fff;
+  font-size: 15px;
+  width: 100%;
+}
+
+.remember label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.remember label input {
+  accent-color: #ffdb63;
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+.remember a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.remember a:hover {
+  color: #ffdb63;
+  text-decoration: underline;
+}
+
+.registr-wrapper .btn {
+  width: 100%;
+  height: 55px;
+  background-color: #ffdb22;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e2226;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.registr-wrapper .btn:hover {
+  background-color: #ffe054;
+  transform: translateY(-2px);
+}
+
+.registr-wrapper .btn:active {
+  transform: translateY(0);
+}
+
+.register-link {
+  margin-top: 10px;
+  text-align: center;
+  color: #fff;
+  width: 100%;
+}
+
+.register-link p {
+  font-size: 15px;
+  margin: 0;
+}
+
+.register-link a {
+  color: #ffdb63;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+.banner-home {
+  position: relative;
+  background: url("/img/62a08e6ba6c5ba488f30d07e.jpg");
+  background-size: cover;
+  background-position: center;
+  min-height: calc(100vh - 116px);
+  display: flex;
+  align-items: center;
+  padding: 60px 0;
+}
+.banner-home::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+      288.78deg,
+      rgba(32, 79, 117, 0) 21.88%,
+      rgba(32, 79, 117, 0.765) 52.98%,
+      rgba(32, 79, 117, 0.9) 84.44%
+    ),
+    linear-gradient(
+      69.79deg,
+      rgba(32, 79, 117, 0) 42.65%,
+      rgba(32, 79, 117, 0.462257) 84.23%,
+      rgba(32, 79, 117, 0.8) 96.25%
+    );
+}
+.swiperloc {
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.alert {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-size: 15px;
+}
+
+.alert-success {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: #b3ffb6;
+  border: 1px solid rgba(76, 175, 80, 0.4);
+}
+
+.alert-danger {
+  background-color: rgba(244, 67, 54, 0.2);
+  color: #ffb3b3;
+  border: 1px solid rgba(244, 67, 54, 0.4);
+}
+
+.alert ul {
+  margin: 5px 0 0 20px;
+  padding: 0;
+}
+.alert li {
+  margin-bottom: 5px;
+} /* Стили для ошибок валидации */
+.error-message {
+  color: #ffb3b3;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+.form-group input.error {
+  border-color: rgba(244, 67, 54, 0.6);
+  background-color: rgba(244, 67, 54, 0.05);
+}
+.form-group.input-focused label {
+  color: #ffdb63;
+} /* Анимация для сообщений */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.alert-show {
+  animation: slideDown 0.4s ease-out forwards;
+}
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.alert-hide {
+  animation: slideUp 0.4s ease-out forwards;
+}
+@keyframes slideUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.flex-container {
+  width: 100%;
+}
+
+/* Адаптивные стили для разных размеров экрана */
+@media (max-width: 1200px) {
+  .registr-wrapper {
+    max-width: 450px;
+    padding: 30px;
+  }
+}
+
+@media (max-width: 991px) {
+  .swiperloc {
+    left: 0 !important;
+    bottom: 0 !important;
+    padding: 20px;
+  }
+
+  .registr-wrapper {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .registr-wrapper {
+    max-width: 100%;
+    padding: 25px;
+  }
+
+  .registr-wrapper h1.h1 {
+    font-size: 32px;
+  }
+
+  .form-group input {
+    height: 50px;
+  }
+}
+
+@media (max-width: 575px) {
+  .swiperloc {
+    padding: 15px;
+  }
+
+  .registr-wrapper {
+    padding: 20px;
+    border-radius: 15px;
+  }
+
+  .registr-wrapper h1.h1 {
+    font-size: 28px;
+    margin-bottom: 15px;
+  }
+
+  .registr-wrapper .form-group {
+    margin: 15px 0;
+  }
+
+  .form-group label {
+    font-size: 15px;
+  }
+
+  .form-group input {
+    height: 45px;
+    font-size: 15px;
+  }
+
+  .registr-wrapper .remember {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .registr-wrapper .btn {
+    height: 50px;
+  }
+}
+
+@media (max-width: 380px) {
+  .registr-wrapper {
+    padding: 15px;
+  }
+
+  .registr-wrapper h1.h1 {
+    font-size: 24px;
+  }
+
+  .form-group input {
+    font-size: 14px;
+  }
+}

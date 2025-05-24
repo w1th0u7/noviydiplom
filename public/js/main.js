@@ -203,9 +203,57 @@ var bntMenu = document.querySelector(".menu-btn"),
   closeMenu = document.querySelector(".close-menu"),
   menu = document.querySelector(".header-mid nav"),
   body = document.body;
+
+// Открытие бургер-меню
 bntMenu.addEventListener("click", function () {
-  menu.classList.toggle("active"), body.classList.toggle("no_scroll");
-}),
-  closeMenu.addEventListener("click", function () {
-    menu.classList.remove("active"), body.classList.remove("no_scroll");
+  menu.classList.add("active");
+  body.classList.add("no_scroll");
+
+  // Создаем оверлей для закрытия меню при клике вне его
+  if (!document.querySelector(".menu-overlay")) {
+    const overlay = document.createElement("div");
+    overlay.className = "menu-overlay";
+    overlay.style.position = "fixed";
+    overlay.style.top = "0";
+    overlay.style.left = "0";
+    overlay.style.width = "100%";
+    overlay.style.height = "100%";
+    overlay.style.background = "transparent";
+    overlay.style.zIndex = "999";
+    document.body.appendChild(overlay);
+
+    // Закрытие меню при клике на оверлей
+    overlay.addEventListener("click", closeMenuFunction);
+  }
+});
+
+// Функция для закрытия меню
+function closeMenuFunction() {
+  menu.classList.remove("active");
+  body.classList.remove("no_scroll");
+
+  // Удаляем оверлей
+  const overlay = document.querySelector(".menu-overlay");
+  if (overlay) {
+    overlay.removeEventListener("click", closeMenuFunction);
+    overlay.remove();
+  }
+}
+
+// Закрытие при клике на кнопку закрытия
+closeMenu.addEventListener("click", closeMenuFunction);
+
+// Закрытие меню при нажатии Escape
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape" && menu.classList.contains("active")) {
+    closeMenuFunction();
+  }
+});
+
+// Закрытие меню при клике на ссылки внутри меню
+const menuLinks = document.querySelectorAll(".menu-link");
+menuLinks.forEach((link) => {
+  link.addEventListener("click", function () {
+    closeMenuFunction();
   });
+});

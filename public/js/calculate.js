@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const errorMessage = document.getElementById("errorMessage");
   const resortMapSection = document.getElementById("resortMapSection");
   const hotelsResultSection = document.getElementById("hotelsResultSection");
+  const loader = document.getElementById("loader");
 
   // Получаем CSRF-токен
   const csrfToken = document
@@ -52,6 +53,80 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Устанавливаем значение по умолчанию
     nightsDisplay.textContent = nightsSlider.value;
+  }
+
+  // Инициализация обработчика отправки формы
+  if (tourForm) {
+    tourForm.addEventListener("submit", function (e) {
+      e.preventDefault(); // Предотвращаем стандартную отправку формы
+
+      // Проверяем валидность формы
+      if (!validateForm()) {
+        return;
+      }
+
+      // Показываем индикатор загрузки
+      if (loader) {
+        loader.style.display = "block";
+      }
+
+      // Собираем данные формы
+      const formData = new FormData(tourForm);
+      const formObject = {};
+
+      // Преобразуем FormData в обычный объект
+      for (let [key, value] of formData.entries()) {
+        formObject[key] = value;
+      }
+
+      // Отправляем запрос на сервер для расчета стоимости
+      fetch("/calculate/price", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-TOKEN": csrfToken,
+        },
+        body: JSON.stringify(formObject),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Ошибка при расчете стоимости: " + response.status);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Скрываем индикатор загрузки
+          if (loader) {
+            loader.style.display = "none";
+          }
+
+          // Отображаем результаты расчета
+          displayResult(data, formObject);
+
+          // Показываем блок с результатами
+          if (calculationResult) {
+            calculationResult.style.display = "block";
+          }
+
+          // Сохраняем данные в localStorage
+          saveDataToLocalStorage(formObject, data);
+
+          // Генерируем карточки отелей
+          generateHotelCards(data);
+        })
+        .catch((error) => {
+          console.error("Ошибка при расчете стоимости:", error);
+
+          // Скрываем индикатор загрузки
+          if (loader) {
+            loader.style.display = "none";
+          }
+
+          showError(
+            "Ошибка при расчете стоимости. Пожалуйста, попробуйте еще раз."
+          );
+        });
+    });
   }
 
   // Обработчик изменения страны
@@ -214,92 +289,6 @@ document.addEventListener("DOMContentLoaded", function () {
         // Устанавливаем значение в скрытое поле
         hiddenInput.value = this.dataset.value;
       });
-    });
-  }
-
-  // Обработчик для кнопки расчета стоимости
-  if (calculateButton) {
-    calculateButton.addEventListener("click", function (e) {
-      e.preventDefault(); // Предотвращаем стандартную отправку формы
-
-      // Проверка заполнения формы
-      if (!validateForm()) {
-        showError("Пожалуйста, заполните все обязательные поля формы");
-        return;
-      }
-
-      // Показываем индикатор загрузки
-      const loader = document.getElementById("loader");
-      if (loader) loader.style.display = "block";
-
-      // Собираем данные формы
-      const formData = {
-        tourType: document.getElementById("tourType").value,
-        country: countrySelect.value,
-        resort: resortSelect.value,
-        departureCity: document.getElementById("departureCity").value,
-        departureDate: departureDateInput.value,
-        nights: nightsSlider.value,
-        tourists: parseInt(document.getElementById("tourists").value) || 2,
-        hotelClass: document.getElementById("hotelClass").value,
-        meal: document.getElementById("meal").value,
-        insurance: document.getElementById("insurance").checked,
-        transfer: document.getElementById("transfer").checked,
-        excursions: document.getElementById("excursions").checked,
-        seaProximity: document.getElementById("seaProximity").value,
-      };
-
-      // Получаем CSRF-токен
-      const csrfToken = document
-        .querySelector('meta[name="csrf-token"]')
-        ?.getAttribute("content");
-
-      // Отправка данных на сервер для расчета
-      fetch("/calculate/price", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-TOKEN": csrfToken,
-        },
-        body: JSON.stringify(formData),
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Ошибка при расчете стоимости: " + response.status);
-          }
-          return response.json();
-        })
-        .then((data) => {
-          // Скрываем индикатор загрузки
-          if (loader) loader.style.display = "none";
-
-          // Отображаем результат
-          displayResult(data, formData);
-
-          // Сохраняем данные в localStorage
-          saveDataToLocalStorage(formData, data);
-        })
-        .catch((error) => {
-          console.error("Ошибка при расчете стоимости:", error);
-
-          // Скрываем индикатор загрузки
-          if (loader) loader.style.display = "none";
-
-          showError(
-            "Ошибка при расчете стоимости. Пожалуйста, попробуйте еще раз."
-          );
-
-          // В случае ошибки используем имитацию данных
-          const result = {
-            basePrice: calculateMockPrice(formData),
-            accommodationPrice: Math.round(calculateMockPrice(formData) * 0.7),
-            extrasPrice: Math.round(calculateMockPrice(formData) * 0.3),
-            totalPrice: calculateMockPrice(formData),
-          };
-
-          // Отображаем результат
-          displayResult(result, formData);
-        });
     });
   }
 
@@ -748,8 +737,81 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // Функция для создания карточки отеля
+  function createHotelCard(hotel) {
+    const cardDiv = document.createElement("div");
+    cardDiv.className = "hotel-card";
+
+    // Добавляем атрибут data-tour с данными для модального окна
+    const tourData = {
+      name: hotel.name,
+      location: hotel.location,
+      rating: parseFloat(hotel.rating || 0),
+      reviews: parseInt(hotel.reviewsCount || 0),
+      description: hotel.description || "",
+      price: parseInt(hotel.price || 0),
+      features: hotel.features || [],
+      images: hotel.images || [hotel.image],
+      seaProximity: hotel.seaProximity || "any",
+    };
+
+    cardDiv.setAttribute("data-tour", JSON.stringify(tourData));
+
+    // Добавляем необходимые классы фильтров
+    hotel.filters.split(",").forEach((filter) => {
+      cardDiv.classList.add(`filter-${filter}`);
+    });
+
+    // Добавляем класс для фильтрации по близости к морю
+    if (hotel.seaProximity) {
+      cardDiv.classList.add(`sea-${hotel.seaProximity}`);
+    }
+
+    cardDiv.innerHTML = `
+      <div class="hotel-card-image">
+        <img src="${hotel.image}" alt="${hotel.name}">
+      </div>
+      <div class="hotel-card-content">
+        <h3 class="hotel-card-name">${hotel.name}</h3>
+        <div class="hotel-card-location">
+          <i class="fas fa-map-marker-alt"></i> ${hotel.location}
+        </div>
+        <div class="hotel-card-rating">
+          <div class="hotel-card-stars">
+            ${generateStars(hotel.stars)}
+          </div>
+          <div class="hotel-card-reviews">
+            ${hotel.reviews}
+          </div>
+        </div>
+        <div class="hotel-card-bottom">
+          <div class="hotel-card-price">
+            <div class="price-label">Цена за ночь:</div>
+            <div class="price-value">${formatPrice(hotel.price)}</div>
+          </div>
+          <div class="hotel-card-actions">
+            <button class="btn btn-primary btn-hotel-select" data-hotel="${
+              hotel.name
+            }">Выбрать</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    return cardDiv;
+  }
+
+  // Функция для генерации звезд
+  function generateStars(count) {
+    let stars = "";
+    for (let i = 0; i < count; i++) {
+      stars += '<i class="fas fa-star"></i>';
+    }
+    return stars;
+  }
+
   // Генерация карточек отелей
-  function generateHotelCards() {
+  function generateHotelCards(data) {
     const hotelCards = document.getElementById("hotelCards");
     if (!hotelCards) return;
 
@@ -768,96 +830,184 @@ document.addEventListener("DOMContentLoaded", function () {
         location: resort + ", " + country,
         image: "/img/image 5.jpg",
         stars: 5,
-        reviews: 320,
+        reviews: "320 отзывов",
         price: 65000,
-        tags: ["beach", "pool", "center"],
+        filters: "all,beach,pool,center",
+        seaProximity: "first-line",
+        rating: 4.8,
+        reviewsCount: 320,
+        description:
+          "Роскошный пятизвездочный курорт с прямым выходом к морю. Отель предлагает элегантные номера, спа-центр, несколько ресторанов и бассейнов.",
+        images: [
+          "/img/image 5.jpg",
+          "/img/image 6.jpg",
+          "/img/image 7.jpg",
+          "/img/image 8.jpg",
+        ],
+        features: [
+          "Проживание в отеле 5*",
+          "Питание 'всё включено'",
+          "Спа-центр и бассейны",
+          "Частный пляж",
+          "Трансфер из/в аэропорт",
+        ],
       },
       {
         name: "Морской бриз",
         location: resort + ", " + country,
         image: "/img/image 6.jpg",
         stars: 4,
-        reviews: 184,
+        reviews: "184 отзыва",
         price: 42000,
-        tags: ["beach", "family"],
+        filters: "all,beach,family",
+        seaProximity: "up-to-500",
+        rating: 4.5,
+        reviewsCount: 184,
+        description:
+          "Комфортабельный отель в 300 метрах от пляжа. Идеально подходит для семейного отдыха с детьми.",
+        images: [
+          "/img/image 6.jpg",
+          "/img/image 5.jpg",
+          "/img/image 7.jpg",
+          "/img/image 8.jpg",
+        ],
+        features: [
+          "Проживание в отеле 4*",
+          "Питание 'полупансион'",
+          "Детский клуб и анимация",
+          "Открытый бассейн",
+          "Трансфер до пляжа",
+        ],
       },
       {
         name: "Sunshine Hotel",
         location: resort + ", " + country,
         image: "/img/image 7.jpg",
         stars: 3,
-        reviews: 95,
+        reviews: "95 отзывов",
         price: 35000,
-        tags: ["center", "pool"],
+        filters: "all,center,pool",
+        seaProximity: "over-500",
+        rating: 4.0,
+        reviewsCount: 95,
+        description:
+          "Уютный отель в центре города с хорошим соотношением цены и качества. Рядом множество ресторанов, магазинов и развлечений.",
+        images: [
+          "/img/image 7.jpg",
+          "/img/image 5.jpg",
+          "/img/image 6.jpg",
+          "/img/image 8.jpg",
+        ],
+        features: [
+          "Проживание в отеле 3*",
+          "Питание 'завтрак'",
+          "Бесплатный Wi-Fi",
+          "Открытый бассейн",
+          "Экскурсионное бюро",
+        ],
       },
       {
         name: "Azure Bay Resort",
         location: resort + ", " + country,
         image: "/img/image 8.jpg",
         stars: 5,
-        reviews: 210,
+        reviews: "210 отзывов",
         price: 78000,
-        tags: ["beach", "family", "pool"],
+        filters: "all,beach,family,pool",
+        seaProximity: "first-line",
+        rating: 4.9,
+        reviewsCount: 210,
+        description:
+          "Элитный курорт на первой линии с собственным пляжем и панорамным видом на море. Предлагает роскошные номера и виллы.",
+        images: [
+          "/img/image 8.jpg",
+          "/img/image 5.jpg",
+          "/img/image 6.jpg",
+          "/img/image 7.jpg",
+        ],
+        features: [
+          "Проживание в роскошном отеле 5*",
+          "Питание 'ультра всё включено'",
+          "Спа-центр премиум-класса",
+          "Частный пляж",
+          "VIP-трансфер из/в аэропорт",
+        ],
       },
     ];
 
     // Создаем карточки отелей
     hotels.forEach((hotel) => {
-      const hotelCard = document.createElement("div");
-      hotelCard.className = "hotel-card";
-      hotel.tags.forEach((tag) => (hotelCard.dataset[tag] = "true"));
-
-      hotelCard.innerHTML = `
-        <div class="hotel-card-image">
-          <img src="${hotel.image}" alt="${hotel.name}">
-        </div>
-        <div class="hotel-card-content">
-          <h3 class="hotel-card-name">${hotel.name}</h3>
-          <div class="hotel-card-location">
-            <i class="fas fa-map-marker-alt"></i>
-            <span>${hotel.location}</span>
-          </div>
-          <div class="hotel-card-rating">
-            <div class="hotel-card-stars">
-              ${Array(hotel.stars).fill('<i class="fas fa-star"></i>').join("")}
-            </div>
-            <div class="hotel-card-reviews">${hotel.reviews} отзывов</div>
-          </div>
-          <div class="hotel-card-price">
-            <div class="price-label">За весь тур:</div>
-            <div class="price-value">${hotel.price.toLocaleString()} ₽</div>
-          </div>
-        </div>
-      `;
-
+      const hotelCard = createHotelCard(hotel);
       hotelCards.appendChild(hotelCard);
     });
 
     // Добавляем обработчики для фильтров отелей
-    const filterChips = document.querySelectorAll(".filter-chip");
+    const filterChips = document.querySelectorAll(".filter-chip[data-filter]");
     if (filterChips.length > 0) {
       filterChips.forEach((chip) => {
         chip.addEventListener("click", function () {
-          // Удаляем активный класс у всех чипов
+          // Удаляем активный класс у всех чипов этой группы
           filterChips.forEach((c) => c.classList.remove("active"));
 
           // Добавляем активный класс к нажатому чипу
           this.classList.add("active");
 
           // Фильтруем отели
-          const filter = this.dataset.filter;
-          const cards = document.querySelectorAll(".hotel-card");
-
-          cards.forEach((card) => {
-            if (filter === "all" || card.dataset[filter]) {
-              card.style.display = "flex";
-            } else {
-              card.style.display = "none";
-            }
-          });
+          filterHotels();
         });
       });
     }
+
+    // Добавляем обработчики для фильтров по близости к морю
+    const seaFilterChips = document.querySelectorAll(
+      ".filter-chip[data-sea-filter]"
+    );
+    if (seaFilterChips.length > 0) {
+      seaFilterChips.forEach((chip) => {
+        chip.addEventListener("click", function () {
+          // Удаляем активный класс у всех чипов этой группы
+          seaFilterChips.forEach((c) => c.classList.remove("active"));
+
+          // Добавляем активный класс к нажатому чипу
+          this.classList.add("active");
+
+          // Фильтруем отели
+          filterHotels();
+        });
+      });
+    }
+
+    // Функция для фильтрации отелей по выбранным фильтрам
+    function filterHotels() {
+      const cards = document.querySelectorAll(".hotel-card");
+      const activeFilter = document.querySelector(
+        ".filter-chip[data-filter].active"
+      );
+      const activeSeaFilter = document.querySelector(
+        ".filter-chip[data-sea-filter].active"
+      );
+
+      const filter = activeFilter ? activeFilter.dataset.filter : "all";
+      const seaFilter = activeSeaFilter
+        ? activeSeaFilter.dataset.seaFilter
+        : null;
+
+      cards.forEach((card) => {
+        let showByMainFilter =
+          filter === "all" || card.classList.contains(`filter-${filter}`);
+        let showBySeaFilter =
+          !seaFilter || card.classList.contains(`sea-${seaFilter}`);
+
+        if (showByMainFilter && showBySeaFilter) {
+          card.style.display = "block";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    }
+
+    // Уведомляем о создании карточек отелей
+    document.dispatchEvent(new Event("hotelCardsGenerated"));
   }
 
   // Инициализация карты, если есть соответствующий раздел

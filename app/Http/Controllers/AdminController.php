@@ -130,13 +130,52 @@ class AdminController extends Controller
      */
     public function dashboard()
     {
-        $tourCount = Tour::count();
+        // Получаем основные показатели для дашборда
         $userCount = User::count();
-        $adminCount = User::where('role', 'admin')->count();
+        $tourCount = Tour::count();
+        $excursionCount = \App\Models\Excursion::count();
+        $adminCount = User::where('is_admin', 1)->count();
         
-        // Здесь можно добавить дополнительную статистику
+        // Формируем доступные разделы админ-панели
+        $adminSections = [
+            [
+                'title' => 'Туры',
+                'icon' => 'fa-map-marked-alt',
+                'count' => $tourCount,
+                'route' => route('admin.tours'),
+                'description' => 'Управление турами',
+            ],
+            [
+                'title' => 'Экскурсии',
+                'icon' => 'fa-landmark',
+                'count' => $excursionCount,
+                'route' => route('admin.excursions.index'),
+                'description' => 'Управление экскурсиями',
+            ],
+            [
+                'title' => 'Пользователи',
+                'icon' => 'fa-users',
+                'count' => $userCount,
+                'route' => route('admin.users'),
+                'description' => 'Управление пользователями',
+            ],
+            [
+                'title' => 'Заказы',
+                'icon' => 'fa-shopping-cart',
+                'count' => 0, // пока нет модели заказов
+                'route' => route('admin.orders'),
+                'description' => 'Управление заказами',
+            ],
+            [
+                'title' => 'Настройки',
+                'icon' => 'fa-cogs',
+                'count' => null, // счетчик не требуется
+                'route' => route('admin.settings'),
+                'description' => 'Настройки сайта',
+            ],
+        ];
         
-        return view('admin.dashboard', compact('tourCount', 'userCount', 'adminCount'));
+        return view('admin.dashboard', compact('adminSections', 'userCount', 'tourCount', 'excursionCount', 'adminCount'));
     }
 
     /**

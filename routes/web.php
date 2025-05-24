@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController; 
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\TourCalculatorController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
@@ -18,21 +19,18 @@ Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->na
 
 Route::get('/', [TourController::class, 'index'])->name('home');
 
-// Маршрут для калькулятора теперь определен ниже
 
-//  Группа маршрутов для авторизации (можно выделить в AuthController)
-// Отображение формы входа
 Route::get('/login', [UserController::class, 'showLoginForm'])->name('login');
 
-// Обработка отправки формы входа
+
 Route::post('/login', [UserController::class, 'login'])->name('login.post');
 
-// Дополнительный маршрут для отображения альтернативной формы входа
+
 Route::get('/login2', function() {
     return view('login2');
 })->name('login2');
 
-// Выход пользователя - POST маршрут
+
 Route::post('/logout', function() {
     // Сбрасываем API токен
     $user = Auth::user();
@@ -58,17 +56,22 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('index');
     
     Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
-    Route::get('/tours', [\App\Http\Controllers\AdminController::class, 'tours'])->name('tours');
+    Route::get('/tours', [\App\Http\Controllers\Admin\ToursController::class, 'index'])->name('tours.index');
+    Route::get('/', [\App\Http\Controllers\Admin\ToursController::class, 'index'])->name('tours');
     Route::get('/users', [\App\Http\Controllers\AdminController::class, 'users'])->name('users');
     Route::get('/orders', [\App\Http\Controllers\AdminController::class, 'orders'])->name('orders');
     Route::get('/settings', [\App\Http\Controllers\AdminController::class, 'settings'])->name('settings');
     
-    // Маршруты для CRUD операций с турами
-    Route::get('/tours/create', [\App\Http\Controllers\AdminController::class, 'createTour'])->name('tours.create');
-    Route::post('/tours', [\App\Http\Controllers\AdminController::class, 'storeTour'])->name('tours.store');
-    Route::get('/tours/{tour}/edit', [\App\Http\Controllers\AdminController::class, 'editTour'])->name('tours.edit');
-    Route::put('/tours/{tour}', [\App\Http\Controllers\AdminController::class, 'updateTour'])->name('tours.update');
-    Route::delete('/tours/{tour}', [\App\Http\Controllers\AdminController::class, 'destroyTour'])->name('tours.destroy');
+    
+    Route::resource('tours', \App\Http\Controllers\Admin\ToursController::class)->except(['show', 'index']);
+    
+    
+    Route::get('/excursions', [\App\Http\Controllers\Admin\ExcursionsController::class, 'index'])->name('excursions.index');
+    Route::get('/excursions/create', [\App\Http\Controllers\Admin\ExcursionsController::class, 'create'])->name('excursions.create');
+    Route::post('/excursions', [\App\Http\Controllers\Admin\ExcursionsController::class, 'store'])->name('excursions.store');
+    Route::get('/excursions/{excursion}/edit', [\App\Http\Controllers\Admin\ExcursionsController::class, 'edit'])->name('excursions.edit');
+    Route::put('/excursions/{excursion}', [\App\Http\Controllers\Admin\ExcursionsController::class, 'update'])->name('excursions.update');
+    Route::delete('/excursions/{excursion}', [\App\Http\Controllers\Admin\ExcursionsController::class, 'destroy'])->name('excursions.destroy');
     
     // Маршрут для переключения роли пользователя
     Route::patch('/users/{user}/toggle-role', [\App\Http\Controllers\AdminController::class, 'toggleUserRole'])->name('users.toggle-role');
@@ -77,6 +80,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/settings', [\App\Http\Controllers\AdminController::class, 'updateSettings'])->name('settings.update');
     Route::post('/settings/backup', [\App\Http\Controllers\AdminController::class, 'createBackup'])->name('settings.backup');
     Route::put('/settings/seo', [\App\Http\Controllers\AdminController::class, 'updateSeoSettings'])->name('settings.update-seo');
+    
+    // Маршруты для управления бронированиями
+    Route::get('/bookings', [\App\Http\Controllers\Admin\BookingsController::class, 'index'])->name('bookings.index');
+    Route::get('/bookings/{id}', [\App\Http\Controllers\Admin\BookingsController::class, 'show'])->name('bookings.show');
+    Route::post('/bookings/{id}/confirm', [\App\Http\Controllers\Admin\BookingsController::class, 'confirm'])->name('bookings.confirm');
+    Route::post('/bookings/{id}/cancel', [\App\Http\Controllers\Admin\BookingsController::class, 'cancel'])->name('bookings.cancel');
+    Route::post('/bookings/{id}/complete', [\App\Http\Controllers\Admin\BookingsController::class, 'complete'])->name('bookings.complete');
+    Route::delete('/bookings/{id}', [\App\Http\Controllers\Admin\BookingsController::class, 'destroy'])->name('bookings.destroy');
 });
 
 Route::group(['middleware' => ['web']], function () {
@@ -89,16 +100,13 @@ Route::group(['middleware' => ['web']], function () {
 // Маршруты для личного кабинета
 Route::middleware(['auth'])->group(function () {
     Route::get('/cabinet', [App\Http\Controllers\CabinetController::class, 'index'])->name('cabinet');
-    Route::get('/cabinet/trips', [App\Http\Controllers\CabinetController::class, 'trips'])->name('trips');
+    Route::get('/cabinet/trips', [BookingController::class, 'myBookings'])->name('trips');
     Route::get('/cabinet/settings', [App\Http\Controllers\CabinetController::class, 'settings'])->name('settings');
     Route::put('/cabinet/settings', [App\Http\Controllers\CabinetController::class, 'updateSettings'])->name('settings.update');
 });
 
-// Маршрут для расписания
-Route::get('/schedule', function () {
-    return view('index'); 
-})->name('schedule');
-
+// Маршрут для расписания туров
+Route::get('/schedule', [App\Http\Controllers\ScheduleController::class, 'index'])->name('schedule');
 
 // Маршрут для хит сезона
 Route::get('/hits', function () {
@@ -106,19 +114,17 @@ Route::get('/hits', function () {
 })->name('hits');
 
 // Маршрут для контактов
-Route::get('/contacts', function () {
-    return view('index'); 
-})->name('contacts');
+Route::get('/contacts', [App\Http\Controllers\ContactsController::class, 'index'])->name('contacts');
 
 // Маршрут для экскурсий
-Route::get('/excursions', function () {
-    return view('index'); 
-})->name('excursions');
+Route::get('/excursions', [App\Http\Controllers\ExcursionsController::class, 'index'])->name('excursions');
+Route::get('/excursions/preschool', [App\Http\Controllers\ExcursionsController::class, 'preschool'])->name('excursions.preschool');
+Route::get('/excursions/school', [App\Http\Controllers\ExcursionsController::class, 'school'])->name('excursions.school');
+Route::get('/excursions/adult', [App\Http\Controllers\ExcursionsController::class, 'adult'])->name('excursions.adult');
+Route::get('/excursions/{id}', [App\Http\Controllers\ExcursionsController::class, 'show'])->name('excursions.show');
 
 // Маршрут для туристов
-Route::get('/tourists', function () {
-    return view('index'); // Замените на ваш обработчик
-})->name('tourists');
+Route::get('/tourists', [App\Http\Controllers\TouristInfoController::class, 'index'])->name('tourists');
 
 // Маршрут для горящих туров
 Route::get('/lastminute', function () {
@@ -130,6 +136,23 @@ Route::get('/calculate', [TourCalculatorController::class, 'index'])->name('calc
 Route::post('/calculate/get-resorts', [TourCalculatorController::class, 'getResorts'])->name('calculate.getResorts');
 Route::post('/calculate/get-hotels', [TourCalculatorController::class, 'getHotels'])->name('calculate.getHotels');
 Route::post('/calculate/price', [TourCalculatorController::class, 'calculate'])->name('calculate.price');
+
+// Маршруты для бронирования
+Route::middleware(['auth'])->group(function () {
+    // Маршруты требующие авторизации
+    Route::post('/tours/{id}/book', [BookingController::class, 'bookTour'])->name('tours.book');
+    Route::post('/excursions/{id}/book', [BookingController::class, 'bookExcursion'])->name('excursions.book');
+    Route::get('/my-bookings', [BookingController::class, 'myBookings'])->name('bookings.my');
+    Route::post('/bookings/{id}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
+});
+
+// Маршруты для бронирования (общедоступные)
+Route::get('/bookings/confirmation/{id}', [BookingController::class, 'confirmation'])->name('bookings.confirmation');
+
+// Добавляем маршрут для тестовой страницы
+Route::get('/test-css', function () {
+    return view('test');
+});
 
 
 

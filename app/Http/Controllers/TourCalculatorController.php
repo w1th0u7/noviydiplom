@@ -165,7 +165,27 @@ class TourCalculatorController extends Controller
                     'price' => 15000,
                     'image' => '/img/image 5.jpg',
                     'reviews' => '8.9 Отлично (1240 отзывов)',
-                    'filters' => 'all,pool,beach'
+                    'filters' => 'all,pool,beach',
+                    // Добавляем близость к морю
+                    'seaProximity' => 'first-line',
+                    // Добавляем детальную информацию для модального окна
+                    'rating' => 8.9,
+                    'reviewsCount' => 1240,
+                    'description' => 'Роскошный пятизвездочный комплекс с прямым выходом к морю. Отель предлагает элегантные номера, спа-центр, несколько ресторанов, открытый и крытый бассейны.',
+                    'images' => [
+                        '/img/image 5.jpg',
+                        '/img/62a08e6ba6c5ba488f30d07e.jpg',
+                        '/img/59.jpg',
+                        '/img/BKPQSJucT0c 1.jpg'
+                    ],
+                    'features' => [
+                        'Проживание в номере выбранной категории',
+                        'Питание "шведский стол"',
+                        'Спа-центр и крытый бассейн',
+                        'Тренажерный зал',
+                        'Бесплатный Wi-Fi',
+                        'Частный пляж'
+                    ]
                 ],
                 [
                     'name' => 'Роза Хутор Отель',
@@ -174,7 +194,27 @@ class TourCalculatorController extends Controller
                     'price' => 12000,
                     'image' => '/img/62a08e6ba6c5ba488f30d07e.jpg',
                     'reviews' => '9.1 Превосходно (980 отзывов)',
-                    'filters' => 'all,pool,family'
+                    'filters' => 'all,pool,family',
+                    // Добавляем близость к морю
+                    'seaProximity' => 'over-500',
+                    // Добавляем детальную информацию для модального окна
+                    'rating' => 9.1,
+                    'reviewsCount' => 980,
+                    'description' => 'Отель в горах с прекрасными видами на горные склоны. Идеальное место для активного отдыха и занятий горнолыжным спортом зимой или пеших походов летом.',
+                    'images' => [
+                        '/img/62a08e6ba6c5ba488f30d07e.jpg',
+                        '/img/image 5.jpg',
+                        '/img/59.jpg',
+                        '/img/BKPQSJucT0c 1.jpg'
+                    ],
+                    'features' => [
+                        'Проживание в отеле 4*',
+                        'Питание "завтрак"',
+                        'Бесплатный Wi-Fi',
+                        'Трансфер до подъемников',
+                        'Услуги хранения горнолыжного оборудования',
+                        'Спа-центр'
+                    ]
                 ],
                 [
                     'name' => 'Swissôtel Resort Sochi Kamelia',
@@ -183,7 +223,27 @@ class TourCalculatorController extends Controller
                     'price' => 18000,
                     'image' => '/img/59.jpg',
                     'reviews' => '9.3 Превосходно (760 отзывов)',
-                    'filters' => 'all,beach,center,pool'
+                    'filters' => 'all,beach,center,pool',
+                    // Добавляем близость к морю
+                    'seaProximity' => 'first-line',
+                    // Добавляем детальную информацию для модального окна
+                    'rating' => 9.3,
+                    'reviewsCount' => 760,
+                    'description' => 'Элегантный пятизвездочный курорт на побережье Черного моря. Отель расположен в живописном парке с вековыми деревьями и предлагает роскошные номера с видом на море.',
+                    'images' => [
+                        '/img/59.jpg',
+                        '/img/image 5.jpg',
+                        '/img/62a08e6ba6c5ba488f30d07e.jpg',
+                        '/img/BKPQSJucT0c 1.jpg'
+                    ],
+                    'features' => [
+                        'Проживание в роскошном отеле 5*',
+                        'Питание "полупансион"',
+                        'Открытый бассейн с подогревом',
+                        'Спа-центр Pürovel',
+                        'Частный пляж',
+                        'Трансфер из/в аэропорт'
+                    ]
                 ],
                 [
                     'name' => 'Hyatt Regency Sochi',
@@ -192,7 +252,27 @@ class TourCalculatorController extends Controller
                     'price' => 16500,
                     'image' => '/img/BKPQSJucT0c 1.jpg',
                     'reviews' => '9.0 Превосходно (1100 отзывов)',
-                    'filters' => 'all,center,pool'
+                    'filters' => 'all,center,pool',
+                    // Добавляем близость к морю
+                    'seaProximity' => 'up-to-500',
+                    // Добавляем детальную информацию для модального окна
+                    'rating' => 9.0,
+                    'reviewsCount' => 1100,
+                    'description' => 'Современный отель с панорамным видом на море, расположенный в центре города. Отель предлагает просторные номера, открытый бассейн и несколько ресторанов.',
+                    'images' => [
+                        '/img/BKPQSJucT0c 1.jpg',
+                        '/img/image 5.jpg',
+                        '/img/62a08e6ba6c5ba488f30d07e.jpg',
+                        '/img/59.jpg'
+                    ],
+                    'features' => [
+                        'Проживание в номере выбранной категории',
+                        'Питание "завтрак"',
+                        'Открытый бассейн с морской водой',
+                        'Фитнес-центр',
+                        'Спа-центр Evania',
+                        'Бесплатный Wi-Fi'
+                    ]
                 ],
                 [
                     'name' => 'Отель Бархатные Сезоны',
@@ -201,7 +281,27 @@ class TourCalculatorController extends Controller
                     'price' => 5500,
                     'image' => '/img/sayMGFc-uGI 2.png',
                     'reviews' => '8.2 Очень хорошо (2300 отзывов)',
-                    'filters' => 'all,beach,family'
+                    'filters' => 'all,beach,family',
+                    // Добавляем близость к морю
+                    'seaProximity' => 'up-to-500',
+                    // Добавляем детальную информацию для модального окна
+                    'rating' => 8.2,
+                    'reviewsCount' => 2300,
+                    'description' => 'Комфортабельный отель в Олимпийском парке, в нескольких минутах ходьбы от моря. Отель предлагает современные номера, кафе и рестораны, а также близость к основным достопримечательностям.',
+                    'images' => [
+                        '/img/sayMGFc-uGI 2.png',
+                        '/img/image 5.jpg',
+                        '/img/62a08e6ba6c5ba488f30d07e.jpg',
+                        '/img/59.jpg'
+                    ],
+                    'features' => [
+                        'Проживание в отеле 3*',
+                        'Питание по выбору',
+                        'Близость к пляжу (350м)',
+                        'Трансфер до центра города',
+                        'Бесплатная парковка',
+                        'Бесплатный Wi-Fi'
+                    ]
                 ]
             ],
             'Анталия' => [
@@ -417,6 +517,18 @@ class TourCalculatorController extends Controller
         $hotelClassModifier = $hotelClassModifiers[$data['hotelClass']] ?? 1.3;
         $price = $price * $hotelClassModifier;
         
+        // Модификаторы для близости к морю
+        $seaProximityModifiers = [
+            'any' => 1.0,        // Любая - стандартная цена
+            'first-line' => 1.3, // Первая линия - +30%
+            'up-to-500' => 1.1,  // До 500 метров - +10%
+            'over-500' => 0.9    // Более 500 метров - -10%
+        ];
+        
+        // Применяем модификатор близости к морю
+        $seaProximityModifier = $seaProximityModifiers[$data['seaProximity']] ?? 1.0;
+        $price = $price * $seaProximityModifier;
+        
         // Базовая цена (без учета количества ночей и туристов)
         $basePrice = $price;
         
@@ -513,7 +625,8 @@ class TourCalculatorController extends Controller
             'tourists' => $data['tourists'],
             'departureDate' => $data['departureDate'],
             'hotelClass' => $data['hotelClass'],
-            'meal' => $data['meal']
+            'meal' => $data['meal'],
+            'seaProximity' => $data['seaProximity'] ?? 'any'
         ];
     }
 } 

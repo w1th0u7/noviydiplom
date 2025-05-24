@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -36,10 +37,12 @@ class CabinetController extends Controller
      */
     public function trips()
     {
-        // Здесь будет логика получения поездок пользователя
-        // $trips = auth()->user()->trips; 
+        // Получаем все бронирования текущего пользователя
+        $bookings = Booking::where('user_id', Auth::id())
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
         
-        return view('cabinet.trips');
+        return view('cabinet.trips', compact('bookings'));
     }
 
     /**
