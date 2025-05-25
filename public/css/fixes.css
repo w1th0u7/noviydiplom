@@ -227,3 +227,58 @@ header .header-mid nav.active {
     border-radius: 5px;
   }
 }
+
+/* Исправления для слайдера видов туров */
+.slider.vidy-turov {
+  overflow: visible !important;
+}
+
+.slider.vidy-turov .swiper {
+  overflow: visible !important;
+  padding-bottom: 60px; /* Дополнительное пространство для навигации */
+}
+
+.slider.vidy-turov .swiper-wrapper {
+  display: flex !important;
+  transform: translate3d(
+    0px,
+    0px,
+    0px
+  ) !important; /* Сбрасываем любое смещение */
+  transition-duration: 0ms !important;
+}
+
+.slider.vidy-turov .swiper-slide {
+  opacity: 1 !important;
+  visibility: visible !important;
+  width: 370px !important; /* Фиксированная ширина слайда */
+  margin-right: 30px !important;
+  transform: none !important;
+}
+
+.slider.vidy-turov .swiper-slide img {
+  width: 100% !important;
+  height: auto !important;
+  object-fit: cover !important;
+  border-radius: 20px !important;
+}
+
+/* Убедимся, что навигация работает и видна */
+.slider.vidy-turov .navigate {
+  position: relative !important;
+  z-index: 5 !important;
+}
+
+.slider.vidy-turov .swiper-button-next,
+.slider.vidy-turov .swiper-button-prev {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Исправления для мобильных устройств */
+@media (max-width: 767px) {
+  .slider.vidy-turov .swiper-slide {
+    width: 280px !important;
+    margin-right: 20px !important;
+  }
+}
