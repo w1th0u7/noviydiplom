@@ -1,0 +1,229 @@
+/* Исправления для иконки login */
+
+/* Обеспечиваем одинаковый размер иконки логина на всех страницах сайта */
+/* Повышаем специфичность селектора */
+header .header-info .login svg,
+.header-top .login svg,
+.phone + .login svg,
+a .login svg,
+div.login svg,
+.login svg {
+  width: 30px !important;
+  height: 29px !important;
+  min-width: 30px !important;
+  min-height: 29px !important;
+  max-width: 30px !important;
+  max-height: 29px !important;
+  display: block !important;
+}
+
+/* Исправления для медиа-запросов */
+@media (max-width: 1400px) {
+  header .header-info .login svg,
+  .header-top .login svg,
+  .phone + .login svg,
+  a .login svg,
+  div.login svg,
+  .login svg {
+    width: 30px !important;
+    height: 29px !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  header .header-info .login svg,
+  .header-top .login svg,
+  .phone + .login svg,
+  a .login svg,
+  div.login svg,
+  .login svg {
+    width: 30px !important;
+    height: 29px !important;
+  }
+
+  /* Фиксированные размеры для контейнера */
+  .login {
+    width: 62px !important;
+    height: 62px !important;
+    padding: 10px !important;
+  }
+}
+
+@media (max-width: 992px) {
+  header .header-info .login svg,
+  .header-top .login svg,
+  .phone + .login svg,
+  a .login svg,
+  div.login svg,
+  .login svg {
+    width: 30px !important;
+    height: 29px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  header .header-info .login svg,
+  .header-top .login svg,
+  .phone + .login svg,
+  a .login svg,
+  div.login svg,
+  .login svg {
+    width: 30px !important;
+    height: 29px !important;
+  }
+}
+
+@media (max-width: 576px) {
+  header .header-info .login svg,
+  .header-top .login svg,
+  .phone + .login svg,
+  a .login svg,
+  div.login svg,
+  .login svg {
+    width: 30px !important;
+    height: 29px !important;
+  }
+}
+
+/* Улучшения для табов и переключателя туров */
+.tabs__pane li {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tabs__pane li.active {
+  background-color: #1d639a;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tabs__pane li:hover {
+  background-color: #307ebc;
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* Анимация переключения табов */
+.tab__element {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  display: none;
+}
+
+.tab__element.active {
+  opacity: 1;
+  display: block;
+}
+
+/* Стилизация кнопки "Показать еще туры" */
+.btn-add {
+  transition: all 0.3s ease;
+}
+
+.btn-add:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Анимация появления блоков туров */
+.cont-tury .block {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.cont-tury .block.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Стили для мобильного бургер-меню */
+body.no_scroll {
+  overflow: hidden;
+}
+
+header .header-mid nav {
+  display: none;
+}
+
+header .header-mid nav.active {
+  display: block;
+}
+
+.menu-btn {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.menu-btn:hover {
+  transform: scale(1.05);
+}
+
+.close-menu {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.close-menu img {
+  width: 24px;
+  height: 24px;
+}
+
+/* Стили для оверлея меню */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+/* Медиа-запросы для мобильного меню */
+@media (max-width: 768px) {
+  .header-mid nav.active {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba(30, 70, 105, 0.95),
+      rgba(25, 50, 75, 0.97)
+    );
+    z-index: 1000;
+    padding: 20px;
+    overflow-y: auto;
+  }
+
+  .header-mid nav.active .menu {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header-mid nav.active .menu-item {
+    margin: 10px 0;
+    border-bottom: 1px solid rgba(255, 218, 86, 0.3);
+    padding-bottom: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .header-mid nav.active .menu-link {
+    color: #ffffff;
+    font-size: 18px;
+    display: block;
+    padding: 10px 5px;
+  }
+
+  .header-mid nav.active .menu-link:hover {
+    color: #ffda56;
+    background: rgba(255, 218, 86, 0.1);
+    border-radius: 5px;
+  }
+}
