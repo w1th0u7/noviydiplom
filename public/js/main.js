@@ -170,6 +170,30 @@ var swiper = new Swiper(".banner-home .swiper", {
       el: ".swiper-pagination",
     },
   }),
+  swiper1 = new Swiper(".vidy-turov .swiper", {
+    loop: !1,
+    spaceBetween: 20,
+    slidesPerView: "auto",
+    direction: "horizontal",
+    navigation: {
+      nextEl: ".vidy-turov .swiper-button-next",
+      prevEl: ".vidy-turov .swiper-button-prev",
+    },
+    breakpoints: {
+      300: {
+        slidesPerView: "auto",
+        spaceBetween: 20,
+      },
+      767: {
+        slidesPerView: "auto",
+        spaceBetween: 30,
+      },
+      1200: {
+        slidesPerView: "auto",
+        spaceBetween: 40,
+      },
+    },
+  }),
   swiper2 = new Swiper(".otz .swiper", {
     loop: !1,
     spaceBetween: 40,

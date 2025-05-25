@@ -6521,18 +6521,6 @@ button {
   opacity: 0;
 }
 
-.swiper
-  .swiper-pagination
-  .swiper-pagination-bullet.swiper-pagination-bullet-active::before {
-  background: #ffdb63;
-}
-
-.swiper
-  .swiper-pagination
-  .swiper-pagination-bullet.swiper-pagination-bullet-active::after {
-  opacity: 1;
-}
-
 header.home {
   position: absolute;
   left: 0;
@@ -6645,43 +6633,6 @@ header.home {
     display: block;
   }
 
-  /* Стили для информации о сотруднике в форме - делаем как на скриншоте */
-  .modal .employee-info {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 30px;
-    padding-top: 15px;
-  }
-
-  .modal .employee-info img {
-    display: block;
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 10px;
-    border: 2px solid rgba(255, 255, 255, 0.5);
-  }
-
-  .modal .employee-info .name {
-    font-family: "TT Norms Pro Serif Trl", sans-serif;
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 22px;
-    color: #ffcb22;
-    margin-bottom: 4px;
-  }
-
-  .modal .employee-info .position {
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 18px;
-    color: #fff;
-    margin-bottom: 15px;
-  }
-
   /* Стили для социальных иконок */
   .modal .social-icons {
     display: flex;
@@ -6781,6 +6732,22 @@ header.home {
   }
 
   .header-top .phone {
+    display: none;
+  }
+
+  .otz .swiper,
+  .vidy-turov .swiper {
+    padding-bottom: 60px;
+    margin-bottom: -60px;
+  }
+
+  .zag-btn .btn--white.mob {
+    display: -webkit-box;
+    display: flex;
+  }
+
+  .otz .btns-block,
+  .vidy-turov .btns-block {
     display: none;
   }
 }
@@ -7283,6 +7250,10 @@ header.home {
     width: 44px;
     height: 44px;
     padding: 5px;
+  }
+
+  .zag-btn .btn--white.mob {
+    display: none;
   }
 
   .menu {
