@@ -143,10 +143,6 @@ body.no_scroll {
   overflow: hidden;
 }
 
-header .header-mid nav {
-  display: none;
-}
-
 header .header-mid nav.active {
   display: block;
 }
