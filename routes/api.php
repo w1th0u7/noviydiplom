@@ -9,6 +9,6 @@ Route::post('/register', [UserController::class, 'register'])->name('register.po
 Route::post('/login', [UserController::class, 'login'])->name('login.api');
 
 Route::middleware('auth:api')->group(function () {
-    Route::post('/logout', [UserController::class, 'logout'])->name('logout');
+    Route::post('/logout', [UserController::class, 'logout'])->name('logout.api');
 });
 
