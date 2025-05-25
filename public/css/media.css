@@ -44,7 +44,7 @@
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
+    z-index: -2;
     animation: fadeIn 0.3s ease forwards;
   }
   @keyframes fadeIn {
@@ -6595,7 +6595,7 @@ header.home {
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
+    z-index: -2;
     animation: fadeIn 0.3s ease forwards;
   }
   @keyframes fadeIn {
@@ -7255,7 +7255,7 @@ header.home {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  gap: 30px;
+  gap: 20px;
 }
 
 .phone {
