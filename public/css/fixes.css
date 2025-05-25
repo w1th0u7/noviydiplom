@@ -230,55 +230,119 @@ header .header-mid nav.active {
 
 /* Исправления для слайдера видов туров */
 .slider.vidy-turov {
-  overflow: visible !important;
+  overflow: hidden !important;
+  position: relative !important;
+  width: 100% !important;
+  padding-bottom: 30px !important;
 }
 
 .slider.vidy-turov .swiper {
   overflow: visible !important;
-  padding-bottom: 60px; /* Дополнительное пространство для навигации */
+  width: 100% !important;
 }
 
 .slider.vidy-turov .swiper-wrapper {
   display: flex !important;
-  transform: translate3d(
-    0px,
-    0px,
-    0px
-  ) !important; /* Сбрасываем любое смещение */
-  transition-duration: 0ms !important;
+  align-items: stretch !important;
+  flex-wrap: nowrap !important;
+  width: 100% !important;
 }
 
 .slider.vidy-turov .swiper-slide {
-  opacity: 1 !important;
-  visibility: visible !important;
-  width: 370px !important; /* Фиксированная ширина слайда */
-  margin-right: 30px !important;
-  transform: none !important;
+  width: calc(100% - 40px) !important;
+  max-width: 370px !important;
+  height: auto !important;
+  flex-shrink: 0 !important;
+  margin-right: 20px !important;
+  position: relative !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
 }
 
 .slider.vidy-turov .swiper-slide img {
   width: 100% !important;
-  height: auto !important;
+  height: 100% !important;
   object-fit: cover !important;
   border-radius: 20px !important;
 }
 
-/* Убедимся, что навигация работает и видна */
+.slider.vidy-turov .swiper-slide p {
+  position: absolute !important;
+  bottom: 20px !important;
+  left: 20px !important;
+  right: 20px !important;
+  color: white !important;
+  font-size: 18px !important;
+  font-weight: 500 !important;
+  margin: 0 !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Стилизация навигации */
 .slider.vidy-turov .navigate {
-  position: relative !important;
-  z-index: 5 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 10px !important;
+  margin-top: 20px !important;
 }
 
 .slider.vidy-turov .swiper-button-next,
 .slider.vidy-turov .swiper-button-prev {
-  opacity: 1 !important;
-  visibility: visible !important;
+  position: static !important;
+  width: 40px !important;
+  height: 40px !important;
+  background-color: #fff !important;
+  border-radius: 50% !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  cursor: pointer !important;
+  transition: all 0.3s !important;
 }
 
-/* Исправления для мобильных устройств */
+.slider.vidy-turov .swiper-button-next:hover,
+.slider.vidy-turov .swiper-button-prev:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
+  transform: translateY(-2px) !important;
+}
+
+.slider.vidy-turov .swiper-button-next::after,
+.slider.vidy-turov .swiper-button-prev::after {
+  display: none !important;
+}
+
+.slider.vidy-turov .swiper-button-disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
+
+/* Медиа-запросы для мобильных устройств */
 @media (max-width: 767px) {
   .slider.vidy-turov .swiper-slide {
-    width: 280px !important;
-    margin-right: 20px !important;
+    width: calc(100% - 20px) !important;
+    max-width: 280px !important;
+    margin-right: 10px !important;
+  }
+
+  .slider.vidy-turov .swiper-slide p {
+    font-size: 16px !important;
+    bottom: 15px !important;
+    left: 15px !important;
+  }
+
+  .slider.vidy-turov .swiper-button-next,
+  .slider.vidy-turov .swiper-button-prev {
+    width: 36px !important;
+    height: 36px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .slider.vidy-turov .swiper-slide {
+    width: 80% !important;
+    max-width: none !important;
   }
 }
