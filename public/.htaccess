@@ -25,6 +25,7 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+
 </IfModule>
 
 # Настройки кэширования
@@ -57,3 +58,6 @@
     Header set X-Frame-Options "SAMEORIGIN"
     Header set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule> 
+=======
+</IfModule>
+
