@@ -16,20 +16,20 @@ class ToursTableSeeder extends Seeder
      */
     public function run()
     {
-        // Удаляем существующие записи
+       
         Tour::truncate();
         
-        // Массив с данными туров
+        
         $tours = [
             [
                 'name' => 'Золотое кольцо России',
                 'type' => 'Экскурсионный',
-                'season' => 'Лето 2023',
+                'season' => 'Лето 2025',
                 'description' => 'Увлекательный тур по историческим городам Золотого кольца России, включающий посещение древних храмов, монастырей и музеев.',
-                'image' => 'img/tours/golden-ring.jpg',
+                'image' => 'tours/Novgorod.jpg',
                 'data' => Carbon::now(),
-                'start_date' => Carbon::create(2023, 7, 15),
-                'end_date' => Carbon::create(2023, 7, 20),
+                'start_date' => Carbon::create(2025, 7, 26),
+                'end_date' => Carbon::create(2025, 7, 31),
                 'price' => 24500,
                 'location' => 'Владимир, Суздаль, Ярославль, Кострома',
                 'duration' => 6,
@@ -42,7 +42,7 @@ class ToursTableSeeder extends Seeder
                 'type' => 'Пляжный',
                 'season' => 'Лето 2023',
                 'description' => 'Отдых на побережье Черного моря в Сочи. Теплое море, пляжи, развлечения, экскурсии по окрестностям.',
-                'image' => 'img/tours/sochi.jpg',
+                'image' => 'tours/plyazh 2.jpg',
                 'data' => Carbon::now(),
                 'start_date' => Carbon::create(2023, 8, 10),
                 'end_date' => Carbon::create(2023, 8, 17),
@@ -58,7 +58,7 @@ class ToursTableSeeder extends Seeder
                 'type' => 'Горнолыжный',
                 'season' => 'Зима 2023-2024',
                 'description' => 'Горнолыжный отдых на одном из лучших курортов России. Отличные трассы, современные подъемники, активный отдых.',
-                'image' => 'img/tours/sheregesh.jpg',
+                'image' => 'tours/winter.jpg',
                 'data' => Carbon::now(),
                 'start_date' => Carbon::create(2023, 12, 20),
                 'end_date' => Carbon::create(2023, 12, 27),
@@ -72,12 +72,12 @@ class ToursTableSeeder extends Seeder
             [
                 'name' => 'Круиз по Волге',
                 'type' => 'Круиз',
-                'season' => 'Лето 2023',
-                'description' => 'Речной круиз по Волге с посещением живописных городов по маршруту. Комфортабельный теплоход, развлекательная программа.',
-                'image' => 'img/tours/volga-cruise.jpg',
+                'season' => 'Лето 2025',
+                'description' => 'Волгоград - Углич - Ярославль - Кострома - Нижний Новгород',
+                'image' => 'tours/rechka.jpg',
                 'data' => Carbon::now(),
-                'start_date' => Carbon::create(2023, 6, 5),
-                'end_date' => Carbon::create(2023, 6, 12),
+                'start_date' => Carbon::create(2025, 6, 5),
+                'end_date' => Carbon::create(2025, 6, 12),
                 'price' => 38000,
                 'location' => 'Москва, Углич, Ярославль, Кострома, Нижний Новгород',
                 'duration' => 8,
@@ -88,12 +88,12 @@ class ToursTableSeeder extends Seeder
             [
                 'name' => 'Отдых в Минеральных Водах',
                 'type' => 'Оздоровительный',
-                'season' => 'Осень 2023',
+                'season' => 'Осень 2025',
                 'description' => 'Оздоровительный отдых на курорте Кавказских Минеральных Вод. Лечебные процедуры, минеральные источники, экскурсии.',
-                'image' => 'img/tours/mineral-waters.jpg',
+                'image' => 'tours/rassvet.jpg',
                 'data' => Carbon::now(),
-                'start_date' => Carbon::create(2023, 9, 15),
-                'end_date' => Carbon::create(2023, 9, 25),
+                'start_date' => Carbon::create(2025, 9, 15),
+                'end_date' => Carbon::create(2025, 9, 25),
                 'price' => 45000,
                 'location' => 'Пятигорск, Кисловодск, Ессентуки',
                 'duration' => 11,
@@ -104,12 +104,12 @@ class ToursTableSeeder extends Seeder
             [
                 'name' => 'Бурятия и Байкал',
                 'type' => 'Экскурсионный',
-                'season' => 'Лето 2023',
+                'season' => 'Лето 2025',
                 'description' => 'Экскурсионный тур по Бурятии с отдыхом на Байкале. Посещение буддийских храмов, знакомство с культурой региона.',
-                'image' => 'img/tours/baikal.jpg',
+                'image' => 'tours/more.jpg',
                 'data' => Carbon::now(),
-                'start_date' => Carbon::create(2023, 7, 25),
-                'end_date' => Carbon::create(2023, 8, 1),
+                'start_date' => Carbon::create(2025, 7, 25),
+                'end_date' => Carbon::create(2025, 8, 1),
                 'price' => 50000,
                 'location' => 'Улан-Удэ, Иволгинский дацан, озеро Байкал',
                 'duration' => 8,
@@ -119,7 +119,7 @@ class ToursTableSeeder extends Seeder
             ],
         ];
         
-        // Добавляем туры в БД
+        
         foreach ($tours as $tourData) {
             Tour::create($tourData);
         }
