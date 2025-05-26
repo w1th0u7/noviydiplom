@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         ]);
         
         // Создаем пользователя-админа только если он еще не существует
+
         $adminEmail = 'admin@example.com';
         
         if (!User::where('email', $adminEmail)->exists()) {
@@ -39,6 +40,7 @@ class DatabaseSeeder extends Seeder
         }
         
         // Создаем обычного пользователя если он еще не существует
+
         $userEmail = 'unique_email666@example.com';
         
         if (!User::where('email', $userEmail)->exists()) {

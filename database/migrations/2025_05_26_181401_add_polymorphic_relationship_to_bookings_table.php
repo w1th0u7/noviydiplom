@@ -10,8 +10,12 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
+
     {   
         if (!Schema::hasColumn('bookings', 'bookable_type')) {
+
+    
+
         Schema::table('bookings', function (Blueprint $table) {
             // Добавляем поля для полиморфных связей
             $table->string('bookable_type')->after('notes')->nullable();
@@ -19,7 +23,10 @@ return new class extends Migration
             $table->index(['bookable_type', 'bookable_id']);
         });
     }
+
     }
+
+
 
     /**
      * Reverse the migrations.

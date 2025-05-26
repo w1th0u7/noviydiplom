@@ -19,17 +19,20 @@ class ToursAndExcursionsSeeder extends Seeder
         Tour::truncate();
         Excursion::truncate();
         
+
         // Создаем туры по сезонам и регионам
         $this->createSeasonalTours();
         
         // Создаем туры для разных возрастных групп
         $this->createAgeCategoryTours();
+
         
         // Создаем тестовые экскурсии
         $this->createExcursions();
     }
     
     /**
+
      * Создать туры по сезонам и регионам
      */
     private function createSeasonalTours(): void
@@ -52,6 +55,7 @@ class ToursAndExcursionsSeeder extends Seeder
             'available_seats' => 20
         ]);
         
+<<<<<<< HEAD
         // Осенний тур (Сентябрь-Ноябрь)
         $autumnStartDate = Carbon::create(null, rand(9, 11), rand(1, 28));
         Tour::create([
@@ -240,6 +244,7 @@ class ToursAndExcursionsSeeder extends Seeder
      */
     private function createExcursions(): void
     {
+<<<<<<< HEAD
         // Экскурсии в Центральной России
         Excursion::create([
             'name' => 'Московский Кремль и Красная площадь',
