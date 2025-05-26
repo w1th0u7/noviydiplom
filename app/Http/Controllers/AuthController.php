@@ -9,7 +9,7 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        // Валидация входящих данных
+        
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -33,9 +33,9 @@ class AuthController extends Controller
         return redirect()->back()->withErrors(['email' => 'Неверный email или пароль.']);
     }
 
-    // Метод для отображения страницы входа (если нужно)
+  
     public function showLoginForm()
     {
-        return view('auth.login'); // Убедитесь, что у вас есть соответствующий шаблон
+        return view('auth.login'); 
     }
 }

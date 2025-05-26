@@ -1,35 +1,49 @@
 /* Основные стили кабинета */
 :root {
   --accent-color: #ffcb22;
+  --accent-hover: #e9b800;
   --text-dark: #1e2226;
   --text-light: #6c757d;
   --bg-light: #f8f9fd;
   --border-color: #e9ecef;
+  --primary-color: #0050a0;
+  --primary-hover: #003b75;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #17a2b8;
+  --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .cabinet-wrapper {
   display: flex;
   min-height: 100vh;
   font-family: "Manrope", sans-serif;
+  background-color: var(--bg-light);
 }
 
 /* Стили для боковой панели */
 .cabinet-sidebar {
-  width: 265px;
-  background-color: var(--bg-light);
-  border-right: 1px solid var(--border-color);
-  padding: 20px 10px;
+  width: 280px;
+  background: linear-gradient(to bottom, #0050a0, #003b75);
+  color: white;
+  padding: 0;
   flex-shrink: 0;
+  box-shadow: var(--shadow-md);
+  z-index: 10;
 }
 
 .cabinet-user {
-  padding: 20px 10px;
-  border-bottom: 1px solid var(--border-color);
+  padding: 25px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .cabinet-user h2 {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
   color: var(--accent-color);
   margin-bottom: 15px;
@@ -40,14 +54,15 @@
 }
 
 .cabinet-username {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   margin-bottom: 5px;
+  color: white;
 }
 
 .cabinet-email {
   font-size: 14px;
-  color: var(--text-light);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 /* Навигационное меню */
@@ -64,44 +79,36 @@
 .cabinet-nav a {
   display: flex;
   align-items: center;
-  padding: 12px 15px;
-  color: var(--text-dark);
+  padding: 14px 20px;
+  color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
-  border-radius: 8px;
+  border-left: 4px solid transparent;
   transition: all 0.3s ease;
 }
 
 .cabinet-nav a:hover,
 .cabinet-nav a.active {
-  background-color: var(--accent-color);
-  color: #333;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-left-color: var(--accent-color);
+}
+
+.cabinet-nav i {
+  margin-right: 12px;
+  font-size: 18px;
+  width: 20px;
+  text-align: center;
 }
 
 .cabinet-icon {
   width: 20px;
   height: 20px;
-  margin-right: 10px;
+  margin-right: 12px;
   display: inline-block;
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
-}
-
-.home-icon {
-  background-image: url("/img/icons/home.svg");
-}
-
-.trips-icon {
-  background-image: url("/img/icons/trips.svg");
-}
-
-.settings-icon {
-  background-image: url("/img/icons/settings.svg");
-}
-
-.cabinet-nav a:hover .cabinet-icon,
-.cabinet-nav a.active .cabinet-icon {
-  filter: brightness(0.4);
+  filter: brightness(0) invert(1);
 }
 
 /* Основной контент */
@@ -109,17 +116,19 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  background-color: #fff;
+  background-color: var(--bg-light);
+  max-width: calc(100% - 280px);
 }
 
 /* Шапка */
 .cabinet-header {
-  height: 80px;
-  background-color: #fff;
+  height: 70px;
+  background-color: white;
   border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 30px;
+  box-shadow: var(--shadow-sm);
 }
 
 .cabinet-header-container {
@@ -127,31 +136,37 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 1380px;
-  margin: 0 auto;
 }
 
 .cabinet-logo img {
-  height: 40px;
+  height: 50px;
   width: auto;
 }
 
 .cabinet-user-controls button {
-  background-color: var(--accent-color);
-  color: #333;
-  border: none;
+  background-color: transparent;
+  color: var(--text-dark);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
-  padding: 10px 20px;
-  font-weight: 600;
+  padding: 8px 16px;
+  font-weight: 500;
   font-size: 14px;
   cursor: pointer;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
 }
 
 .cabinet-user-controls button:hover {
-  background-color: #e9b800;
-  transform: translateY(-2px);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  background-color: #f8f9fa;
+  color: var(--primary-color);
+}
+
+.cabinet-user-controls button::before {
+  content: "\f2f5"; /* Иконка выхода Font Awesome */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  margin-right: 8px;
 }
 
 /* Основная область */
@@ -161,31 +176,23 @@
 }
 
 .cabinet-main h1 {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   color: var(--text-dark);
+  position: relative;
+  display: inline-block;
 }
 
-/* Пустое состояние */
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 60px 20px;
-  text-align: center;
-}
-
-.empty-state img {
-  max-width: 150px;
-  margin-bottom: 20px;
-}
-
-.empty-state p {
-  font-size: 16px;
-  color: var(--text-light);
-  margin-bottom: 20px;
+.cabinet-main h1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  height: 4px;
+  width: 60px;
+  background-color: var(--accent-color);
+  border-radius: 2px;
 }
 
 /* Стили для дашборда */
@@ -194,7 +201,6 @@
 }
 
 .welcome-header {
-  position: relative;
   margin-bottom: 25px;
 }
 
@@ -203,41 +209,12 @@
   font-weight: 700;
   color: var(--text-dark);
   margin-bottom: 10px;
-  position: relative;
-  z-index: 1;
-}
-
-.welcome-decoration {
-  position: absolute;
-  left: 0;
-  bottom: -3px;
-  height: 10px;
-  width: 100px;
-  background-color: var(--accent-color);
-  opacity: 0.5;
-  border-radius: 4px;
 }
 
 .welcome-text {
   font-size: 16px;
   line-height: 1.6;
   color: var(--text-light);
-  margin-bottom: 30px;
-}
-
-.dashboard-welcome h2 {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 15px;
-  color: var(--text-dark);
-  border-left: 4px solid var(--accent-color);
-  padding-left: 15px;
-}
-
-.dashboard-welcome p {
-  font-size: 16px;
-  line-height: 1.5;
-  color: #495057;
   margin-bottom: 30px;
 }
 
@@ -249,32 +226,47 @@
 }
 
 .dashboard-card {
-  background-color: var(--bg-light);
+  background: white;
   border-radius: 12px;
   padding: 25px;
-  flex: 1 1 calc(50% - 20px);
-  min-width: 300px;
-  display: flex;
-  align-items: center;
+  flex: 1;
+  min-width: 250px;
+  box-shadow: var(--shadow-sm);
   transition: all 0.3s ease;
   border: 1px solid var(--border-color);
+  display: flex;
+  align-items: flex-start;
 }
 
 .dashboard-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-md);
 }
 
 .dashboard-card-icon {
   width: 50px;
   height: 50px;
-  margin-right: 20px;
-  padding: 12px;
-  background-color: rgba(255, 203, 34, 0.2);
+  background-color: rgba(0, 80, 160, 0.1);
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-right: 15px;
+}
+
+.dashboard-card-icon::before {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 24px;
+  color: var(--primary-color);
+}
+
+.trips-icon::before {
+  content: "\f5b0"; /* Иконка чемодана */
+}
+
+.settings-icon::before {
+  content: "\f013"; /* Иконка настроек */
 }
 
 .dashboard-card-content {
@@ -295,99 +287,122 @@
 }
 
 .dashboard-card-link {
-  color: var(--accent-color);
-  font-weight: 600;
+  color: var(--primary-color);
   text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
   display: inline-flex;
   align-items: center;
-  transition: all 0.3s ease;
 }
 
 .dashboard-card-link:hover {
-  text-decoration: underline;
-  transform: translateX(5px);
+  color: var(--primary-hover);
 }
 
-/* Стили для поездок */
-.trips-list {
+.dashboard-card-link::after {
+  content: "\f054"; /* Иконка стрелки Font Awesome */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 12px;
+  margin-left: 5px;
+  transition: transform 0.3s;
+}
+
+.dashboard-card-link:hover::after {
+  transform: translateX(3px);
+}
+
+/* Стили для списка поездок */
+.trips-content {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: var(--shadow-sm);
+}
+
+.bookings-list {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.trip-card {
-  display: flex;
-  background-color: #f8f9fd;
+.booking-card {
+  background-color: white;
   border-radius: 12px;
+  box-shadow: var(--shadow-sm);
   overflow: hidden;
-  border: 1px solid #e9ecef;
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 1px solid var(--border-color);
 }
 
-.trip-image {
-  width: 200px;
-  flex-shrink: 0;
+.booking-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
 }
 
-.trip-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.trip-info {
-  padding: 20px;
-  flex: 1;
-}
-
-.trip-info h3 {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 10px;
-  color: #1e2226;
-}
-
-.trip-details {
+.booking-header {
+  padding: 15px 20px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 15px;
-  font-size: 14px;
-  color: #6c757d;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  background-color: #f8f9fa;
 }
 
-.trip-description {
-  font-size: 14px;
-  line-height: 1.5;
-  color: #495057;
-  margin-bottom: 15px;
+.booking-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text-dark);
+  font-weight: 600;
 }
 
-.trip-link {
-  display: inline-block;
-  color: #1d639a;
-  text-decoration: none;
+.booking-status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
   font-weight: 500;
-  font-size: 14px;
+  color: white;
 }
 
-/* Стили для настроек */
-.settings-form {
-  max-width: 600px;
-  background-color: #f8f9fd;
+.status-pending {
+  background-color: var(--warning-color);
+  color: #212529;
+}
+
+.status-confirmed {
+  background-color: var(--success-color);
+}
+
+.status-cancelled {
+  background-color: var(--danger-color);
+}
+
+.status-completed {
+  background-color: var(--text-light);
+}
+
+/* Стили для формы настроек */
+.settings-content {
+  background: white;
   border-radius: 12px;
   padding: 30px;
-  border: 1px solid #e9ecef;
+  box-shadow: var(--shadow-sm);
+}
+
+.settings-form {
+  max-width: 600px;
 }
 
 .settings-form h3 {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
-  margin: 25px 0 10px;
-  color: #1e2226;
+  margin: 30px 0 15px;
+  color: var(--text-dark);
 }
 
 .settings-form .hint {
   font-size: 14px;
-  color: #6c757d;
+  color: var(--text-light);
   margin-bottom: 20px;
 }
 
@@ -399,21 +414,23 @@
   display: block;
   margin-bottom: 8px;
   font-weight: 500;
-  color: #1e2226;
+  color: var(--text-dark);
+  font-size: 15px;
 }
 
 .form-control {
   width: 100%;
   padding: 12px 15px;
-  border: 1px solid #ced4da;
-  border-radius: 6px;
-  font-size: 14px;
-  transition: border-color 0.3s;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .form-control:focus {
   outline: none;
-  border-color: #1d639a;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 80, 160, 0.1);
 }
 
 .form-actions {
@@ -421,38 +438,41 @@
 }
 
 .btn-primary {
-  background-color: #1d639a;
-  color: #fff;
+  background-color: var(--primary-color);
+  color: white;
   border: none;
-  padding: 12px 25px;
-  border-radius: 6px;
-  font-size: 14px;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
+  display: inline-block;
+  text-decoration: none;
 }
 
 .btn-primary:hover {
-  background-color: #1a5787;
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .alert {
   padding: 15px;
-  border-radius: 6px;
   margin-bottom: 20px;
-  font-size: 14px;
+  border-radius: 8px;
 }
 
 .alert-success {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
+  background-color: rgba(40, 167, 69, 0.1);
+  border: 1px solid rgba(40, 167, 69, 0.2);
+  color: var(--success-color);
 }
 
 .alert-danger {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
+  background-color: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.2);
+  color: var(--danger-color);
 }
 
 .alert ul {
@@ -460,89 +480,171 @@
   padding-left: 20px;
 }
 
-/* Адаптивный дизайн */
-@media (max-width: 768px) {
-  .cabinet-wrapper {
-    flex-direction: column;
-  }
-
-  .cabinet-sidebar {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid #e9ecef;
-  }
-
-  .cabinet-nav ul {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .cabinet-nav li {
-    margin-right: 10px;
-  }
-
-  .trip-card {
-    flex-direction: column;
-  }
-
-  .trip-image {
-    width: 100%;
-    height: 150px;
-  }
-}
-
-/* Стили для Admin функций */
 .admin-action-panel {
-  background-color: rgba(255, 203, 34, 0.1);
-  border-left: 4px solid #ffcb22;
-  padding: 15px 20px;
-  margin-bottom: 25px;
-  border-radius: 8px;
+  background-color: rgba(0, 80, 160, 0.05);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
 }
 
 .admin-action-panel h3 {
-  color: var(--text-dark);
+  color: var(--primary-color);
   margin-top: 0;
   font-size: 18px;
   font-weight: 600;
 }
 
 .admin-action-panel p {
+  font-size: 14px;
   color: var(--text-light);
   margin-bottom: 15px;
 }
 
 .admin-panel-button {
-  display: inline-block;
-  background-color: var(--accent-color);
-  color: #222;
-  padding: 10px 18px;
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
   border-radius: 6px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
   text-decoration: none;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
 }
 
 .admin-panel-button:hover {
-  background-color: #e9b800;
+  background-color: var(--primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
+  color: white;
 }
 
 .admin-menu-item {
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .admin-menu-item a {
-  background-color: rgba(255, 203, 34, 0.1);
-  border-left: 3px solid var(--accent-color);
+  color: #ff9800;
 }
 
 .admin-menu-item a:hover,
 .admin-menu-item a.active {
-  background-color: var(--accent-color);
+  background-color: rgba(255, 152, 0, 0.1);
+  border-left-color: #ff9800;
 }
 
-.admin-icon {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23333'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z'/%3E%3C/svg%3E");
+.admin-icon::before {
+  content: "\f085"; /* Иконка панели управления Font Awesome */
+  color: #ff9800;
+}
+
+/* Пустое состояние */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.empty-state img {
+  max-width: 150px;
+  margin-bottom: 20px;
+  opacity: 0.7;
+}
+
+.empty-state p {
+  font-size: 16px;
+  color: var(--text-light);
+  margin-bottom: 20px;
+}
+
+.empty-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.btn-secondary {
+  background-color: white;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(0, 80, 160, 0.05);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Адаптивность */
+@media (max-width: 992px) {
+  .cabinet-wrapper {
+    flex-direction: column;
+  }
+
+  .cabinet-sidebar {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .cabinet-content {
+    max-width: 100%;
+  }
+
+  .cabinet-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .cabinet-nav li {
+    margin: 0 5px 5px 0;
+  }
+
+  .cabinet-nav a {
+    border-left: none;
+    border-bottom: 3px solid transparent;
+    padding: 10px 15px;
+  }
+
+  .cabinet-nav a:hover,
+  .cabinet-nav a.active {
+    border-left-color: transparent;
+    border-bottom-color: var(--accent-color);
+  }
+
+  .dashboard-quick-links {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .booking-details {
+    flex-direction: column;
+  }
+
+  .booking-left {
+    flex: 0 0 100%;
+    margin-bottom: 15px;
+  }
+
+  .cabinet-main {
+    padding: 20px 15px;
+  }
+
+  .settings-content {
+    padding: 20px 15px;
+  }
 }

@@ -552,12 +552,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // Обновленный код для работы с блоками туров
   var mansoryTabs = document.querySelectorAll(".tab__panels .tab__element");
 
-  // Функция для определения количества блоков для отображения в зависимости от ширины экрана
+  // Функция для определения количества блоков для отображения при нажатии на кнопку
   function getBlocksToShowCount() {
-    var count = 6; // Desktop по умолчанию
-    if (window.innerWidth < 1200) count = 4;
-    if (window.innerWidth < 767) count = 3;
-    return count;
+    return 3; // Всегда показываем по 3 блока за раз
   }
 
   function openMansoryBlocks(tabElement, count, button) {
@@ -584,30 +581,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Обработчик для адаптивной перестройки при изменении размера окна
-  var resizeTimeout;
-  window.addEventListener("resize", function () {
-    // Используем debounce для оптимизации производительности
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(function () {
-      var blocksToShow = getBlocksToShowCount();
-      var activeTab = document.querySelector(".tab__element.active");
-      var btnAdd = document.querySelector(".btn-centr .btn-add");
-
-      if (activeTab && btnAdd) {
-        // При изменении размера окна, показываем кнопку снова
-        btnAdd.style.display = "flex";
-
-        // Проверяем, остались ли еще скрытые блоки
-        var remainingHiddenBlocks =
-          activeTab.querySelectorAll(".block:not(.show)");
-        if (remainingHiddenBlocks.length === 0) {
-          btnAdd.style.display = "none";
-        }
-      }
-    }, 250); // Задержка для debounce
-  });
-
   // Настраиваем кнопки для всех вкладок
   mansoryTabs.forEach(function (tabElement) {
     // Находим кнопку "Показать еще туры" внутри родительского элемента
@@ -616,12 +589,26 @@ document.addEventListener("DOMContentLoaded", function () {
     // Если кнопка не найдена, прекращаем для этого таба
     if (!btnAdd) return;
 
-    // Определяем количество блоков для показа в зависимости от ширины экрана
-    var blocksToShow = getBlocksToShowCount();
-
     // Инициализируем отображение блоков при загрузке страницы для активной вкладки
     if (tabElement.classList.contains("active")) {
-      openMansoryBlocks(tabElement, blocksToShow, btnAdd);
+      // Сначала скрываем все блоки
+      var allBlocks = tabElement.querySelectorAll(".block");
+      allBlocks.forEach(function (block, index) {
+        if (index < 3) {
+          // Показываем только первые 3 блока
+          block.classList.add("show");
+        } else {
+          block.classList.remove("show");
+        }
+      });
+
+      // Проверяем, нужно ли отображать кнопку
+      var hiddenBlocks = tabElement.querySelectorAll(".block:not(.show)");
+      if (hiddenBlocks.length === 0) {
+        btnAdd.style.display = "none";
+      } else {
+        btnAdd.style.display = "flex";
+      }
     }
 
     // Добавляем обработчик на кнопку
@@ -629,7 +616,8 @@ document.addEventListener("DOMContentLoaded", function () {
       // Получаем текущую активную вкладку
       var activeTab = document.querySelector(".tab__element.active");
       if (activeTab) {
-        openMansoryBlocks(activeTab, blocksToShow, btnAdd);
+        // Всегда показываем по 3 блока за раз
+        openMansoryBlocks(activeTab, getBlocksToShowCount(), btnAdd);
       }
     });
   });
@@ -651,20 +639,64 @@ document.addEventListener("DOMContentLoaded", function () {
           var allBlocks = newActiveTab.querySelectorAll(".block");
           allBlocks.forEach(function (block, index) {
             if (index < 3) {
+              // Показываем только первые 3 блока
               block.classList.add("show");
             } else {
               block.classList.remove("show");
             }
           });
 
-          // Инициализируем отображение для нового активного таба
-          openMansoryBlocks(newActiveTab, getBlocksToShowCount(), btnAdd);
+          // Проверяем, нужно ли отображать кнопку для новой вкладки
+          var hiddenBlocks = newActiveTab.querySelectorAll(".block:not(.show)");
+          if (hiddenBlocks.length === 0) {
+            btnAdd.style.display = "none";
+          } else {
+            btnAdd.style.display = "flex";
+          }
         }
       }, 50);
     });
   });
 
-  // ... остальной код ...
+  // Инициализация кнопок "Раскрыть отзыв"
+  const reviewButtons = document.querySelectorAll(".otz .btns button");
+
+  if (reviewButtons.length > 0) {
+    console.log("Найдено кнопок отзывов:", reviewButtons.length);
+
+    reviewButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        const reviewContainer = this.closest(".swiper-slide");
+        const reviewText = reviewContainer.querySelector(".text");
+        const buttonText = this.querySelector("span");
+        const buttonImg = this.querySelector("img");
+
+        console.log("Клик по кнопке отзыва:", this);
+        console.log("Контейнер отзыва:", reviewContainer);
+        console.log("Текст отзыва:", reviewText);
+
+        // Переключаем класс для текста отзыва
+        if (reviewText) {
+          reviewText.classList.toggle("text--full");
+
+          // Меняем текст кнопки и вращение стрелки
+          if (buttonText) {
+            buttonText.textContent = reviewText.classList.contains("text--full")
+              ? "Свернуть отзыв"
+              : "Раскрыть отзыв";
+          }
+
+          if (buttonImg) {
+            buttonImg.style.transform = reviewText.classList.contains(
+              "text--full"
+            )
+              ? "rotate(180deg)"
+              : "rotate(0deg)";
+          }
+        }
+      });
+    });
+  }
 });
 
 // Добавляем обработчик изменения размера экрана для пересчета размеров иконок

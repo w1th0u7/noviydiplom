@@ -10,21 +10,17 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use Illuminate\Support\Facades\Auth;
 
-Route::post('register', [RegisterController::class, 'register']);
+Route::post('register', [UserController::class, 'registerWeb']);
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLink']);
 Route::post('password/reset', [ResetPasswordController::class, 'reset']);
 
-// Маршрут для отображения формы регистрации
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::get('/register', [UserController::class, 'showRegistrationForm'])->name('register');
 
 Route::get('/', [TourController::class, 'index'])->name('home');
 
-
 Route::get('/login', [UserController::class, 'showLoginForm'])->name('login');
 
-
 Route::post('/login', [UserController::class, 'login'])->name('login.post');
-
 
 Route::get('/login2', function() {
     return view('login2');
@@ -52,7 +48,6 @@ Route::post('/password/reset', [UserController::class, 'reset'])->name('password
 
 //  Группа маршрутов для административной панели (требует аутентификации и прав администратора)
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    // Главная страница админ-панели (добавлено)
     Route::get('/', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('index');
     
     Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
@@ -116,7 +111,7 @@ Route::get('/hits', function () {
 // Маршрут для контактов
 Route::get('/contacts', [App\Http\Controllers\ContactsController::class, 'index'])->name('contacts');
 
-// Маршрут для экскурсий
+// Маршруты для экскурсий
 Route::get('/excursions', [App\Http\Controllers\ExcursionsController::class, 'index'])->name('excursions');
 Route::get('/excursions/preschool', [App\Http\Controllers\ExcursionsController::class, 'preschool'])->name('excursions.preschool');
 Route::get('/excursions/school', [App\Http\Controllers\ExcursionsController::class, 'school'])->name('excursions.school');
@@ -126,10 +121,6 @@ Route::get('/excursions/{id}', [App\Http\Controllers\ExcursionsController::class
 // Маршрут для туристов
 Route::get('/tourists', [App\Http\Controllers\TouristInfoController::class, 'index'])->name('tourists');
 
-// Маршрут для горящих туров
-Route::get('/lastminute', function () {
-    return view('index'); // Замените на ваш обработчик
-})->name('lastminute');
 
 // Маршруты для калькулятора туров
 Route::get('/calculate', [TourCalculatorController::class, 'index'])->name('calculate');
@@ -142,17 +133,19 @@ Route::middleware(['auth'])->group(function () {
     // Маршруты требующие авторизации
     Route::post('/tours/{id}/book', [BookingController::class, 'bookTour'])->name('tours.book');
     Route::post('/excursions/{id}/book', [BookingController::class, 'bookExcursion'])->name('excursions.book');
-    Route::get('/my-bookings', [BookingController::class, 'myBookings'])->name('bookings.my');
+    // Маршрут /my-bookings перенаправляет на /cabinet/trips для совместимости
+    Route::get('/my-bookings', function() {
+        return redirect()->route('trips');
+    })->name('bookings.my');
     Route::post('/bookings/{id}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
 });
 
 // Маршруты для бронирования (общедоступные)
 Route::get('/bookings/confirmation/{id}', [BookingController::class, 'confirmation'])->name('bookings.confirmation');
 
-// Добавляем маршрут для тестовой страницы
-Route::get('/test-css', function () {
-    return view('test');
-});
+// Тестовый маршрут для отладки бронирования через GET-запрос
+Route::get('/test-booking', [BookingController::class, 'testBookTour'])->middleware('auth')->name('test.booking');
+
 
 
 

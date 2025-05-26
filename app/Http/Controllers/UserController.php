@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Tours;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -47,7 +46,7 @@ class UserController extends Controller
 
         // Попытка аутентификации
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->filled('remember'))) {
-            // Аутентификация успешна
+            
             $request->session()->regenerate();
             
             // Генерируем новый api_token
@@ -55,8 +54,13 @@ class UserController extends Controller
             $user->api_token = (string)Str::uuid();
             $saved = $user->save();
             
-            // Для отладки
-            \Log::info("Login: API token assigned to {$user->email}: {$user->api_token}, saved: " . ($saved ? 'yes' : 'no'));
+            
+            // Проверяем, есть ли параметр redirect в запросе
+            $redirect = $request->query('redirect');
+            if ($redirect) {
+                return redirect($redirect)
+                    ->with('success', 'Вы успешно авторизованы.');
+            }
             
             // Проверяем, есть ли сохраненный URL для бронирования
             if (session()->has('booking_return_url')) {
@@ -88,7 +92,6 @@ class UserController extends Controller
         if ($user) {
             $user->api_token = null;
             $saved = $user->save();
-            \Log::info("Logout: API token cleared for {$user->email}, saved: " . ($saved ? 'yes' : 'no'));
         }
         
         Auth::logout();
@@ -97,8 +100,71 @@ class UserController extends Controller
         
         $request->session()->regenerateToken();
         
-        // Всегда перенаправляем на главную страницу
+        
         return redirect('/');
+    }
+
+    /**
+     * Регистрация нового пользователя через веб-форму.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function registerWeb(Request $request)
+    {
+        // Проверка формата запроса
+        if ($request->expectsJson()) {
+            \Log::warning('JSON request detected for web registration form, redirecting to API endpoint');
+            return $this->register($request);
+        }
+        
+        \Log::info("Web registration started for email: " . $request->input('email', 'not_provided'));
+
+        // 1. Валидация данных
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            \Log::warning("Web registration validation failed", ['errors' => $validator->errors()->toArray()]);
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        try {
+            // 2. Создание пользователя с api_token
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'api_token' => (string)Str::uuid()
+            ]);
+            
+            \Log::info("User created successfully", ['user_id' => $user->id]);
+            
+            // 3. Автоматическая авторизация пользователя
+            Auth::login($user);
+            \Log::info("User logged in after registration", ['user_id' => $user->id]);
+            
+            // 4. Явное перенаправление на страницу кабинета
+            $redirectUrl = url('/cabinet');
+            \Log::info("Redirecting to: " . $redirectUrl);
+            
+            return redirect($redirectUrl)
+                ->with('success', 'Регистрация прошла успешно! Добро пожаловать в личный кабинет.');
+        } catch (\Exception $e) {
+            \Log::error("Error during web registration", [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return redirect()->back()
+                ->with('error', 'Произошла ошибка при регистрации. Пожалуйста, попробуйте позже.')
+                ->withInput();
+        }
     }
 
     /**

@@ -3,9 +3,9 @@
 @section('title', 'Информация для туристов | Родина-тур')
 
 @section('styles')
+<link rel="stylesheet" href="{{ asset('css/pages/tourist_info.css') }}">
 <link rel="stylesheet" href="{{ asset('css/media.css') }}">
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-<link rel="stylesheet" href="{{ asset('css/pages/tourist_info.css') }}">
 <link rel="stylesheet" href="{{ asset('css/pages/responsive.css') }}">
 @endsection
 

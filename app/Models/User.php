@@ -13,7 +13,6 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
@@ -21,12 +20,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role', // Add the 'role' field here
+        'role',
         'api_token',
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * 
      *
      * @var array<int, string>
      */
@@ -36,13 +35,11 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast.
-     *
      * @var array<string, string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed', // Use 'hashed' for password casting in Laravel 9+
+        'password' => 'hashed', 
     ];
 
 

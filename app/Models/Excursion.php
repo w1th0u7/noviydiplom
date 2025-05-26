@@ -10,7 +10,7 @@ class Excursion extends Model
     use HasFactory;
 
     /**
-     * Атрибуты, которые можно массово назначать.
+     * 
      *
      * @var array<int, string>
      */

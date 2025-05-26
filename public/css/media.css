@@ -6468,7 +6468,7 @@ button {
   margin-top: 60px;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
+  display: none;
   gap: 8px;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -6749,6 +6749,16 @@ header.home {
   .otz .btns-block,
   .vidy-turov .btns-block {
     display: none;
+  }
+
+  .zag-btn {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    align-items: center;
+    margin-bottom: 44px;
   }
 }
 

@@ -7,9 +7,9 @@
     <script src="https://api-maps.yandex.ru/2.1/?apikey=YOUR_API_KEY&lang=ru_RU" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     @yield('styles')
-    <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/media.css') }}">
-    <link rel="stylesheet" href="{{ asset('/css/fixes.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/mobile.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Родина-тур')</title>
     <script src="{{ asset('/js/fixes.js') }}" defer></script>
@@ -175,6 +175,7 @@
                 <div class="swiper-pagination"></div>
             </div>
         </section>
+        
         
         <!-- Глобальные уведомления -->
         @if(session('global_alert'))

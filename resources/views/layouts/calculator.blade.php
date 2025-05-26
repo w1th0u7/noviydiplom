@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/media.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/pages/responsive.css') }}">
-    <link rel="stylesheet" href="{{ asset('/css/fixes.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/calculate.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Калькулятор туров | Rodina-tur')</title>
     <script src="{{ asset('/js/fixes.js') }}" defer></script>

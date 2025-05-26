@@ -16,7 +16,7 @@ class ExcursionsController extends Controller
     public function index()
     {
         // Получаем экскурсии из базы данных
-        // Если база данных пуста, используем демо-данные
+        
         $excursions = Excursion::all();
         
         if($excursions->isEmpty()) {
@@ -127,7 +127,7 @@ class ExcursionsController extends Controller
             [
                 'id' => 1,
                 'name' => 'Интерактивная экскурсия "В гостях у сказки"',
-                'image' => '/img/excursions/preschool-1.jpg',
+                'image' => 'excursions/4aWc5iIxL9V5cYYbJsdhZgKH82aK0BkzM7obT3kn.jpg',
                 'location' => 'Александров',
                 'region' => 'Центральный',
                 'duration' => 2,
@@ -147,7 +147,7 @@ class ExcursionsController extends Controller
             [
                 'id' => 2,
                 'name' => 'Образовательный тур "Старый город"',
-                'image' => '/img/excursions/school-1.jpg',
+                'image' => 'excursions/4aWc5iIxL9V5cYYbJsdhZgKH82aK0BkzM7obT3kn.jpg',
                 'location' => 'Суздаль',
                 'region' => 'Центральный',
                 'duration' => 4,
@@ -167,7 +167,7 @@ class ExcursionsController extends Controller
             [
                 'id' => 3,
                 'name' => 'Гастрономический тур "Вкусы России"',
-                'image' => '/img/excursions/adult-1.jpg',
+                'image' => 'excursions/4aWc5iIxL9V5cYYbJsdhZgKH82aK0BkzM7obT3kn.jpg',
                 'location' => 'Владимир',
                 'region' => 'Центральный',
                 'duration' => 6,
@@ -187,7 +187,7 @@ class ExcursionsController extends Controller
             [
                 'id' => 4,
                 'name' => 'Экскурсия "Царская резиденция"',
-                'image' => '/img/excursions/all-1.jpg',
+                'image' => 'excursions/4aWc5iIxL9V5cYYbJsdhZgKH82aK0BkzM7obT3kn.jpg',
                 'location' => 'Александров',
                 'region' => 'Центральный',
                 'duration' => 3,
@@ -207,7 +207,7 @@ class ExcursionsController extends Controller
             [
                 'id' => 5,
                 'name' => 'Природный тур "Заповедные места"',
-                'image' => '/img/excursions/all-2.jpg',
+                'image' => 'excursions/4aWc5iIxL9V5cYYbJsdhZgKH82aK0BkzM7obT3kn.jpg',
                 'location' => 'Национальный парк Мещёра',
                 'region' => 'Центральный',
                 'duration' => 5,
@@ -227,7 +227,7 @@ class ExcursionsController extends Controller
             [
                 'id' => 6,
                 'name' => 'Музыкальное путешествие "Звуки природы"',
-                'image' => '/img/excursions/preschool-2.jpg',
+                'image' => 'excursions/4aWc5iIxL9V5cYYbJsdhZgKH82aK0BkzM7obT3kn.jpg',
                 'location' => 'Детский музей',
                 'region' => 'Центральный',
                 'duration' => 1,

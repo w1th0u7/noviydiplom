@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (tourForm) {
     tourForm.addEventListener("submit", function (e) {
       e.preventDefault(); // Предотвращаем стандартную отправку формы
+      console.log("Form submitted via event listener!");
 
       // Проверяем валидность формы
       if (!validateForm()) {
@@ -737,66 +738,90 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Функция для создания карточки отеля
+  // Функция для создания карточки отеля или экскурсии
   function createHotelCard(hotel) {
     const cardDiv = document.createElement("div");
-    cardDiv.className = "hotel-card";
+    cardDiv.className = `hotel-card ${hotel.filters
+      .split(",")
+      .map((f) => `filter-${f}`)
+      .join(" ")} sea-${hotel.seaProximity}`;
+    cardDiv.dataset.tour = JSON.stringify(hotel);
 
-    // Добавляем атрибут data-tour с данными для модального окна
-    const tourData = {
-      name: hotel.name,
-      location: hotel.location,
-      rating: parseFloat(hotel.rating || 0),
-      reviews: parseInt(hotel.reviewsCount || 0),
-      description: hotel.description || "",
-      price: parseInt(hotel.price || 0),
-      features: hotel.features || [],
-      images: hotel.images || [hotel.image],
-      seaProximity: hotel.seaProximity || "any",
-    };
+    const stars = generateStars(hotel.stars);
 
-    cardDiv.setAttribute("data-tour", JSON.stringify(tourData));
-
-    // Добавляем необходимые классы фильтров
-    hotel.filters.split(",").forEach((filter) => {
-      cardDiv.classList.add(`filter-${filter}`);
-    });
-
-    // Добавляем класс для фильтрации по близости к морю
-    if (hotel.seaProximity) {
-      cardDiv.classList.add(`sea-${hotel.seaProximity}`);
+    // Разное содержимое карточки для тура или экскурсии
+    if (hotel.isExcursion) {
+      // Карточка для экскурсии
+      cardDiv.innerHTML = `
+        <div class="hotel-card-image">
+          <img src="${
+            hotel.image.startsWith("/storage")
+              ? hotel.image
+              : "/storage/" + hotel.image
+          }" alt="${hotel.name}">
+          <div class="hotel-duration">${hotel.excursionData.duration}</div>
+        </div>
+        <div class="hotel-card-content">
+          <div class="hotel-info">
+            <div class="hotel-name">${hotel.name}</div>
+            <div class="hotel-location"><i class="fas fa-map-marker-alt"></i> ${
+              hotel.location
+            }</div>
+            <div class="hotel-description">${hotel.description.substring(
+              0,
+              100
+            )}${hotel.description.length > 100 ? "..." : ""}</div>
+          </div>
+          <div class="hotel-price">
+            <div class="price-label">Стоимость:</div>
+            <div class="price-value">${formatPrice(hotel.price)} ₽</div>
+            <div class="price-details">на человека</div>
+          </div>
+        </div>
+        <div class="hotel-card-actions">
+          <button class="btn btn-primary">Подробнее</button>
+        </div>
+      `;
+    } else {
+      // Карточка для тура
+      cardDiv.innerHTML = `
+        <div class="hotel-card-image">
+          <img src="${
+            hotel.image.startsWith("/storage")
+              ? hotel.image
+              : "/storage/" + hotel.image
+          }" alt="${hotel.name}">
+          <div class="hotel-duration">${hotel.tourData.nights} ${getNightsWord(
+        hotel.tourData.nights
+      )}</div>
+        </div>
+        <div class="hotel-card-content">
+          <div class="hotel-info">
+            <div class="hotel-name">${hotel.name}</div>
+            <div class="hotel-location"><i class="fas fa-map-marker-alt"></i> ${
+              hotel.location
+            }</div>
+            <div class="hotel-stars">${stars}</div>
+            <div class="hotel-description">${hotel.description.substring(
+              0,
+              100
+            )}${hotel.description.length > 100 ? "..." : ""}</div>
+          </div>
+          <div class="hotel-price">
+            <div class="price-label">Цена за тур:</div>
+            <div class="price-value">${formatPrice(hotel.price)} ₽</div>
+            <div class="price-details">${hotel.tourData.nights} ${getNightsWord(
+        hotel.tourData.nights
+      )}, ${hotel.tourData.tourists} ${getPersonsWord(
+        hotel.tourData.tourists
+      )}</div>
+          </div>
+        </div>
+        <div class="hotel-card-actions">
+          <button class="btn btn-primary">Подробнее</button>
+        </div>
+      `;
     }
-
-    cardDiv.innerHTML = `
-      <div class="hotel-card-image">
-        <img src="${hotel.image}" alt="${hotel.name}">
-      </div>
-      <div class="hotel-card-content">
-        <h3 class="hotel-card-name">${hotel.name}</h3>
-        <div class="hotel-card-location">
-          <i class="fas fa-map-marker-alt"></i> ${hotel.location}
-        </div>
-        <div class="hotel-card-rating">
-          <div class="hotel-card-stars">
-            ${generateStars(hotel.stars)}
-          </div>
-          <div class="hotel-card-reviews">
-            ${hotel.reviews}
-          </div>
-        </div>
-        <div class="hotel-card-bottom">
-          <div class="hotel-card-price">
-            <div class="price-label">Цена за ночь:</div>
-            <div class="price-value">${formatPrice(hotel.price)}</div>
-          </div>
-          <div class="hotel-card-actions">
-            <button class="btn btn-primary btn-hotel-select" data-hotel="${
-              hotel.name
-            }">Выбрать</button>
-          </div>
-        </div>
-      </div>
-    `;
 
     return cardDiv;
   }
@@ -812,134 +837,137 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Генерация карточек отелей
   function generateHotelCards(data) {
+    // Очищаем контейнер карточек отелей
     const hotelCards = document.getElementById("hotelCards");
     if (!hotelCards) return;
 
-    // Очищаем предыдущие результаты
     hotelCards.innerHTML = "";
 
-    // Получаем выбранные параметры
-    const country = countrySelect.value;
-    const resort = resortSelect.value;
-    const hotelClass = document.getElementById("hotelClass").value;
+    // Проверяем, есть ли данные по турам
+    if (!data.matchingTours || data.matchingTours.length === 0) {
+      // Если туры не найдены, показываем сообщение
+      const noResultsMessage = document.createElement("div");
+      noResultsMessage.className = "no-results-message";
+      noResultsMessage.innerHTML = `
+        <i class="fas fa-exclamation-circle"></i>
+        <p>По вашим параметрам не найдено подходящих туров</p>
+        <p>Попробуйте изменить параметры поиска</p>
+      `;
+      hotelCards.appendChild(noResultsMessage);
+      return;
+    }
 
-    // Примеры отелей (в реальном приложении они должны загружаться с сервера)
-    const hotels = [
-      {
-        name: "Grand Resort & Spa",
-        location: resort + ", " + country,
-        image: "/img/image 5.jpg",
-        stars: 5,
-        reviews: "320 отзывов",
-        price: 65000,
-        filters: "all,beach,pool,center",
-        seaProximity: "first-line",
-        rating: 4.8,
-        reviewsCount: 320,
-        description:
-          "Роскошный пятизвездочный курорт с прямым выходом к морю. Отель предлагает элегантные номера, спа-центр, несколько ресторанов и бассейнов.",
-        images: [
-          "/img/image 5.jpg",
-          "/img/image 6.jpg",
-          "/img/image 7.jpg",
-          "/img/image 8.jpg",
-        ],
-        features: [
-          "Проживание в отеле 5*",
-          "Питание 'всё включено'",
-          "Спа-центр и бассейны",
-          "Частный пляж",
-          "Трансфер из/в аэропорт",
-        ],
-      },
-      {
-        name: "Морской бриз",
-        location: resort + ", " + country,
-        image: "/img/image 6.jpg",
-        stars: 4,
-        reviews: "184 отзыва",
-        price: 42000,
-        filters: "all,beach,family",
-        seaProximity: "up-to-500",
-        rating: 4.5,
-        reviewsCount: 184,
-        description:
-          "Комфортабельный отель в 300 метрах от пляжа. Идеально подходит для семейного отдыха с детьми.",
-        images: [
-          "/img/image 6.jpg",
-          "/img/image 5.jpg",
-          "/img/image 7.jpg",
-          "/img/image 8.jpg",
-        ],
-        features: [
-          "Проживание в отеле 4*",
-          "Питание 'полупансион'",
-          "Детский клуб и анимация",
-          "Открытый бассейн",
-          "Трансфер до пляжа",
-        ],
-      },
-      {
-        name: "Sunshine Hotel",
-        location: resort + ", " + country,
-        image: "/img/image 7.jpg",
-        stars: 3,
-        reviews: "95 отзывов",
-        price: 35000,
-        filters: "all,center,pool",
-        seaProximity: "over-500",
-        rating: 4.0,
-        reviewsCount: 95,
-        description:
-          "Уютный отель в центре города с хорошим соотношением цены и качества. Рядом множество ресторанов, магазинов и развлечений.",
-        images: [
-          "/img/image 7.jpg",
-          "/img/image 5.jpg",
-          "/img/image 6.jpg",
-          "/img/image 8.jpg",
-        ],
-        features: [
-          "Проживание в отеле 3*",
-          "Питание 'завтрак'",
-          "Бесплатный Wi-Fi",
-          "Открытый бассейн",
-          "Экскурсионное бюро",
-        ],
-      },
-      {
-        name: "Azure Bay Resort",
-        location: resort + ", " + country,
-        image: "/img/image 8.jpg",
-        stars: 5,
-        reviews: "210 отзывов",
-        price: 78000,
-        filters: "all,beach,family,pool",
-        seaProximity: "first-line",
-        rating: 4.9,
-        reviewsCount: 210,
-        description:
-          "Элитный курорт на первой линии с собственным пляжем и панорамным видом на море. Предлагает роскошные номера и виллы.",
-        images: [
-          "/img/image 8.jpg",
-          "/img/image 5.jpg",
-          "/img/image 6.jpg",
-          "/img/image 7.jpg",
-        ],
-        features: [
-          "Проживание в роскошном отеле 5*",
-          "Питание 'ультра всё включено'",
-          "Спа-центр премиум-класса",
-          "Частный пляж",
-          "VIP-трансфер из/в аэропорт",
-        ],
-      },
-    ];
+    // Получаем выбранные параметры из формы
+    const country = document.getElementById("country").value;
+    const resort = document.getElementById("resort").value;
+    const nights = document.getElementById("nightsSlider").value;
+    const tourists = document.getElementById("tourists").value;
+    const departureDate = document.getElementById("departureDate").value;
+    const meal = document.getElementById("meal").value;
 
-    // Создаем карточки отелей
-    hotels.forEach((hotel) => {
-      const hotelCard = createHotelCard(hotel);
+    // Добавляем заголовок для туров
+    const toursHeading = document.createElement("h3");
+    toursHeading.className = "section-subheading";
+    toursHeading.textContent = "Подходящие туры";
+    hotelCards.appendChild(toursHeading);
+
+    // Создаем карточки для каждого тура из базы данных
+    data.matchingTours.forEach((tour) => {
+      // Преобразуем данные тура в формат для карточки
+      const hotelData = {
+        name: tour.name,
+        location: tour.location,
+        image: tour.image_path || "/img/tour-placeholder.jpg", // Используем путь к изображению или заглушку
+        stars:
+          tour.type === "Люкс"
+            ? 5
+            : tour.type === "Комфорт"
+            ? 4
+            : tour.type === "Стандарт"
+            ? 3
+            : 2,
+        reviews: "0 отзывов", // В будущем здесь будут реальные отзывы
+        price: tour.price,
+        filters:
+          "all," +
+          (tour.type.toLowerCase() === "пляжный" ? "beach," : "") +
+          (tour.location.toLowerCase().includes("центр") ? "center," : "") +
+          (tour.features &&
+          tour.features.some((f) => f.toLowerCase().includes("басс"))
+            ? "pool,"
+            : "") +
+          (tour.features &&
+          tour.features.some((f) => f.toLowerCase().includes("дет"))
+            ? "family"
+            : ""),
+        seaProximity: "any", // По умолчанию
+        rating: 4.0, // По умолчанию
+        reviewsCount: 0,
+        description: tour.description,
+        images: [tour.image_path || "/img/tour-placeholder.jpg"],
+        features: tour.features || [],
+        // Добавляем данные из параметров поиска
+        tourData: {
+          nights: tour.duration || nights,
+          tourists: tourists,
+          departureDate: formatDateForDisplay(tour.start_date) || departureDate,
+          meal: getMealDescription(meal),
+          id: tour.id, // Сохраняем ID тура для возможности бронирования
+        },
+      };
+
+      // Создаем карточку тура
+      const hotelCard = createHotelCard(hotelData);
       hotelCards.appendChild(hotelCard);
     });
+
+    // Если есть экскурсии, добавляем их в отдельном блоке
+    if (data.matchingExcursions && data.matchingExcursions.length > 0) {
+      // Добавляем разделитель
+      const divider = document.createElement("div");
+      divider.className = "cards-divider";
+      hotelCards.appendChild(divider);
+
+      // Добавляем заголовок для экскурсий
+      const excursionsHeading = document.createElement("h3");
+      excursionsHeading.className = "section-subheading";
+      excursionsHeading.textContent = "Рекомендуемые экскурсии";
+      hotelCards.appendChild(excursionsHeading);
+
+      // Создаем карточки для каждой экскурсии
+      data.matchingExcursions.forEach((excursion) => {
+        // Преобразуем данные экскурсии в формат для карточки
+        const excursionData = {
+          name: excursion.name,
+          location: excursion.location + ", " + excursion.region,
+          image: excursion.image_path || "/img/excursion-placeholder.jpg",
+          stars: 4, // Условное значение для экскурсии
+          reviews: "0 отзывов",
+          price: excursion.price,
+          filters: "all,excursion",
+          seaProximity: "any",
+          rating: 4.0,
+          reviewsCount: 0,
+          description: excursion.description,
+          images: [excursion.image_path || "/img/excursion-placeholder.jpg"],
+          features: excursion.features || [],
+          isExcursion: true, // Помечаем, что это экскурсия
+          // Данные специфичные для экскурсии
+          excursionData: {
+            duration:
+              excursion.duration +
+              " " +
+              (excursion.duration == 1 ? "день" : "дня"),
+            tourists: tourists,
+            id: excursion.id,
+          },
+        };
+
+        // Создаем карточку экскурсии
+        const excursionCard = createHotelCard(excursionData);
+        hotelCards.appendChild(excursionCard);
+      });
+    }
 
     // Добавляем обработчики для фильтров отелей
     const filterChips = document.querySelectorAll(".filter-chip[data-filter]");
@@ -977,37 +1005,19 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    // Функция для фильтрации отелей по выбранным фильтрам
-    function filterHotels() {
-      const cards = document.querySelectorAll(".hotel-card");
-      const activeFilter = document.querySelector(
-        ".filter-chip[data-filter].active"
-      );
-      const activeSeaFilter = document.querySelector(
-        ".filter-chip[data-sea-filter].active"
-      );
+    // Автоматически отображаем секцию отелей
+    const hotelsSection = document.getElementById("hotelsSection");
+    if (hotelsSection) {
+      hotelsSection.style.display = "block";
 
-      const filter = activeFilter ? activeFilter.dataset.filter : "all";
-      const seaFilter = activeSeaFilter
-        ? activeSeaFilter.dataset.seaFilter
-        : null;
-
-      cards.forEach((card) => {
-        let showByMainFilter =
-          filter === "all" || card.classList.contains(`filter-${filter}`);
-        let showBySeaFilter =
-          !seaFilter || card.classList.contains(`sea-${seaFilter}`);
-
-        if (showByMainFilter && showBySeaFilter) {
-          card.style.display = "block";
-        } else {
-          card.style.display = "none";
-        }
-      });
+      // Плавно прокручиваем к секции с отелями
+      setTimeout(() => {
+        hotelsSection.scrollIntoView({ behavior: "smooth" });
+      }, 300);
     }
 
-    // Уведомляем о создании карточек отелей
-    document.dispatchEvent(new Event("hotelCardsGenerated"));
+    // Прикрепляем обработчики кликов к карточкам туров
+    attachTourCardClickHandlers();
   }
 
   // Инициализация карты, если есть соответствующий раздел
@@ -1115,6 +1125,80 @@ document.addEventListener("DOMContentLoaded", function () {
   // Загружаем сохраненные данные при загрузке страницы
   loadFromLocalStorage();
 
+  // Инициализация обработчика кнопки расчета
+  if (calculateButton) {
+    calculateButton.addEventListener("click", function (e) {
+      console.log("Calculate button clicked!");
+
+      // Проверяем валидность формы
+      if (!validateForm()) {
+        return;
+      }
+
+      // Показываем индикатор загрузки
+      if (loader) {
+        loader.style.display = "block";
+      }
+
+      // Собираем данные формы
+      const formData = new FormData(tourForm);
+      const formObject = {};
+
+      // Преобразуем FormData в обычный объект
+      for (let [key, value] of formData.entries()) {
+        formObject[key] = value;
+      }
+
+      // Отправляем запрос на сервер для расчета стоимости
+      fetch("/calculate/price", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-TOKEN": csrfToken,
+        },
+        body: JSON.stringify(formObject),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Ошибка при расчете стоимости: " + response.status);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Скрываем индикатор загрузки
+          if (loader) {
+            loader.style.display = "none";
+          }
+
+          // Отображаем результаты расчета
+          displayResult(data, formObject);
+
+          // Показываем блок с результатами
+          if (calculationResult) {
+            calculationResult.style.display = "block";
+          }
+
+          // Сохраняем данные в localStorage
+          saveDataToLocalStorage(formObject, data);
+
+          // Генерируем карточки отелей
+          generateHotelCards(data);
+        })
+        .catch((error) => {
+          console.error("Ошибка при расчете стоимости:", error);
+
+          // Скрываем индикатор загрузки
+          if (loader) {
+            loader.style.display = "none";
+          }
+
+          showError(
+            "Ошибка при расчете стоимости. Пожалуйста, попробуйте еще раз."
+          );
+        });
+    });
+  }
+
   // Функционал модального окна с подробностями тура
   const tourModal = document.getElementById("tour-detail-modal");
   const closeButton = document.querySelector(".tour-modal-close");
@@ -1150,63 +1234,177 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Функция для открытия модального окна с информацией о туре
-  window.showTourDetails = function (tourData) {
-    if (!tourModal) return;
+  // Прикрепляем обработчики к карточкам туров/экскурсий
+  function attachTourCardClickHandlers() {
+    const tourCards = document.querySelectorAll(".hotel-card");
+    const tourModal = document.getElementById("tour-detail-modal");
 
-    // Заполняем информацию о туре
-    document.getElementById("tour-title").textContent =
-      tourData.name || "Название тура";
-    document.getElementById("tour-location").textContent =
-      tourData.location || "Местоположение";
-    document.getElementById("tour-rating").textContent =
-      tourData.rating || "4.5";
-    document.getElementById("tour-reviews").textContent = `(${
-      tourData.reviews || 0
-    } отзывов)`;
-    document.getElementById("tour-description-text").textContent =
-      tourData.description || "Описание тура";
-    document.getElementById("tour-sea-distance").textContent =
-      getSeaProximityText(tourData.seaProximity);
-    document.getElementById("tour-price-value").textContent = formatPrice(
-      tourData.price || 0
-    );
+    if (!tourCards.length || !tourModal) return;
 
-    // Заполняем звезды рейтинга
-    const starsContainer = document.getElementById("tour-stars");
-    if (starsContainer) {
-      starsContainer.innerHTML = generateStarsHtml(tourData.rating || 4.5);
-    }
+    tourCards.forEach((card) => {
+      card.addEventListener("click", function () {
+        const tourData = JSON.parse(this.dataset.tour || "{}");
 
-    // Устанавливаем изображения
-    if (tourData.images && tourData.images.length > 0) {
-      mainImage.src = tourData.images[0];
-      mainImage.alt = tourData.name;
+        // Заполняем данные о туре или экскурсии в модальном окне
+        if (tourData.isExcursion) {
+          // Для экскурсий
+          document.getElementById("tour-title").textContent =
+            tourData.name || "Название экскурсии";
+          document.getElementById("tour-location").textContent =
+            tourData.location || "Местоположение";
+          document.getElementById("tour-date").textContent =
+            "Доступно для бронирования";
+          document.getElementById("tour-duration").textContent =
+            tourData.excursionData?.duration || "1 день";
+          document.getElementById("tour-group-size").textContent = `до ${
+            tourData.excursionData?.maxGroupSize || 20
+          } человек`;
+          document.getElementById("tour-sea-distance").textContent = "Н/Д";
+          document.getElementById("tour-description-text").textContent =
+            tourData.description || "Описание экскурсии";
+          document.getElementById("tour-price-value").textContent =
+            formatPrice(tourData.price || 0) + " ₽ на человека";
 
-      // Заполняем миниатюры
-      thumbnails.forEach((thumb, index) => {
-        if (index < tourData.images.length) {
-          thumb.src = tourData.images[index];
-          thumb.alt = `${tourData.name} - фото ${index + 1}`;
-          thumb.style.display = "block";
+          // Обновляем список особенностей
+          updateFeaturesList(
+            tourData.features || [
+              "Профессиональный гид",
+              "Трансфер от/до отеля",
+              "Входные билеты",
+              "Фотосъемка",
+            ]
+          );
         } else {
-          thumb.style.display = "none";
+          // Для туров
+          document.getElementById("tour-title").textContent =
+            tourData.name || "Название тура";
+          document.getElementById("tour-location").textContent =
+            tourData.location || "Местоположение";
+
+          // Формируем дату на основе информации о туре
+          const dateText = tourData.tourData?.departureDate || "По запросу";
+          document.getElementById("tour-date").textContent = dateText;
+
+          // Длительность
+          document.getElementById("tour-duration").textContent = `${
+            tourData.tourData?.nights || "7"
+          } ночей`;
+
+          // Количество туристов
+          document.getElementById("tour-group-size").textContent = `${
+            tourData.tourData?.tourists || "2"
+          } человека`;
+
+          // Расстояние до моря
+          document.getElementById("tour-sea-distance").textContent =
+            getSeaProximityText(tourData.seaProximity || "any");
+
+          // Описание
+          document.getElementById("tour-description-text").textContent =
+            tourData.description || "Описание тура";
+
+          // Цена
+          document.getElementById("tour-price-value").textContent = formatPrice(
+            tourData.price || 0
+          );
+
+          // Обновляем список особенностей
+          updateFeaturesList(
+            tourData.features || [
+              "Проживание в отеле",
+              "Питание по выбранной программе",
+              "Авиаперелет туда-обратно",
+              "Трансфер из/в аэропорт",
+              "Медицинская страховка",
+            ]
+          );
         }
+
+        // Заполняем звезды рейтинга
+        const starsContainer = document.getElementById("tour-stars");
+        if (starsContainer) {
+          starsContainer.innerHTML = generateStarsHtml(tourData.rating || 4.0);
+        }
+
+        // Установка рейтинга
+        document.getElementById("tour-rating").textContent =
+          tourData.rating || "4.0";
+        document.getElementById("tour-reviews").textContent = `(${
+          tourData.reviewsCount || 0
+        } отзывов)`;
+
+        // Устанавливаем основное изображение
+        const mainImage = document.getElementById("tour-main-image");
+        if (mainImage) {
+          mainImage.src = tourData.image || "/img/tour-placeholder.jpg";
+          mainImage.alt = tourData.name;
+        }
+
+        // Заполняем миниатюры, если они есть
+        const thumbnails = document.querySelectorAll(
+          ".tour-thumbnails .thumbnail"
+        );
+        if (thumbnails.length > 0 && tourData.images) {
+          thumbnails.forEach((thumb, index) => {
+            if (index < tourData.images.length) {
+              thumb.src = tourData.images[index];
+              thumb.alt = `${tourData.name} - фото ${index + 1}`;
+              thumb.style.display = "block";
+
+              // Добавляем обработчик клика на миниатюру
+              thumb.onclick = function () {
+                // Удаляем активный класс со всех миниатюр
+                thumbnails.forEach((t) => t.classList.remove("active"));
+                // Добавляем активный класс к текущей миниатюре
+                this.classList.add("active");
+                // Обновляем основное изображение
+                mainImage.src = this.src;
+              };
+            } else {
+              thumb.style.display = "none";
+            }
+          });
+
+          // Делаем первую миниатюру активной
+          if (thumbnails.length > 0) {
+            thumbnails[0].classList.add("active");
+          }
+        }
+
+        // Отображаем модальное окно
+        tourModal.style.display = "block";
+      });
+    });
+
+    // Закрытие модального окна
+    const closeBtn = document.querySelector(".tour-modal-close");
+    if (closeBtn) {
+      closeBtn.addEventListener("click", function () {
+        tourModal.style.display = "none";
       });
     }
 
-    // Отображаем особенности тура
+    // Закрытие модального окна при клике вне его
+    window.addEventListener("click", function (event) {
+      if (event.target === tourModal) {
+        tourModal.style.display = "none";
+      }
+    });
+  }
+
+  // Функция для обновления списка особенностей тура
+  function updateFeaturesList(features) {
     const featuresList = document.getElementById("tour-features-list");
-    if (featuresList && tourData.features) {
-      featuresList.innerHTML = "";
-      tourData.features.forEach((feature) => {
-        featuresList.innerHTML += `<li><i class="fas fa-check"></i> ${feature}</li>`;
-      });
-    }
+    if (!featuresList) return;
 
-    // Отображаем модальное окно
-    tourModal.style.display = "block";
-  };
+    featuresList.innerHTML = "";
+
+    features.forEach((feature) => {
+      const li = document.createElement("li");
+      li.innerHTML = `<i class="fas fa-check"></i> ${feature}`;
+      featuresList.appendChild(li);
+    });
+  }
 
   // Функция для отображения звезд рейтинга
   function generateStarsHtml(rating) {
@@ -1246,33 +1444,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
     return descriptions[proximity] || "Не указано";
   }
-
-  // Добавляем обработчики клика по карточкам отелей для открытия модального окна
-  function attachTourCardClickHandlers() {
-    const hotelCards = document.querySelectorAll(".hotel-card");
-
-    hotelCards.forEach((card) => {
-      card.addEventListener("click", function (event) {
-        // Предотвращаем обработку клика по кнопкам внутри карточки
-        if (event.target.closest(".hotel-card-actions")) {
-          return;
-        }
-
-        // Получаем данные о туре из атрибута data-tour
-        let tourData;
-        try {
-          tourData = JSON.parse(this.dataset.tour || "{}");
-        } catch (e) {
-          console.error("Ошибка при парсинге данных тура:", e);
-          tourData = {};
-        }
-
-        // Открываем модальное окно
-        window.showTourDetails(tourData);
-      });
-    });
-  }
-
-  // Вызываем функцию добавления обработчиков при генерации карточек отелей
-  document.addEventListener("hotelCardsGenerated", attachTourCardClickHandlers);
 });

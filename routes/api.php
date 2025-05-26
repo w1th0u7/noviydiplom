@@ -1,10 +1,10 @@
 <?php
 
-// use App\Http\Controllers\AdminController;
+
 use App\Http\Controllers\UserController; 
 use Illuminate\Support\Facades\Route;
 
-Route::post('/register', [UserController::class, 'register'])->name('register.post');
+Route::post('/api-register', [UserController::class, 'register'])->name('api.register');
 
 Route::post('/login', [UserController::class, 'login'])->name('login.api');
 

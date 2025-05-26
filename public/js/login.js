@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+  console.log("Login JS initialized");
+
   // Валидация формы при вводе данных
   const inputs = document.querySelectorAll(".form-group input");
 
@@ -27,18 +29,25 @@ document.addEventListener("DOMContentLoaded", function () {
   const registerForm = document.getElementById("registerForm");
 
   if (loginForm) {
+    console.log("Login form found");
     loginForm.addEventListener("submit", function (e) {
+      console.log("Login form submitted");
       const email = document.getElementById("email");
       const password = document.getElementById("password");
 
       if (!validateInput(email) || !validateInput(password)) {
+        console.log("Login validation failed");
         e.preventDefault();
+      } else {
+        console.log("Login validation passed, submitting form normally");
       }
     });
   }
 
   if (registerForm) {
+    console.log("Registration form found");
     registerForm.addEventListener("submit", function (e) {
+      console.log("Registration form submitted");
       const name = document.getElementById("name");
       const email = document.getElementById("email");
       const password = document.getElementById("password");
@@ -46,19 +55,47 @@ document.addEventListener("DOMContentLoaded", function () {
         "password_confirmation"
       );
 
-      if (
-        !validateInput(name) ||
-        !validateInput(email) ||
-        !validateInput(password) ||
-        !validateInput(passwordConfirmation)
-      ) {
-        e.preventDefault();
+      let isValid = true;
+
+      if (!validateInput(name)) {
+        console.log("Name validation failed");
+        isValid = false;
+      }
+
+      if (!validateInput(email)) {
+        console.log("Email validation failed");
+        isValid = false;
+      }
+
+      if (!validateInput(password)) {
+        console.log("Password validation failed");
+        isValid = false;
+      }
+
+      if (!validateInput(passwordConfirmation)) {
+        console.log("Password confirmation validation failed");
+        isValid = false;
       }
 
       // Проверка совпадения паролей
       if (password.value !== passwordConfirmation.value) {
+        console.log("Passwords do not match");
         showError(passwordConfirmation, "Пароли не совпадают");
+        isValid = false;
+      }
+
+      if (!isValid) {
+        console.log(
+          "Registration validation failed, preventing form submission"
+        );
         e.preventDefault();
+      } else {
+        console.log(
+          "Registration validation passed, submitting form normally to: " +
+            registerForm.action
+        );
+        // Убедимся, что форма отправляется как обычная HTML форма
+        return true;
       }
     });
   }

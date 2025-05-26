@@ -20,19 +20,19 @@
         <!-- Навигация по типам аудитории -->
         <div class="nav-tabs">
             <div class="nav-tab active" data-target="all">
-                <img src="{{ asset('img/icons/all-ages.png') }}" alt="Все экскурсии">
+                <img src="{{ asset('storage/icons/excursion-icon.png') }}" alt="Все экскурсии">
                 <h3>Все экскурсии</h3>
             </div>
             <div class="nav-tab" data-target="preschool">
-                <img src="{{ asset('img/icons/preschool.png') }}" alt="Для дошкольников">
+                <img src="{{ asset('storage/icons/children.png') }}" alt="Для дошкольников">
                 <h3>Для дошкольников</h3>
             </div>
             <div class="nav-tab" data-target="school">
-                <img src="{{ asset('img/icons/school.png') }}" alt="Для школьников">
+                <img src="{{ asset('storage/icons/schoolboy.png') }}" alt="Для школьников">
                 <h3>Для школьников</h3>
             </div>
             <div class="nav-tab" data-target="adult">
-                <img src="{{ asset('img/icons/adult.png') }}" alt="Для взрослых">
+                <img src="{{ asset('storage/icons/vzroslie.png') }}" alt="Для взрослых">
                 <h3>Для взрослых</h3>
             </div>
         </div>
@@ -82,7 +82,7 @@
                 @foreach($preschoolExcursions as $excursion)
                 <div class="excursion-card" data-region="{{ $excursion['region'] ?? $excursion->region }}" data-duration="{{ $excursion['duration'] ?? $excursion->duration }}" data-price="{{ $excursion['price'] ?? $excursion->price }}" data-type="preschool">
                     <div class="excursion-image">
-                        <img src="{{ isset($excursion['image']) ? asset($excursion['image']) : $excursion->image_path }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
+                        <img src="{{ asset('storage/' . (isset($excursion['image']) ? $excursion['image'] : ($excursion->image_path ?? 'excursions/placeholder.jpg'))) }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
                         <div class="excursion-duration">{{ $excursion['duration'] ?? $excursion->duration }} {{ ($excursion['duration'] ?? $excursion->duration) == 1 ? 'день' : 'дня' }}</div>
                     </div>
                     <div class="excursion-info">
@@ -107,7 +107,7 @@
                 @if(!$preschoolExcursions->contains('id', $excursion['id'] ?? $excursion->id))
                 <div class="excursion-card" data-region="{{ $excursion['region'] ?? $excursion->region }}" data-duration="{{ $excursion['duration'] ?? $excursion->duration }}" data-price="{{ $excursion['price'] ?? $excursion->price }}" data-type="school">
                     <div class="excursion-image">
-                        <img src="{{ isset($excursion['image']) ? asset($excursion['image']) : $excursion->image_path }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
+                        <img src="{{ asset('storage/' . (isset($excursion['image']) ? $excursion['image'] : ($excursion->image_path ?? 'excursions/placeholder.jpg'))) }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
                         <div class="excursion-duration">{{ $excursion['duration'] ?? $excursion->duration }} {{ ($excursion['duration'] ?? $excursion->duration) == 1 ? 'день' : 'дня' }}</div>
                     </div>
                     <div class="excursion-info">
@@ -134,7 +134,7 @@
                     !$schoolExcursions->contains('id', $excursion['id'] ?? $excursion->id))
                 <div class="excursion-card" data-region="{{ $excursion['region'] ?? $excursion->region }}" data-duration="{{ $excursion['duration'] ?? $excursion->duration }}" data-price="{{ $excursion['price'] ?? $excursion->price }}" data-type="adult">
                     <div class="excursion-image">
-                        <img src="{{ isset($excursion['image']) ? asset($excursion['image']) : $excursion->image_path }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
+                        <img src="{{ asset('storage/' . (isset($excursion['image']) ? $excursion['image'] : ($excursion->image_path ?? 'excursions/placeholder.jpg'))) }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
                         <div class="excursion-duration">{{ $excursion['duration'] ?? $excursion->duration }} {{ ($excursion['duration'] ?? $excursion->duration) == 1 ? 'день' : 'дня' }}</div>
                     </div>
                     <div class="excursion-info">
@@ -164,7 +164,7 @@
                 @foreach($preschoolExcursions as $excursion)
                 <div class="excursion-card" data-region="{{ $excursion['region'] ?? $excursion->region }}" data-duration="{{ $excursion['duration'] ?? $excursion->duration }}" data-price="{{ $excursion['price'] ?? $excursion->price }}">
                     <div class="excursion-image">
-                        <img src="{{ isset($excursion['image']) ? asset($excursion['image']) : $excursion->image_path }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
+                        <img src="{{ asset('storage/' . (isset($excursion['image']) ? $excursion['image'] : ($excursion->image_path ?? 'excursions/placeholder.jpg'))) }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
                         <div class="excursion-duration">{{ $excursion['duration'] ?? $excursion->duration }} {{ ($excursion['duration'] ?? $excursion->duration) == 1 ? 'день' : 'дня' }}</div>
                     </div>
                     <div class="excursion-info">
@@ -193,7 +193,7 @@
                 @foreach($schoolExcursions as $excursion)
                 <div class="excursion-card" data-region="{{ $excursion['region'] ?? $excursion->region }}" data-duration="{{ $excursion['duration'] ?? $excursion->duration }}" data-price="{{ $excursion['price'] ?? $excursion->price }}">
                     <div class="excursion-image">
-                        <img src="{{ isset($excursion['image']) ? asset($excursion['image']) : $excursion->image_path }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
+                        <img src="{{ asset('storage/' . (isset($excursion['image']) ? $excursion['image'] : ($excursion->image_path ?? 'excursions/placeholder.jpg'))) }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
                         <div class="excursion-duration">{{ $excursion['duration'] ?? $excursion->duration }} {{ ($excursion['duration'] ?? $excursion->duration) == 1 ? 'день' : 'дня' }}</div>
                     </div>
                     <div class="excursion-info">
@@ -222,7 +222,7 @@
                 @foreach($adultExcursions as $excursion)
                 <div class="excursion-card" data-region="{{ $excursion['region'] ?? $excursion->region }}" data-duration="{{ $excursion['duration'] ?? $excursion->duration }}" data-price="{{ $excursion['price'] ?? $excursion->price }}">
                     <div class="excursion-image">
-                        <img src="{{ isset($excursion['image']) ? asset($excursion['image']) : $excursion->image_path }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
+                        <img src="{{ asset('storage/' . (isset($excursion['image']) ? $excursion['image'] : ($excursion->image_path ?? 'excursions/placeholder.jpg'))) }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
                         <div class="excursion-duration">{{ $excursion['duration'] ?? $excursion->duration }} {{ ($excursion['duration'] ?? $excursion->duration) == 1 ? 'день' : 'дня' }}</div>
                     </div>
                     <div class="excursion-info">

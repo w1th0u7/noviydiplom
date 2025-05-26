@@ -175,11 +175,12 @@
         </section>
 
         <section>
-    <div class="max">
-        <div class="zag-btn">
-            <h2>Виды туров</h2>
+        <div class="max">
+            <div class="zag-btn">
+                <h2>Виды туров</h2>
+                <a href="/" class="btn--white mob">Все туры</a>
+            </div>
         </div>
-    </div>
     <div class="slider vidy-turov">
         <div class="swiper swiper-initialized swiper-horizontal swiper-backface-hidden">
             <div class="swiper-wrapper max" id="swiper-wrapper-76c2ad871031f5bf8" aria-live="polite" style="padding-bottom: 50px;">

@@ -11,7 +11,7 @@
 <section class="excursion-detail">
     <div class="max">
         <div class="excursion-header">
-            <img class="excursion-header-image" src="{{ isset($excursion['image']) ? asset($excursion['image']) : $excursion->image_path }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
+            <img class="excursion-header-image" src="{{ isset($excursion['image']) ? asset('storage/' . $excursion['image']) : asset('storage/' . ($excursion->image_path ?? 'excursions/placeholder.jpg')) }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
             <div class="excursion-title-card">
                 <h1>{{ $excursion['name'] ?? $excursion->name }}</h1>
                 <div class="excursion-location">
@@ -62,10 +62,16 @@
                     </div>
                     
                     <!-- Кнопка для показа формы бронирования -->
-                    <button class="show-booking-form">Забронировать экскурсию</button>
+                    @if(Auth::check())
+                        <button class="show-booking-form">Забронировать экскурсию</button>
+                    @else
+                        <a href="{{ route('login') }}?redirect={{ url()->current() }}" class="booking-button">Войдите для бронирования</a>
+                    @endif
                     
                     <!-- Форма бронирования (скрыта по умолчанию) -->
-                    <div class="booking-form">
+                    <div class="booking-form" style="display: none;">
+                        <h3>Оставить заявку на экскурсию</h3>
+                        
                         @if(session('error'))
                             <div class="alert alert-danger">
                                 {{ session('error') }}
@@ -79,9 +85,8 @@
                                 <p>Для бронирования необходимо <a href="{{ route('login') }}">войти</a> или <a href="{{ route('register') }}">зарегистрироваться</a></p>
                             </div>
                         </div>
-                        @endif
-                        
-                        <form action="{{ route('excursions.book', $excursion['id'] ?? $excursion->id) }}" method="POST" class="booking-form">
+                        @else
+                        <form action="{{ route('excursions.book', $excursion['id'] ?? $excursion->id) }}" method="POST">
                             @csrf
                             
                             <div class="form-group">
@@ -135,9 +140,10 @@
                             
                             <div class="form-actions">
                                 <button type="submit" class="booking-button">Отправить заявку</button>
-                                <button type="button" class="close-booking-form" style="margin-top: 10px; background: none; border: none; color: #555; text-decoration: underline; cursor: pointer; display: block; text-align: center; width: 100%;">Отменить</button>
+                                <button type="button" class="close-booking-form">Отменить</button>
                             </div>
                         </form>
+                        @endif
                     </div>
                 </div>
                 
@@ -186,7 +192,7 @@
                 @foreach($similarExcursions as $similarExcursion)
                 <div class="excursion-card">
                     <div class="excursion-image">
-                        <img src="{{ isset($similarExcursion['image']) ? asset($similarExcursion['image']) : $similarExcursion->image_path }}" alt="{{ $similarExcursion['name'] ?? $similarExcursion->name }}">
+                        <img src="{{ isset($similarExcursion['image']) ? asset('storage/' . $similarExcursion['image']) : asset('storage/' . ($similarExcursion->image_path ?? 'excursions/placeholder.jpg')) }}" alt="{{ $similarExcursion['name'] ?? $similarExcursion->name }}">
                         <div class="excursion-duration">{{ $similarExcursion['duration'] ?? $similarExcursion->duration }} {{ ($similarExcursion['duration'] ?? $similarExcursion->duration) == 1 ? 'день' : 'дня' }}</div>
                     </div>
                     <div class="excursion-info">

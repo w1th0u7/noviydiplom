@@ -24,24 +24,24 @@
             <nav class="cabinet-nav">
                 <ul>
                     <li>
-                        <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">
-                            <i class="cabinet-icon home-icon"></i> Главная
+                        <a href="{{ route('cabinet') }}" class="{{ request()->routeIs('cabinet') ? 'active' : '' }}">
+                            <i class="fas fa-home"></i> Главная
                         </a>
                     </li>
-                    <li class="sidenav-item {{ request()->routeIs('trips') ? 'active' : '' }}">
-                        <a href="{{ route('trips') }}" class="sidenav-link">
+                    <li>
+                        <a href="{{ route('trips') }}" class="{{ request()->routeIs('trips') ? 'active' : '' }}">
                             <i class="fas fa-suitcase"></i> Мои бронирования
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('settings') }}" class="{{ request()->routeIs('settings') ? 'active' : '' }}">
-                            <i class="cabinet-icon settings-icon"></i> Настройки
+                            <i class="fas fa-cog"></i> Настройки
                         </a>
                     </li>
                     @if(Auth::user()->role === 'admin')
                     <li class="admin-menu-item">
                         <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.*') ? 'active' : '' }}">
-                            <i class="cabinet-icon admin-icon"></i> Админ-панель
+                            <i class="fas fa-tools"></i> Админ-панель
                         </a>
                     </li>
                     @endif

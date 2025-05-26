@@ -1,25 +1,208 @@
-.swiperloc {
+/* Специфичные стили для форм авторизации и регистрации */
+
+/* Общие базовые стили для полей формы */
+.form-group input {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding-left: 50px;
+  height: 54px;
+  color: #333;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.form-group input:focus {
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 3px rgba(25, 62, 90, 0.1);
+}
+
+.form-group input::placeholder {
+  color: #aaa;
+}
+
+/* Стили для полей с ошибкой */
+.form-group input.error {
+  border-color: var(--error);
+  background-color: rgba(255, 82, 82, 0.05);
+  box-shadow: 0 0 0 1px rgba(255, 82, 82, 0.2);
+}
+
+/* Стили специфичные для входа */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+}
+
+.remember-me input {
+  margin-right: 8px;
+  accent-color: var(--secondary);
+  width: 16px;
+  height: 16px;
+}
+
+.remember-me label {
+  color: #666;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.forgot-password {
+  color: var(--secondary);
+  font-size: 14px;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.forgot-password:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.btn-login {
   width: 100%;
-  height: auto;
-  position: relative;
+  height: 54px;
+  background-color: var(--primary);
+  color: var(--text-dark);
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-bottom: 24px;
 }
 
-.banner-home .swiper-slide {
-  height: auto;
-  padding: 60px 0;
+.btn-login:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(255, 219, 34, 0.3);
 }
 
-/* Стили для фона страницы авторизации перенесены в auth.css */
-
-/* Анимация для форм */
-.registr-wrapper {
-  animation: slideUp 0.5s ease forwards;
+.btn-login:active {
+  transform: translateY(0);
 }
 
-@keyframes slideUp {
+.register-link {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.register-link p {
+  font-size: 15px;
+  color: #666;
+}
+
+.register-link a {
+  color: var(--secondary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.register-link a:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+/* Специфичные стили для формы регистрации */
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.terms {
+  margin-bottom: 24px;
+}
+
+.terms label {
+  display: flex;
+  align-items: flex-start;
+  color: #666;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.terms input {
+  margin-right: 12px;
+  margin-top: 5px;
+  accent-color: var(--secondary);
+  width: 16px;
+  height: 16px;
+}
+
+.terms a {
+  color: var(--secondary);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.terms a:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.btn-register {
+  width: 100%;
+  height: 54px;
+  background-color: var(--primary);
+  color: var(--text-dark);
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-bottom: 24px;
+}
+
+.btn-register:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(255, 219, 34, 0.3);
+}
+
+.btn-register:active {
+  transform: translateY(0);
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.login-link p {
+  font-size: 15px;
+  color: #666;
+}
+
+.login-link a {
+  color: var(--secondary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.login-link a:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+/* Анимации */
+@keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(-5px);
   }
   to {
     opacity: 1;
@@ -27,153 +210,16 @@
   }
 }
 
-/* Адаптивные стили для соответствия дизайну сайта */
-@media (max-width: 991px) {
-  .banner-home .swiper-slide {
-    padding: 40px 0;
-  }
-}
-
-@media (max-width: 767px) {
-  .viewer-hide-xs-down {
-    display: none;
-  }
-}
-
-@media (max-width: 991px) {
-  .viewer-hide-sm-down {
-    display: none;
+/* Адаптивные стили для форм */
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
   }
 
-  .header-top .logo {
-    max-width: 100px;
+  .form-options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
   }
-
-  footer .block .info .info-icon.adres {
-    width: 100%;
-  }
-}
-
-@media (max-width: 575px) {
-  .banner-home .swiper-slide {
-    padding: 20px 0 40px;
-  }
-}
-
-.registr {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.registr-wrapper {
-  background: transparent;
-  border: 2px solid rgb(255, 255, 255, 0.2);
-  backdrop-filter: blur(20px);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  width: 420px;
-  border-radius: 10px;
-  padding: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 20px;
-  width: 80%;
-}
-
-.registr-wrapper .form-group {
-  width: 100%;
-  height: 50px;
-  margin: 30px 0;
-  position: relative;
-}
-
-.form-group input {
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  border: none;
-  outline: none;
-  border: 1px solid rgb(255, 255, 255, 0.2);
-  border-radius: 40px;
-  font-size: 16px;
-  color: #fff;
-  padding: 20px 45px 20px 20px;
-}
-
-.form-group input::placeholder {
-  color: #fff;
-  padding-left: 20px;
-}
-
-.registr-wrapper .remember {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-  color: #fff;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 22px;
-  cursor: pointer;
-}
-
-.remember label input {
-  accent-color: #ffdb63;
-  margin-right: 3px;
-}
-
-.remember a {
-  color: #fff;
-  text-decoration: none;
-}
-
-.remember a:hover {
-  text-decoration: underline;
-  color: #ffdb63;
-}
-
-.registr-wrapper .btn {
-  width: 100%;
-  height: 50px;
-  border: 1.5px solid #eff3f6;
-  outline: none;
-  background-color: rgba(255, 255, 255, 0);
-  border-radius: 40px;
-  font-size: 16px;
-  line-height: 22px;
-  font-weight: 600;
-  color: #fff;
-  cursor: pointer;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-.registr-wrapper .btn:hover {
-  background-color: #ffdb22;
-  border: 1.5px solid #ffdb22;
-  color: #1e2226;
-}
-
-.wrapper .register-link {
-  margin-top: 30px;
-  text-align: center;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 22px;
-}
-
-.register-link a {
-  color: #fff;
-  text-decoration: none;
-}
-
-.register-link p {
-  margin: 0;
-  font-size: 14px;
-}
-
-.register-link a:hover {
-  color: #ffdb63;
 }

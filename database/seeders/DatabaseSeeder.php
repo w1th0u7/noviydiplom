@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Post;
-use App\Models\Tour;
+
 use Illuminate\Database\Seeder;
 use App\Models\User;
 
@@ -13,30 +12,26 @@ use Faker\Factory;
 
 class DatabaseSeeder extends Seeder
 {
-    public function run()
+    /**
+     * Seed the application's database.
+     */
+    public function run(): void
     {
-        // Вызываем сидеры для туров и экскурсий
         $this->call([
-            ToursTableSeeder::class,
-            ExcursionsTableSeeder::class
+            ToursAndExcursionsSeeder::class,
         ]);
         
-        // Создаем пользователя-админа
-        $faker = Factory::create();
-
-        $user = User::create([
-            'name' => 'Artem',
-            'email' => 'unique_email666@example.com',
-            'password' => Hash::make('12345678'),
-            'email_verified_at' => now(),
-        ]);
-
-        // Создаем посты для блога
-        for ($i = 0; $i < 50; $i++) {
-            Post::create([
-                'title' => $faker->unique()->word(),
-                'content' => $faker->unique()->text(200),
-                'user_id' => $user->id,
+        // Создаем пользователя-админа только если он еще не существует
+        $userEmail = 'unique_email666@example.com';
+        
+        if (!User::where('email', $userEmail)->exists()) {
+            $faker = Factory::create();
+            
+            $user = User::create([
+                'name' => 'Artem',
+                'email' => $userEmail,
+                'password' => Hash::make('12345678'),
+                'email_verified_at' => now(),
             ]);
         }
     }

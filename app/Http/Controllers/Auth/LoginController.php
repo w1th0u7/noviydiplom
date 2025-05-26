@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
@@ -13,6 +14,11 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
+            // Генерируем новый api_token
+            $user = Auth::user();
+            $user->api_token = (string)Str::uuid();
+            $user->save();
+            
             return response()->json(['message' => 'Успешный вход'], 200);
         }
 
@@ -21,7 +27,16 @@ class LoginController extends Controller
 
     public function logout()
     {
+        // Сбрасываем api_token
+        $user = Auth::user();
+        if ($user) {
+            $user->api_token = null;
+            $user->save();
+        }
+        
         Auth::logout();
-        return response()->json(['message' => 'Вы вышли из системы'], 200);
+        
+        // Перенаправляем на главную страницу вместо возврата JSON
+        return redirect('/');
     }
 }

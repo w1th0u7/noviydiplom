@@ -59,7 +59,7 @@
             @foreach($tours as $tour)
             <div class="tour-card" data-type="{{ $tour->type }}" data-date="{{ $tour->start_date->format('Y-m-d') }}" data-price="{{ $tour->price }}">
                 <div class="tour-image">
-                    <img src="{{ asset(str_starts_with($tour->image, 'img/') ? $tour->image : 'storage/' . $tour->image) }}" alt="{{ $tour->name }}">
+                    <img src="{{ asset('storage/' . ($tour->image ?? 'tours/placeholder.jpg')) }}" alt="{{ $tour->name }}">
                     <div class="tour-type">{{ $tour->type }}</div>
                 </div>
                 <div class="tour-info">

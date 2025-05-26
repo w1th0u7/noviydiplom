@@ -2,21 +2,30 @@
  * JavaScript для форм бронирования
  */
 document.addEventListener("DOMContentLoaded", function () {
+  console.log("Booking JS loaded");
+
   // Показ/скрытие формы бронирования
   const showFormButtons = document.querySelectorAll(".show-booking-form");
+  console.log("Found " + showFormButtons.length + " booking buttons");
 
   showFormButtons.forEach((button) => {
     button.addEventListener("click", function () {
+      console.log("Booking button clicked");
+
       // Получаем форму бронирования рядом с кнопкой
       const bookingForm = this.nextElementSibling;
+      console.log("Form found:", bookingForm);
 
       // Плавно показываем форму
       if (bookingForm) {
+        console.log("Showing booking form");
         bookingForm.style.display = "block";
         this.style.display = "none"; // Скрываем кнопку
 
         // Плавная прокрутка к форме
         bookingForm.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        console.log("Booking form not found!");
       }
     });
   });
@@ -50,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
   closeButtons.forEach((button) => {
     button.addEventListener("click", function (e) {
       e.preventDefault();
+      console.log("Close booking form clicked");
 
       const bookingForm = this.closest(".booking-form");
       const showButton = bookingForm.previousElementSibling;

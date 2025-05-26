@@ -49,7 +49,7 @@
                 </div>
             </div>
             
-            <form id="tourForm" method="POST" action="javascript:void(0)">
+            <form id="tourForm" onsubmit="return false;">
                 @csrf
                 <input type="hidden" id="tourType" name="tourType" value="beach">
                 
@@ -236,7 +236,7 @@
                 </div>
 
                 <div class="calculator-actions">
-                    <button type="submit" id="calculateButton" class="btn btn-primary">
+                    <button type="button" id="calculateButton" class="btn btn-primary">
                         <i class="fas fa-calculator"></i>
                         Рассчитать стоимость
                     </button>

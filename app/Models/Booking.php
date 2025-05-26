@@ -10,7 +10,6 @@ class Booking extends Model
     use HasFactory;
 
     /**
-     * Атрибуты, которые можно массово назначать.
      *
      * @var array
      */
@@ -24,10 +23,11 @@ class Booking extends Model
         'total_price',
         'status',
         'notes',
+        'bookable_type',
+        'bookable_id',
     ];
 
     /**
-     * Атрибуты, которые следует преобразовывать.
      *
      * @var array
      */

@@ -1,11 +1,31 @@
 /* Стили для формы бронирования */
 .booking-form {
-  margin-top: 30px;
+  margin-top: 20px;
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   display: none; /* Форма скрыта по умолчанию */
+  position: relative;
+  z-index: 10;
+  transition: all 0.3s ease;
+  max-height: 800px;
+  overflow-y: auto;
+}
+
+/* Анимация отображения формы */
+.booking-form.visible {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @media (max-width: 767px) {
@@ -224,4 +244,17 @@
   .show-booking-form {
     padding: 10px 15px;
   }
+}
+
+/* Кнопка закрытия формы */
+.close-booking-form {
+  margin-top: 10px;
+  background: none;
+  border: none;
+  color: #555;
+  text-decoration: underline;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  width: 100%;
 }
