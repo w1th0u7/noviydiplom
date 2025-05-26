@@ -111,8 +111,9 @@
                     @endif
                     
                     <!-- ВАЖНО: Форма без JavaScript-обработки, с прямой отправкой -->
-                    <form action="/tours/{{ $tour->id }}/book" method="POST" id="booking-form">
+                    <form action="{{ route('tours.book', $tour->id) }}" method="POST" id="booking-form">
                         @csrf
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         
                         <div class="form-group">
                             <label for="booking_date">Дата начала тура</label>
@@ -250,74 +251,16 @@
                             <button type="submit" class="btn btn-primary">Отправить через чистый HTML</button>
                         </form>
                     </div>
-                    
-                    <!-- Экстремально простая форма (POST метод) -->
-                    <div style="margin-top: 20px; padding: 15px; border: 2px solid #f00; background-color: #fff0f0;">
-                        <h4 style="color: #f00; font-weight: bold;">Экстремально простая форма (POST)</h4>
-                        <form action="/tours/{{ $tour->id }}/book" method="POST" style="display: block; margin: 0;">
-                            @csrf
-                            
-                            <input type="hidden" name="booking_date" value="{{ $tour->start_date->format('Y-m-d') }}">
-                            <input type="hidden" name="persons" value="1">
-                            <input type="hidden" name="guest_name" value="{{ Auth::user()->name ?? 'Гость' }}">
-                            <input type="hidden" name="guest_email" value="{{ Auth::user()->email ?? 'guest@example.com' }}">
-                            <input type="hidden" name="guest_phone" value="79001234567">
-                            
-                            <button type="submit" style="background-color: #f00; color: white; padding: 10px 20px; border: none; cursor: pointer; font-weight: bold;">
-                                ПРОСТОЕ БРОНИРОВАНИЕ
-                            </button>
-                        </form>
-                    </div>
                 </div>
                 
                 <div class="tour-actions" style="margin-top: 20px;">
                     <a href="{{ route('tours.index') }}" class="btn btn-secondary">Назад к турам</a>
                     
-                    <!-- Для отладки: набор форм для разных методов бронирования -->
+                    <!-- Для отладки: прямая ссылка на бронирование -->
                     @if(Auth::check())
-                    <div style="margin-top: 20px; border: 2px dashed #333; padding: 15px; background-color: #f9f9f9;">
-                        <h3 style="margin-top: 0; color: #333;">Отладочная панель бронирования</h3>
-                        
-                        <!-- Форма 1: Простой POST запрос -->
-                        <div style="margin-bottom: 15px; padding: 10px; border: 1px solid #007bff; background-color: #e7f5ff;">
-                            <h4 style="margin-top: 0; color: #007bff;">1. Прямой POST запрос</h4>
-                            <form action="/tours/{{ $tour->id }}/book" method="POST" style="margin: 0;">
-                                @csrf
-                                <input type="hidden" name="booking_date" value="{{ $tour->start_date->format('Y-m-d') }}">
-                                <input type="hidden" name="persons" value="1">
-                                <input type="hidden" name="guest_name" value="{{ Auth::user()->name }}">
-                                <input type="hidden" name="guest_email" value="{{ Auth::user()->email }}">
-                                <input type="hidden" name="guest_phone" value="79001234567">
-                                <button type="submit" style="background-color: #007bff; color: white; border: none; padding: 10px 15px; cursor: pointer;">
-                                    POST без JavaScript
-                                </button>
-                            </form>
-                        </div>
-                        
-                        <!-- Форма 2: POST с использованием route() -->
-                        <div style="margin-bottom: 15px; padding: 10px; border: 1px solid #28a745; background-color: #e7f7ef;">
-                            <h4 style="margin-top: 0; color: #28a745;">2. POST через route()</h4>
-                            <form action="{{ route('tours.book', $tour->id) }}" method="POST" style="margin: 0;">
-                                @csrf
-                                <input type="hidden" name="booking_date" value="{{ $tour->start_date->format('Y-m-d') }}">
-                                <input type="hidden" name="persons" value="1">
-                                <input type="hidden" name="guest_name" value="{{ Auth::user()->name }}">
-                                <input type="hidden" name="guest_email" value="{{ Auth::user()->email }}">
-                                <input type="hidden" name="guest_phone" value="79001234567">
-                                <button type="submit" style="background-color: #28a745; color: white; border: none; padding: 10px 15px; cursor: pointer;">
-                                    POST через route()
-                                </button>
-                            </form>
-                        </div>
-                        
-                        <!-- Форма 3: GET запрос через test-booking -->
-                        <div style="margin-bottom: 15px; padding: 10px; border: 1px solid #ffc107; background-color: #fff9e6;">
-                            <h4 style="margin-top: 0; color: #ffc107;">3. GET запрос</h4>
-                            <a href="{{ url('/test-booking?tour_id=' . $tour->id . '&booking_date=' . $tour->start_date->format('Y-m-d') . '&persons=1&guest_name=' . Auth::user()->name . '&guest_email=' . Auth::user()->email . '&guest_phone=79001234567') }}" style="display: inline-block; background-color: #ffc107; color: #333; border: none; padding: 10px 15px; text-decoration: none;">
-                                GET запрос (работающий)
-                            </a>
-                        </div>
-                    </div>
+                    <a href="{{ url('/test-booking?tour_id=' . $tour->id . '&booking_date=' . $tour->start_date->format('Y-m-d') . '&persons=1&guest_name=' . Auth::user()->name . '&guest_email=' . Auth::user()->email . '&guest_phone=79001234567') }}" class="btn btn-warning" style="margin-left: 15px;">
+                        Тестовое бронирование (GET)
+                    </a>
                     @endif
                 </div>
             </div>
@@ -353,17 +296,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
-  
-  // Отслеживание отправки основной формы
-  const mainForm = document.getElementById("booking-form");
-  if (mainForm) {
-    mainForm.addEventListener("submit", function(e) {
-      console.log("Форма отправляется...");
-      console.log("URL формы:", this.action);
-      console.log("Метод:", this.method);
-      // НЕ останавливаем отправку формы, просто логируем
-    });
-  }
   
   // Расчет итоговой стоимости
   const personsInput = document.getElementById("persons");

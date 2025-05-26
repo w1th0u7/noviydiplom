@@ -22,27 +22,19 @@ class BookingController extends Controller
      */
     public function bookTour(Request $request, $id)
     {
-        // Улучшенное логирование для отладки
-        \Log::info("=== НАЧАЛО ЗАПРОСА НА БРОНИРОВАНИЕ ТУРА #{$id} ===");
-        \Log::info("Метод запроса: " . $request->method());
-        \Log::info("URL запроса: " . $request->fullUrl());
-        \Log::info("Все входящие данные: " . json_encode($request->all()));
-        \Log::info("Заголовки запроса: " . json_encode($request->headers->all()));
+        // Базовое логирование для отладки
+        \Log::info("Запрос на бронирование тура #{$id}");
         
         // Проверка аутентификации
         if (!Auth::check()) {
-            \Log::warning("Пользователь не авторизован");
             return redirect()->route('login')
                 ->with('error', 'Для бронирования тура необходимо авторизоваться');
         }
-        
-        \Log::info("Пользователь авторизован: " . Auth::id() . " (" . Auth::user()->email . ")");
         
         try {
             // Используем блокировку транзакции для предотвращения конкурентных обращений
             return DB::transaction(function() use ($request, $id) {
                 $tour = Tour::findOrFail($id);
-                \Log::info("Тур найден: #{$tour->id} - {$tour->name}");
                 
                 // Валидация данных
                 $validator = Validator::make($request->all(), [
@@ -55,13 +47,10 @@ class BookingController extends Controller
                 ]);
 
                 if ($validator->fails()) {
-                    \Log::warning("Ошибка валидации: " . json_encode($validator->errors()->toArray()));
                     return redirect()->back()
                         ->withErrors($validator)
                         ->withInput();
                 }
-                
-                \Log::info("Валидация пройдена успешно");
                 
                 // Проверяем доступность тура на выбранную дату
                 if (!$tour->isAvailableOn($request->booking_date)) {
