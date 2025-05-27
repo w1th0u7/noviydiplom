@@ -17,7 +17,7 @@
             <p>Всё, что нужно знать перед поездкой</p>
         </div>
         
-        <div class="info-cards">
+        <div class="info-cards tourist-info">
             <div class="info-card">
                 <div class="info-icon">
                     <i class="fas fa-passport"></i>

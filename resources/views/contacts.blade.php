@@ -17,7 +17,7 @@
             <p>Как с нами связаться?</p>
         </div>
         
-        <div class="contacts-container">
+        <div class="contacts-container contacts-main">
             <div class="contacts-info">
                 <div class="contact-card">
                     <div class="contact-icon">

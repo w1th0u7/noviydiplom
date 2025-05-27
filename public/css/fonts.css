@@ -1,9 +1,19 @@
+/* Шрифты через Google Fonts */
+
+/* Подключение шрифта Yeseva One */
+@import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
+
+/* Подключение шрифта Manrope во всех вариантах начертания */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+
+/* Подключение шрифта Montserrat во всех вариантах начертания */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+/* Определяем шрифты с правильными именами для совместимости с остальными стилями */
 @font-face {
-    font-family: 'YesevaOne-Regular';
-    src: local('YesevaOne-Regular'), local('YesevaOne-Regular'),
-        url('/fonts/YesevaOne-Regular.woff2') format('woff2'),
-        url('/fonts/YesevaOne-Regular.woff') format('woff'),
-        url('/fonts/YesevaOne-Regular.ttf') format('truetype');
-    font-weight: 100;
-    font-style: italic;
-  }
+  font-family: 'YesevaOne-Regular';
+  src: local('Yeseva One'), url('https://fonts.gstatic.com/s/yesevaone/v18/OpNJno4ck8vc-xYpwWWxli1VXcte.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

@@ -15,7 +15,7 @@
             <p>Выбирайте из множества направлений и дат</p>
         </div>
         
-        <div class="schedule-filter">
+        <div class="schedule-filter schedule-content">
             <div class="filter-group">
                 <label for="tour-type">Тип тура:</label>
                 <select id="tour-type" class="filter-select">
@@ -59,7 +59,21 @@
             @foreach($tours as $tour)
             <div class="tour-card" data-type="{{ $tour->type }}" data-date="{{ $tour->start_date->format('Y-m-d') }}" data-price="{{ $tour->price }}">
                 <div class="tour-image">
-                    <img src="{{ asset('storage/' . ($tour->image ?? 'tours/placeholder.jpg')) }}" alt="{{ $tour->name }}">
+                    @php
+                        $imageUrl = '';
+                        if ($tour->image) {
+                            if (str_starts_with($tour->image, 'img/')) {
+                                $imageUrl = asset($tour->image);
+                            } elseif (str_starts_with($tour->image, 'http')) {
+                                $imageUrl = $tour->image;
+                            } else {
+                                $imageUrl = asset('storage/' . $tour->image);
+                            }
+                        } else {
+                            $imageUrl = asset('storage/tours/placeholder.jpg');
+                        }
+                    @endphp
+                    <img src="{{ $imageUrl }}" alt="{{ $tour->name }}">
                     <div class="tour-type">{{ $tour->type }}</div>
                 </div>
                 <div class="tour-info">

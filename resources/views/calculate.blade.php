@@ -16,7 +16,7 @@
         <p>Спланируйте идеальное путешествие и узнайте точную стоимость в несколько кликов</p>
     </div>
     
-    <div class="calculator-container">
+    <div class="calculator-container calculator-content">
         <div class="calculator-header">
             <h1>Куда хотите отправиться?</h1>
             <p>Выберите параметры вашего будущего путешествия</p>

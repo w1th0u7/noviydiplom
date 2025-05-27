@@ -1,0 +1,98 @@
+/* Шрифты через Google Fonts */
+
+/* Подключение шрифта Yeseva One */
+@import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
+
+/* Подключение шрифта Manrope во всех вариантах начертания */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+
+/* Подключение шрифта Montserrat во всех вариантах начертания */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+/* Переопределяем шрифты для совместимости со стилями */
+.font-yeseva, 
+h1, h2, h3, h4, h5,
+.h1, .h2, .h3, .h4, .h5 {
+    font-family: 'Yeseva One', serif !important;
+}
+
+body, p, div, span, a, 
+.font-manrope {
+    font-family: 'Manrope', sans-serif !important;
+}
+
+.font-montserrat {
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+/* Задаем соответствие классам из старых стилей */
+.YesevaOne-Regular,
+.YeseaOne {
+    font-family: 'Yeseva One', serif !important;
+}
+
+.Manrope-ExtraLight {
+    font-family: 'Manrope', sans-serif !important;
+    font-weight: 200 !important;
+}
+
+.Manrope-Light {
+    font-family: 'Manrope', sans-serif !important;
+    font-weight: 300 !important;
+}
+
+.Manrope-Regular {
+    font-family: 'Manrope', sans-serif !important;
+    font-weight: 400 !important;
+}
+
+.Manrope-Medium {
+    font-family: 'Manrope', sans-serif !important;
+    font-weight: 500 !important;
+}
+
+.Manrope-SemiBold,
+.Manrope-Semibold {
+    font-family: 'Manrope', sans-serif !important;
+    font-weight: 600 !important;
+}
+
+.Manrope-Bold {
+    font-family: 'Manrope', sans-serif !important;
+    font-weight: 700 !important;
+}
+
+.Manrope-ExtraBold {
+    font-family: 'Manrope', sans-serif !important;
+    font-weight: 800 !important;
+}
+
+/* TTNorms заменим на Montserrat для совместимости */
+.TTNormsPro-Bold,
+.TTNormsPro-Bold-2,
+.TTNormsPro_Bold,
+h1, h2, h3, h4, h5 {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 700 !important;
+}
+
+/* Добавляем другие вариации шрифта TTNormsPro */
+.TTNormsPro-Medium {
+    font-family: 'Montserrat', sans-serif !important; 
+    font-weight: 500 !important;
+}
+
+.TTNormsPro-Regular {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 400 !important;
+}
+
+/* Добавляем явное определение через @font-face для совместимости */
+@font-face {
+    font-family: 'TTNormsPro-Bold';
+    src: local('Montserrat Bold'), local('Montserrat-Bold'),
+         url('https://fonts.gstatic.com/s/montserrat/v25/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM73w5aX8.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+} 

@@ -31,7 +31,21 @@
 
         <div class="tour-content">
             <div class="tour-image">
-                <img src="{{ asset('storage/' . ($tour->image ?? 'tours/placeholder.jpg')) }}" alt="{{ $tour->name }}">
+                @php
+                    $imageUrl = '';
+                    if ($tour->image) {
+                        if (str_starts_with($tour->image, 'img/')) {
+                            $imageUrl = asset($tour->image);
+                        } elseif (str_starts_with($tour->image, 'http')) {
+                            $imageUrl = $tour->image;
+                        } else {
+                            $imageUrl = asset('storage/' . $tour->image);
+                        }
+                    } else {
+                        $imageUrl = asset('storage/tours/placeholder.jpg');
+                    }
+                @endphp
+                <img src="{{ $imageUrl }}" alt="{{ $tour->name }}">
             </div>
             
             <div class="tour-info">
@@ -95,7 +109,7 @@
                 <button class="show-booking-form">Забронировать тур</button>
                 
                 <!-- Форма бронирования (скрыта по умолчанию) -->
-                <div class="booking-form">
+                <div class="booking-form" id="tour-booking-form">
                     <h3>Забронировать тур</h3>
                     
                     @if(session('error'))
@@ -110,10 +124,11 @@
                         </div>
                     @endif
                     
-                    <!-- ВАЖНО: Форма без JavaScript-обработки, с прямой отправкой -->
-                    <form action="{{ route('tours.book', $tour->id) }}" method="POST" id="booking-form">
+                    <!-- Основная форма бронирования -->
+                    <form action="{{ url('/tours/' . $tour->id . '/book') }}" method="POST" id="booking-form" class="main-booking-form">
                         @csrf
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="tour_id" value="{{ $tour->id }}">
                         
                         <div class="form-group">
                             <label for="booking_date">Дата начала тура</label>
@@ -178,145 +193,14 @@
                             <button type="button" class="close-booking-form" style="margin-top: 10px; background: none; border: none; color: #555; text-decoration: underline; cursor: pointer; display: block; text-align: center; width: 100%;">Отменить</button>
                         </div>
                     </form>
-                    
-                    <!-- Отладочная форма с методом GET -->
-                    <div style="margin-top: 20px; padding: 15px; border: 1px dashed #f00; background-color: #fff8f8;">
-                        <h4 style="color: #d00;">Тестовая форма (GET метод)</h4>
-                        <form action="{{ url('/test-booking') }}" method="GET">
-                            <input type="hidden" name="tour_id" value="{{ $tour->id }}">
-                            
-                            <div class="form-group">
-                                <label>Дата начала тура</label>
-                                <input type="date" name="booking_date" class="form-control" 
-                                    @if($tour->start_date && $tour->end_date)
-                                        value="{{ $tour->start_date->format('Y-m-d') }}"
-                                    @else
-                                        value="{{ date('Y-m-d') }}"
-                                    @endif
-                                    required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Количество человек</label>
-                                <input type="number" name="persons" class="form-control" value="1" min="1" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Телефон</label>
-                                <input type="tel" name="guest_phone" class="form-control" value="79001234567" required>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-danger">Тестовое бронирование через GET</button>
-                        </form>
-                    </div>
-                    
-                    <!-- Чистая HTML форма POST без Laravel-хелперов -->
-                    <div style="margin-top: 20px; padding: 15px; border: 1px dashed #00f; background-color: #f0f0ff;">
-                        <h4 style="color: #00d;">Чистая HTML-форма (POST метод)</h4>
-                        <form action="/tours/{{ $tour->id }}/book" method="POST">
-                            <!-- Вставляем CSRF-токен вручную -->
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            
-                            <div class="form-group">
-                                <label>Дата начала тура</label>
-                                <input type="date" name="booking_date" class="form-control" 
-                                    @if($tour->start_date && $tour->end_date)
-                                        value="{{ $tour->start_date->format('Y-m-d') }}"
-                                    @else
-                                        value="{{ date('Y-m-d') }}"
-                                    @endif
-                                    required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Количество человек</label>
-                                <input type="number" name="persons" class="form-control" value="1" min="1" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Ваше имя</label>
-                                <input type="text" name="guest_name" class="form-control" value="{{ Auth::user()->name ?? '' }}" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" name="guest_email" class="form-control" value="{{ Auth::user()->email ?? '' }}" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Телефон</label>
-                                <input type="tel" name="guest_phone" class="form-control" value="79001234567" required>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-primary">Отправить через чистый HTML</button>
-                        </form>
-                    </div>
                 </div>
                 
                 <div class="tour-actions" style="margin-top: 20px;">
                     <a href="{{ route('tours.index') }}" class="btn btn-secondary">Назад к турам</a>
-                    
-                    <!-- Для отладки: прямая ссылка на бронирование -->
-                    @if(Auth::check())
-                    <a href="{{ url('/test-booking?tour_id=' . $tour->id . '&booking_date=' . $tour->start_date->format('Y-m-d') . '&persons=1&guest_name=' . Auth::user()->name . '&guest_email=' . Auth::user()->email . '&guest_phone=79001234567') }}" class="btn btn-warning" style="margin-left: 15px;">
-                        Тестовое бронирование (GET)
-                    </a>
-                    @else
-                    <a href="{{ route('login') }}" class="btn btn-warning" style="margin-left: 15px;">
-                        Войти для бронирования
-                    </a>
-                    @endif
-                    
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Простой JavaScript для показа/скрытия формы -->
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  // Простой код для показа/скрытия формы
-  const showFormButtons = document.querySelectorAll(".show-booking-form");
-  showFormButtons.forEach((button) => {
-    button.addEventListener("click", function () {
-      const bookingForm = document.querySelector(".booking-form");
-      if (bookingForm) {
-        bookingForm.style.display = "block";
-        this.style.display = "none";
-      }
-    });
-  });
-  
-  // Закрытие формы бронирования
-  const closeButtons = document.querySelectorAll(".close-booking-form");
-  closeButtons.forEach((button) => {
-    button.addEventListener("click", function () {
-      const bookingForm = document.querySelector(".booking-form");
-      const showButton = document.querySelector(".show-booking-form");
-      
-      if (bookingForm && showButton) {
-        bookingForm.style.display = "none";
-        showButton.style.display = "block";
-      }
-    });
-  });
-  
-  // Расчет итоговой стоимости
-  const personsInput = document.getElementById("persons");
-  if (personsInput) {
-    personsInput.addEventListener("change", function() {
-      const personsCount = document.getElementById("persons-count");
-      const totalPrice = document.getElementById("total-price");
-      const price = parseFloat(this.dataset.price) || 0;
-      const persons = parseInt(this.value) || 1;
-      
-      if (personsCount && totalPrice) {
-        personsCount.textContent = persons;
-        totalPrice.textContent = new Intl.NumberFormat("ru-RU").format(price * persons);
-      }
-    });
-  }
-});
-</script>
 @endsection 

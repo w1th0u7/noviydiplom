@@ -34,7 +34,21 @@
             @foreach($newTours as $index => $tour)
                 <div class="block {{ $index < 3 ? 'show' : '' }}">
                     <a href="{{ route('tours.show', $tour->id) }}"></a>
-                    <img src="{{ asset('storage/' . $tour->image) }}" alt="{{ $tour->name }}" srcset="">
+                    @php
+                        $imageUrl = '';
+                        if ($tour->image) {
+                            if (str_starts_with($tour->image, 'img/')) {
+                                $imageUrl = asset($tour->image);
+                            } elseif (str_starts_with($tour->image, 'http')) {
+                                $imageUrl = $tour->image;
+                            } else {
+                                $imageUrl = asset('storage/' . $tour->image);
+                            }
+                        } else {
+                            $imageUrl = asset('storage/tours/placeholder.jpg');
+                        }
+                    @endphp
+                    <img src="{{ $imageUrl }}" alt="{{ $tour->name }}" srcset="">
                         <div class="info">
                             <p class="name">{{ $tour->name }}</p>
                             <p class="data">{{ $tour->data }}</p>
@@ -54,7 +68,21 @@
                     @foreach($upcomingTours as $index => $tour)
                         <div class="block {{ $index < 3 ? 'show' : '' }}">
                             <a href="{{ route('tours.show', $tour->id) }}"></a>
-                            <img src="{{ asset('storage/' . $tour->image) }}" alt="{{ $tour->name }}" srcset="">
+                            @php
+                                $imageUrl = '';
+                                if ($tour->image) {
+                                    if (str_starts_with($tour->image, 'img/')) {
+                                        $imageUrl = asset($tour->image);
+                                    } elseif (str_starts_with($tour->image, 'http')) {
+                                        $imageUrl = $tour->image;
+                                    } else {
+                                        $imageUrl = asset('storage/' . $tour->image);
+                                    }
+                                } else {
+                                    $imageUrl = asset('storage/tours/placeholder.jpg');
+                                }
+                            @endphp
+                            <img src="{{ $imageUrl }}" alt="{{ $tour->name }}" srcset="">
                                 <div class="info">
                                     <p class="name">{{ $tour->name }}</p>
                                     <p class="data">{{ $tour->data }}</p>
@@ -74,7 +102,21 @@
                 @foreach($popularTours as $index => $tour)
                     <div class="block {{ $index < 3 ? 'show' : '' }}">
                         <a href="{{ route('tours.show', $tour->id) }}"></a>
-                        <img src="{{ asset('storage/' . $tour->image) }}" alt="{{ $tour->name }}" srcset="">
+                        @php
+                            $imageUrl = '';
+                            if ($tour->image) {
+                                if (str_starts_with($tour->image, 'img/')) {
+                                    $imageUrl = asset($tour->image);
+                                } elseif (str_starts_with($tour->image, 'http')) {
+                                    $imageUrl = $tour->image;
+                                } else {
+                                    $imageUrl = asset('storage/' . $tour->image);
+                                }
+                            } else {
+                                $imageUrl = asset('storage/tours/placeholder.jpg');
+                            }
+                        @endphp
+                        <img src="{{ $imageUrl }}" alt="{{ $tour->name }}" srcset="">
                             <div class="info">
                                 <p class="name">{{ $tour->name }}</p>
                                 <p class="data">{{ $tour->data }}</p>
@@ -94,7 +136,21 @@
                 @foreach($summerTours as $index => $tour)
                     <div class="block {{ $index < 3 ? 'show' : '' }}">
                         <a href="{{ route('tours.show', $tour->id) }}"></a>
-                        <img src="{{ asset('storage/' . $tour->image) }}" alt="{{ $tour->name }}" srcset="">
+                        @php
+                            $imageUrl = '';
+                            if ($tour->image) {
+                                if (str_starts_with($tour->image, 'img/')) {
+                                    $imageUrl = asset($tour->image);
+                                } elseif (str_starts_with($tour->image, 'http')) {
+                                    $imageUrl = $tour->image;
+                                } else {
+                                    $imageUrl = asset('storage/' . $tour->image);
+                                }
+                            } else {
+                                $imageUrl = asset('storage/tours/placeholder.jpg');
+                            }
+                        @endphp
+                        <img src="{{ $imageUrl }}" alt="{{ $tour->name }}" srcset="">
                             <div class="info">
                                 <p class="name">{{ $tour->name }}</p>
                                 <p class="data">{{ $tour->data }}</p>
@@ -115,7 +171,21 @@
                 @foreach($winterTours as $index => $tour)
                     <div class="block {{ $index < 3 ? 'show' : '' }}">
                         <a href="{{ route('tours.show', $tour->id) }}"></a>
-                        <img src="{{ asset('storage/' . $tour->image) }}" alt="{{ $tour->name }}" srcset="">
+                        @php
+                            $imageUrl = '';
+                            if ($tour->image) {
+                                if (str_starts_with($tour->image, 'img/')) {
+                                    $imageUrl = asset($tour->image);
+                                } elseif (str_starts_with($tour->image, 'http')) {
+                                    $imageUrl = $tour->image;
+                                } else {
+                                    $imageUrl = asset('storage/' . $tour->image);
+                                }
+                            } else {
+                                $imageUrl = asset('storage/tours/placeholder.jpg');
+                            }
+                        @endphp
+                        <img src="{{ $imageUrl }}" alt="{{ $tour->name }}" srcset="">
                             <div class="info">
                                 <p class="name">{{ $tour->name }}</p>
                                 <p class="data">{{ $tour->data }}</p>
@@ -134,7 +204,21 @@
             @forelse($autumnTours ?? [] as $index => $tour)
                 <div class="block {{ $index < 3 ? 'show' : '' }}">
                     <a href="{{ route('tours.show', $tour->id) }}"></a>
-                    <img src="{{ asset('storage/' . $tour->image) }}" alt="{{ $tour->name }}" srcset="">
+                    @php
+                        $imageUrl = '';
+                        if ($tour->image) {
+                            if (str_starts_with($tour->image, 'img/')) {
+                                $imageUrl = asset($tour->image);
+                            } elseif (str_starts_with($tour->image, 'http')) {
+                                $imageUrl = $tour->image;
+                            } else {
+                                $imageUrl = asset('storage/' . $tour->image);
+                            }
+                        } else {
+                            $imageUrl = asset('storage/tours/placeholder.jpg');
+                        }
+                    @endphp
+                    <img src="{{ $imageUrl }}" alt="{{ $tour->name }}" srcset="">
                         <div class="info">
                             <p class="name">{{ $tour->name }}</p>
                             <p class="data">{{ $tour->data }}</p>
@@ -152,7 +236,21 @@
             @forelse($springTours ?? [] as $index => $tour)
                 <div class="block {{ $index < 3 ? 'show' : '' }}">
                     <a href="{{ route('tours.show', $tour->id) }}"></a>
-                    <img src="{{ asset('storage/' . $tour->image) }}" alt="{{ $tour->name }}" srcset="">
+                    @php
+                        $imageUrl = '';
+                        if ($tour->image) {
+                            if (str_starts_with($tour->image, 'img/')) {
+                                $imageUrl = asset($tour->image);
+                            } elseif (str_starts_with($tour->image, 'http')) {
+                                $imageUrl = $tour->image;
+                            } else {
+                                $imageUrl = asset('storage/' . $tour->image);
+                            }
+                        } else {
+                            $imageUrl = asset('storage/tours/placeholder.jpg');
+                        }
+                    @endphp
+                    <img src="{{ $imageUrl }}" alt="{{ $tour->name }}" srcset="">
                         <div class="info">
                             <p class="name">{{ $tour->name }}</p>
                             <p class="data">{{ $tour->data }}</p>

@@ -164,7 +164,7 @@
                             <h1 class="h1">Путешествуй по великой России с нами</h1>
                             <p>Широкий выбор туров любой направленности. Организация групповых и индивидуальных программ.</p>
                             <div class="btns">
-                                <a href="{{ route('tours.index') }}">Выбрать свой тур</a>
+                                <a href="{{ route('schedule') }}">Выбрать свой тур</a>
                                 <a href="{{ route('login') }}">Личный кабинет</a>
                             </div>
                         </div>
@@ -205,22 +205,22 @@
                     <a href="#"></a>
                 </div>
                 <div class="swiper-slide swiper-slide" role="group" aria-label="5 / 9" style="margin-right: 40px;">
-                    <img src="/img/59.jpg" alt="" srcset="">
+                    <img src="/storage/images/kazan.jpg" alt="" srcset="">
                     <p>Процедуры</p>
                     <a href="#"></a>
                 </div>
                 <div class="swiper-slide swiper-slide" role="group" aria-label="6 / 9" style="margin-right: 40px;">
-                    <img src="/img/59.jpg" alt="" srcset="">
+                    <img src="/storage/images/kazan.jpg" alt="" srcset="">
                     <p>Увлекательные</p>
                     <a href="#"></a>
                 </div>
                 <div class="swiper-slide swiper-slide" role="group" aria-label="7 / 9" style="margin-right: 40px;">
-                    <img src="/img/59.jpg" alt="" srcset="">
+                    <img src="/storage/images/kazan.jpg" alt="" srcset="">
                     <p>Горные туры</p>
                     <a href="#"></a>
                 </div>
                 <div class="swiper-slide swiper-slide" role="group" aria-label="8 / 9" style="margin-right: 40px;">
-                    <img src="/img/59.jpg" alt="" srcset="">
+                    <img src="/storage/images/kazan.jpg" alt="" srcset="">
                     <p>Детям</p>
                     <a href="#"></a>
                 </div>

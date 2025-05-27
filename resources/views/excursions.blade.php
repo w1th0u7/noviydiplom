@@ -37,7 +37,7 @@
             </div>
         </div>
         
-        <div class="excursion-filter">
+        <div class="excursion-filter excursions-list">
             <div class="filter-group">
                 <label for="region">Регион:</label>
                 <select id="region" class="filter-select">

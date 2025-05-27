@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Подключение шрифтов через Google Fonts -->
+    <link rel="stylesheet" href="{{ asset('/css/web-fonts.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://api-maps.yandex.ru/2.1/?apikey=YOUR_API_KEY&lang=ru_RU" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -390,6 +392,8 @@
     <script src="/js/swiper.js" defer></script>
     <script src="/js/main.js" defer></script>
     <script src="/js/modal.js" defer></script>
+    <script src="/js/booking.js" defer></script>
+    <script src="/js/smooth-scroll.js" defer></script>
     @yield('scripts')
 </body>
 </html> 
