@@ -42,10 +42,10 @@
                             } elseif (str_starts_with($tour->image, 'http')) {
                                 $imageUrl = $tour->image;
                             } else {
-                                $imageUrl = asset('storage/' . $tour->image);
+                                $imageUrl = asset('img/' . $tour->image);
                             }
                         } else {
-                            $imageUrl = asset('storage/tours/placeholder.jpg');
+                            $imageUrl = asset('img/tours/placeholder.jpg');
                         }
                     @endphp
                     <img src="{{ $imageUrl }}" alt="{{ $tour->name }}" srcset="">
@@ -76,10 +76,10 @@
                                     } elseif (str_starts_with($tour->image, 'http')) {
                                         $imageUrl = $tour->image;
                                     } else {
-                                        $imageUrl = asset('storage/' . $tour->image);
+                                        $imageUrl = asset('img/' . $tour->image);
                                     }
                                 } else {
-                                    $imageUrl = asset('storage/tours/placeholder.jpg');
+                                    $imageUrl = asset('img/tours/placeholder.jpg');
                                 }
                             @endphp
                             <img src="{{ $imageUrl }}" alt="{{ $tour->name }}" srcset="">
@@ -110,10 +110,10 @@
                                 } elseif (str_starts_with($tour->image, 'http')) {
                                     $imageUrl = $tour->image;
                                 } else {
-                                    $imageUrl = asset('storage/' . $tour->image);
+                                    $imageUrl = asset('img/' . $tour->image);
                                 }
                             } else {
-                                $imageUrl = asset('storage/tours/placeholder.jpg');
+                                $imageUrl = asset('img/tours/placeholder.jpg');
                             }
                         @endphp
                         <img src="{{ $imageUrl }}" alt="{{ $tour->name }}" srcset="">
@@ -144,10 +144,10 @@
                                 } elseif (str_starts_with($tour->image, 'http')) {
                                     $imageUrl = $tour->image;
                                 } else {
-                                    $imageUrl = asset('storage/' . $tour->image);
+                                    $imageUrl = asset('img/' . $tour->image);
                                 }
                             } else {
-                                $imageUrl = asset('storage/tours/placeholder.jpg');
+                                $imageUrl = asset('img/tours/placeholder.jpg');
                             }
                         @endphp
                         <img src="{{ $imageUrl }}" alt="{{ $tour->name }}" srcset="">
@@ -179,10 +179,10 @@
                                 } elseif (str_starts_with($tour->image, 'http')) {
                                     $imageUrl = $tour->image;
                                 } else {
-                                    $imageUrl = asset('storage/' . $tour->image);
+                                    $imageUrl = asset('img/' . $tour->image);
                                 }
                             } else {
-                                $imageUrl = asset('storage/tours/placeholder.jpg');
+                                $imageUrl = asset('img/tours/placeholder.jpg');
                             }
                         @endphp
                         <img src="{{ $imageUrl }}" alt="{{ $tour->name }}" srcset="">
@@ -212,10 +212,10 @@
                             } elseif (str_starts_with($tour->image, 'http')) {
                                 $imageUrl = $tour->image;
                             } else {
-                                $imageUrl = asset('storage/' . $tour->image);
+                                $imageUrl = asset('img/' . $tour->image);
                             }
                         } else {
-                            $imageUrl = asset('storage/tours/placeholder.jpg');
+                            $imageUrl = asset('img/tours/placeholder.jpg');
                         }
                     @endphp
                     <img src="{{ $imageUrl }}" alt="{{ $tour->name }}" srcset="">
@@ -244,10 +244,10 @@
                             } elseif (str_starts_with($tour->image, 'http')) {
                                 $imageUrl = $tour->image;
                             } else {
-                                $imageUrl = asset('storage/' . $tour->image);
+                                $imageUrl = asset('img/' . $tour->image);
                             }
                         } else {
-                            $imageUrl = asset('storage/tours/placeholder.jpg');
+                            $imageUrl = asset('img/tours/placeholder.jpg');
                         }
                     @endphp
                     <img src="{{ $imageUrl }}" alt="{{ $tour->name }}" srcset="">

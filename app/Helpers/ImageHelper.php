@@ -14,7 +14,7 @@ class ImageHelper
     public static function getImageUrl($imagePath, $defaultImage = 'tours/placeholder.jpg')
     {
         if (!$imagePath) {
-            return asset('storage/' . $defaultImage);
+            return asset('img/' . $defaultImage);
         }
         
         if (str_starts_with($imagePath, 'img/')) {
@@ -25,6 +25,11 @@ class ImageHelper
             return $imagePath;
         }
         
-        return asset('storage/' . $imagePath);
+        // Перенаправляем пути из storage в img
+        if (str_starts_with($imagePath, 'tours/') || str_starts_with($imagePath, 'excursions/')) {
+            return asset('img/' . $imagePath);
+        }
+        
+        return asset('img/' . $imagePath);
     }
 } 

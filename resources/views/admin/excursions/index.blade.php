@@ -40,7 +40,7 @@
                     <td>{{ $excursion->id }}</td>
                     <td>
                         @if($excursion->image)
-                            <img src="{{ asset('storage/' . $excursion->image) }}" alt="{{ $excursion->name }}" class="excursion-thumbnail">
+                            <img src="{{ asset('img/' . $excursion->image) }}" alt="{{ $excursion->name }}" class="excursion-thumbnail">
                         @else
                             <span class="no-image">Нет изображения</span>
                         @endif

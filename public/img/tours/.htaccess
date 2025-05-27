@@ -1,0 +1,26 @@
+# Разрешить доступ к файлам изображений в папке tours
+<IfModule mod_authz_core.c>
+    Require all granted
+</IfModule>
+
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Allow from all
+</IfModule>
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.(jpg|jpeg|png|gif|webp)$">
+        Header set Access-Control-Allow-Origin "*"
+        Header set Cache-Control "max-age=2592000, public"
+    </FilesMatch>
+</IfModule>
+
+# Отключить обработку PHP для файлов изображений
+<FilesMatch "\.(jpg|jpeg|png|gif|webp)$">
+    <IfModule mod_php7.c>
+        php_flag engine off
+    </IfModule>
+    <IfModule mod_php8.c>
+        php_flag engine off
+    </IfModule>
+</FilesMatch> 
