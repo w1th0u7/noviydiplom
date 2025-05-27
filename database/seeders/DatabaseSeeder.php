@@ -5,8 +5,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-
-// Импортируйте класс User
 use Illuminate\Support\Facades\Hash;
 use Faker\Factory;
 
