@@ -55,7 +55,6 @@ class ToursAndExcursionsSeeder extends Seeder
             'available_seats' => 20
         ]);
         
-<<<<<<< HEAD
         // Осенний тур (Сентябрь-Ноябрь)
         $autumnStartDate = Carbon::create(null, rand(9, 11), rand(1, 28));
         Tour::create([
