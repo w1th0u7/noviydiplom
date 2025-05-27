@@ -193,7 +193,6 @@
                             <button type="button" class="close-booking-form" style="margin-top: 10px; background: none; border: none; color: #555; text-decoration: underline; cursor: pointer; display: block; text-align: center; width: 100%;">Отменить</button>
                         </div>
                     </form>
-                </div>
                 
                 <div class="tour-actions" style="margin-top: 20px;">
                     <a href="{{ route('tours.index') }}" class="btn btn-secondary">Назад к турам</a>

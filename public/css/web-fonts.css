@@ -10,11 +10,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 /* Переопределяем шрифты для совместимости со стилями */
-.font-yeseva, 
-h1, h2, h3, h4, h5,
-.h1, .h2, .h3, .h4, .h5 {
-    font-family: 'Yeseva One', serif !important;
-}
+
 
 body, p, div, span, a, 
 .font-manrope {

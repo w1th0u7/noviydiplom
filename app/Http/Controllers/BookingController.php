@@ -22,20 +22,20 @@ class BookingController extends Controller
      */
     public function bookTour(Request $request, $id)
     {
-        // Базовое логирование для отладки
-        \Log::info("Запрос на бронирование тура #{$id}");
+
         
         // Проверка аутентификации
         if (!Auth::check()) {
             return redirect()->route('login')
                 ->with('error', 'Для бронирования тура необходимо авторизоваться');
         }
+
         
         try {
             // Используем блокировку транзакции для предотвращения конкурентных обращений
             return DB::transaction(function() use ($request, $id) {
                 $tour = Tour::findOrFail($id);
-                
+
                 // Валидация данных
                 $validator = Validator::make($request->all(), [
                     'booking_date' => 'required|date|after_or_equal:today',
@@ -47,11 +47,13 @@ class BookingController extends Controller
                 ]);
 
                 if ($validator->fails()) {
+
                     return redirect()->back()
                         ->withErrors($validator)
                         ->withInput();
                 }
                 
+
                 // Проверяем доступность тура на выбранную дату
                 if (!$tour->isAvailableOn($request->booking_date)) {
                     $message = 'К сожалению, тур недоступен на выбранную дату.';

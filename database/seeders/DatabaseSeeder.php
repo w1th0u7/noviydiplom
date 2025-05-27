@@ -5,8 +5,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-
-// Импортируйте класс User
 use Illuminate\Support\Facades\Hash;
 use Faker\Factory;
 
@@ -22,6 +20,7 @@ class DatabaseSeeder extends Seeder
         ]);
         
         // Создаем пользователя-админа только если он еще не существует
+
         $adminEmail = 'admin@example.com';
         
         if (!User::where('email', $adminEmail)->exists()) {
@@ -39,10 +38,11 @@ class DatabaseSeeder extends Seeder
         }
         
         // Создаем обычного пользователя если он еще не существует
+
         $userEmail = 'unique_email666@example.com';
         
         if (!User::where('email', $userEmail)->exists()) {
-            $faker = Factory::create();
+            $faker = FakerFactory::create();
             
             $user = User::create([
                 'name' => 'Artem',

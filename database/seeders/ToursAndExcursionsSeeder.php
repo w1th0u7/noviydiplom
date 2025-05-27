@@ -19,17 +19,20 @@ class ToursAndExcursionsSeeder extends Seeder
         Tour::truncate();
         Excursion::truncate();
         
+
         // Создаем туры по сезонам и регионам
         $this->createSeasonalTours();
         
         // Создаем туры для разных возрастных групп
         $this->createAgeCategoryTours();
+
         
         // Создаем тестовые экскурсии
         $this->createExcursions();
     }
     
     /**
+
      * Создать туры по сезонам и регионам
      */
     private function createSeasonalTours(): void
