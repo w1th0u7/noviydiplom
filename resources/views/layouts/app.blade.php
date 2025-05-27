@@ -588,5 +588,6 @@
     <script src="/js/swiper.js" defer></script>
     <script src="/js/main.js" defer></script>
     <script src="/js/modal.js" defer></script>
+    @yield('scripts')
 </body>
 </html>

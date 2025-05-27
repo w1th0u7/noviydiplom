@@ -19,6 +19,12 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Opening modal window");
         modal.classList.add("active");
         overlay.classList.add("active");
+        
+        // Скрываем сообщение об успехе при открытии модального окна
+        const successMessage = modal.querySelector(".uspeh");
+        if (successMessage) {
+          successMessage.style.display = "none";
+        }
       });
     });
 
@@ -53,15 +59,35 @@ document.addEventListener("DOMContentLoaded", function () {
       // Обновлям форму после отправки
       this.reset();
 
-      // Выведите сообщение об успехе
+      // Показываем форму при отправке
+      const formContent = modal.querySelector(".cont");
       const successMessage = modal.querySelector(".uspeh");
-      if (successMessage) {
+      
+      if (formContent && successMessage) {
+        formContent.style.display = "none";
+        successMessage.classList.add("success-message");
         successMessage.style.display = "block";
+        
+        // Устанавливаем текст сообщения об успешном заказе звонка
+        const successTitle = successMessage.querySelector("h3");
+        const successText = successMessage.querySelector(".txt");
+        
+        if (successTitle && successText) {
+          successTitle.innerHTML = "Заявка <span>успешно отправлена!</span>";
+          successText.textContent = "Спасибо, что заказали звонок. Менеджер в ближайшее время позвонит Вам.";
+        }
+        
+        // Закрываем модальное окно через 3 секунды после успешной отправки
         setTimeout(function () {
-          successMessage.style.display = "none";
-          // Закрываем модальное окно после успешной отправки
           modal.classList.remove("active");
           overlay.classList.remove("active");
+          
+          // Восстанавливаем исходное состояние модального окна через задержку 
+          // (после того как окно закроется)
+          setTimeout(function() {
+            successMessage.style.display = "none";
+            formContent.style.display = "block";
+          }, 300);
         }, 3000);
       }
     });

@@ -4405,3 +4405,22 @@ section + section {
 .slider.otz {
   margin-top: 20px;
 }
+
+/* Стили для зеленого сообщения об успешной отправке */
+.modal .img-form .uspeh.success-message {
+  background-color: #e6f7e9;
+  border-left: 4px solid #4caf50;
+  opacity: 1;
+  visibility: visible;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.modal .img-form .uspeh.success-message h3 {
+  color: #2e7d32;
+}
+
+.modal .img-form .uspeh.success-message .txt {
+  color: #1b5e20;
+}

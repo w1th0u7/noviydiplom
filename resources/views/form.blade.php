@@ -68,3 +68,7 @@
         
 @endsection
 
+@section('scripts')
+    <script src="/js/form.js"></script>
+@endsection
+
