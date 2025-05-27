@@ -261,7 +261,12 @@
                     <a href="{{ url('/test-booking?tour_id=' . $tour->id . '&booking_date=' . $tour->start_date->format('Y-m-d') . '&persons=1&guest_name=' . Auth::user()->name . '&guest_email=' . Auth::user()->email . '&guest_phone=79001234567') }}" class="btn btn-warning" style="margin-left: 15px;">
                         Тестовое бронирование (GET)
                     </a>
+                    @else
+                    <a href="{{ route('login') }}" class="btn btn-warning" style="margin-left: 15px;">
+                        Войти для бронирования
+                    </a>
                     @endif
+                    
                 </div>
             </div>
         </div>
