@@ -243,7 +243,6 @@ class ToursAndExcursionsSeeder extends Seeder
      */
     private function createExcursions(): void
     {
-<<<<<<< HEAD
         // Экскурсии в Центральной России
         Excursion::create([
             'name' => 'Московский Кремль и Красная площадь',
