@@ -21,7 +21,7 @@
                         <li data-index="5">Осенние</li>
                         <li data-index="6">Весенние</li>
                     </ul>
-                    <a class="btn--white" href="{{ route('tours.index') }}">
+                    <a class="btn--white" href="{{ route('schedule') }}">
                         <span>Все туры</span>
                     <img src="/img/arrow-btn.svg" alt="" srcset="">
                     </a>

@@ -66,7 +66,7 @@ class Excursion extends Model
     public function getImagePathAttribute()
     {
         if ($this->image && !str_starts_with($this->image, 'http')) {
-            return asset('storage/' . $this->image);
+            return asset('img/excursions/' . $this->image);
         }
         return $this->image;
     }

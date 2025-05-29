@@ -183,6 +183,25 @@
                             <a href="http://">Размещение</a>
                         </div>
                     </div>
+                    <div class="f-menu mob">
+                            <a href="http://">Акции</a>
+                            <a href="http://">Туры</a>
+                            <a href="http://">Календарь</a>
+                            <a href="http://">Экскурсии</a>
+                            <a href="http://">Индивидуальные туры</a>
+                            <a href="http://">Туристам</a>
+                            <a href="http://">Турагенствам</a>
+                            <a href="http://">Отзывы</a>
+                            <a href="http://">О нас</a>
+                            <a href="http://">Контакты</a>
+                            <a href="http://">Реквизиты</a>
+                            <a href="http://">Финансовая гарантия</a>
+                            <a href="http://">Руководство</a>
+                            <a href="http://">Доставка туристов</a>
+                            <a href="http://">Снаряжение</a>
+                            <a href="http://">Страхование</a>
+                            <a href="http://">Размещение</a>
+                        </div>
                 </div>
                 <div class="block">
                     <div class="info">
@@ -292,6 +311,7 @@
     <script src="/js/main.js" defer></script>
     <script src="/js/modal.js" defer></script>
     <script src="/js/calculate.js" defer></script>
+    <script src="/js/smooth-scroll.js" defer></script>
     @yield('scripts')
 </body>
 </html> 

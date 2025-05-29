@@ -755,9 +755,11 @@ document.addEventListener("DOMContentLoaded", function () {
       cardDiv.innerHTML = `
         <div class="hotel-card-image">
           <img src="${
-            hotel.image.startsWith("/storage")
+            hotel.image.startsWith("/img")
               ? hotel.image
-              : "/storage/" + hotel.image
+              : hotel.isExcursion 
+                ? "/img/excursions/" + hotel.image
+                : "/img/tours/" + hotel.image
           }" alt="${hotel.name}">
           <div class="hotel-duration">${hotel.excursionData.duration}</div>
         </div>
@@ -787,9 +789,11 @@ document.addEventListener("DOMContentLoaded", function () {
       cardDiv.innerHTML = `
         <div class="hotel-card-image">
           <img src="${
-            hotel.image.startsWith("/storage")
+            hotel.image.startsWith("/img")
               ? hotel.image
-              : "/storage/" + hotel.image
+              : hotel.isExcursion 
+                ? "/img/excursions/" + hotel.image
+                : "/img/tours/" + hotel.image
           }" alt="${hotel.name}">
           <div class="hotel-duration">${hotel.tourData.nights} ${getNightsWord(
         hotel.tourData.nights
