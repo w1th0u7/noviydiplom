@@ -133,14 +133,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Функция для отображения ошибки
   function showError(input, message) {
-    const formGroup = input.parentElement;
+    const formGroup = input.closest(".form-group");
 
     // Создаем элемент с сообщением об ошибке, если его еще нет
     if (!formGroup.querySelector(".error-message")) {
       const errorElement = document.createElement("div");
       errorElement.className = "error-message";
       errorElement.textContent = message;
-      formGroup.appendChild(errorElement);
+
+      // Находим текущую подсказку required-field, если есть
+      const requiredField = formGroup.querySelector(".required-field");
+
+      // Вставляем сообщение об ошибке после поля ввода или группы input-group
+      const inputGroup = formGroup.querySelector(".input-group");
+      if (inputGroup) {
+        inputGroup.insertAdjacentElement("afterend", errorElement);
+      } else {
+        input.insertAdjacentElement("afterend", errorElement);
+      }
+
+      // Скрываем подсказку required-field если она есть
+      if (requiredField) {
+        requiredField.style.display = "none";
+      }
     } else {
       formGroup.querySelector(".error-message").textContent = message;
     }
@@ -150,11 +165,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Функция для очистки ошибки
   function clearError(input) {
-    const formGroup = input.parentElement;
+    const formGroup = input.closest(".form-group");
     const errorElement = formGroup.querySelector(".error-message");
+    const requiredField = formGroup.querySelector(".required-field");
 
     if (errorElement) {
       errorElement.remove();
+
+      // Показываем подсказку required-field снова, если она есть
+      if (requiredField) {
+        requiredField.style.display = "block";
+      }
     }
 
     input.classList.remove("error");

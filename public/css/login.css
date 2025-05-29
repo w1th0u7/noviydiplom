@@ -9,6 +9,13 @@
   height: 54px;
   color: #333;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  font-size: 15px;
+}
+
+.form-group .input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .form-group input:focus {

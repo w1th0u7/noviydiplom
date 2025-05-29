@@ -112,6 +112,7 @@
 /* Общие стили для полей ввода */
 .form-group {
   margin-bottom: 24px;
+  position: relative;
 }
 
 .form-group label {
@@ -124,6 +125,25 @@
 
 .form-group .input-group {
   position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Добавляем стили для текста-подсказки */
+.form-group .required-field {
+  display: block;
+  color: #777;
+  font-size: 13px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.form-group .error-message {
+  display: block;
+  color: var(--error);
+  font-size: 13px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .form-group .input-icon {
@@ -132,6 +152,9 @@
   left: 16px;
   transform: translateY(-50%);
   color: #999;
+  z-index: 1;
+  font-size: 18px;
+  line-height: 1;
 }
 
 .form-group input {
@@ -167,6 +190,8 @@
   color: #999;
   cursor: pointer;
   z-index: 2;
+  font-size: 18px;
+  line-height: 1;
 }
 
 /* Стили для кнопок и ссылок */

@@ -70,6 +70,7 @@
                             required
                         >
                     </div>
+                    <span class="required-field">Это поле обязательно для заполнения</span>
                 </div>
                 
                 <div class="form-group">
@@ -85,6 +86,7 @@
                             required
                         >
                     </div>
+                    <span class="required-field">Это поле обязательно для заполнения</span>
                 </div>
                 
                 <div class="form-row">
@@ -103,6 +105,7 @@
                                 <i class="fas fa-eye" id="toggleIcon1"></i>
                             </span>
                         </div>
+                        <span class="required-field">Пароль должен содержать минимум 6 символов</span>
                     </div>
                     
                     <div class="form-group">
@@ -120,6 +123,7 @@
                                 <i class="fas fa-eye" id="toggleIcon2"></i>
                             </span>
                         </div>
+                        <span class="required-field">Это поле обязательно для заполнения</span>
                     </div>
                 </div>
                 
