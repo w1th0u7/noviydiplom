@@ -187,42 +187,42 @@
                 <div class="swiper-slide swiper-slide-active" role="group" aria-label="1 / 9" style="margin-right: 40px;">
                     <img src="/img/sayMGFc-uGI 2.png" alt="" srcset="">
                     <p>Круизы</p>
-                    <a href="#"></a>
+                    <a href="{{ route('calculate') }}"></a>
                 </div>
                 <div class="swiper-slide swiper-slide-next" role="group" aria-label="2 / 9" style="margin-right: 40px;">
                     <img src="/img/YiVpT7_kdsw 1.png" alt="" srcset="">
                     <p>Зарубежные туры</p>
-                    <a href="#"></a>
+                    <a href="{{ route('schedule') }}"></a>
                 </div>
                 <div class="swiper-slide swiper-slide" role="group" aria-label="3 / 9" style="margin-right: 40px;">
                     <img src="/img/7nlvLmnwPIo.png" alt="" srcset="">
                     <p>Многодневные туры</p>
-                    <a href="#"></a>
+                    <a href="{{ route('schedule') }}"></a>
                 </div>
                 <div class="swiper-slide swiper-slide" role="group" aria-label="4 / 9" style="margin-right: 40px;">
                     <img src="/img/9752bded3270d6662c72431b59b74fca 1.png" alt="" srcset="">
                     <p>Водные туры</p>
-                    <a href="#"></a>
+                    <a href="{{ route('schedule') }}"></a>
                 </div>
                 <div class="swiper-slide swiper-slide" role="group" aria-label="5 / 9" style="margin-right: 40px;">
-                    <img src="/storage/images/kazan.jpg" alt="" srcset="">
+                    <img src="/img/tours/kazan.jpg" alt="" srcset="">
                     <p>Процедуры</p>
-                    <a href="#"></a>
+                    <a href="{{ route('calculate') }}"></a>
                 </div>
                 <div class="swiper-slide swiper-slide" role="group" aria-label="6 / 9" style="margin-right: 40px;">
-                    <img src="/storage/images/kazan.jpg" alt="" srcset="">
+                    <img src="/img/tours/kazan.jpg" alt="" srcset="">
                     <p>Увлекательные</p>
-                    <a href="#"></a>
+                    <a href="{{ route('calculate') }}"></a>
                 </div>
                 <div class="swiper-slide swiper-slide" role="group" aria-label="7 / 9" style="margin-right: 40px;">
-                    <img src="/storage/images/kazan.jpg" alt="" srcset="">
+                    <img src="/img/tours/kazan.jpg" alt="" srcset="">
                     <p>Горные туры</p>
-                    <a href="#"></a>
+                    <a href="{{ route('schedule') }}"></a>
                 </div>
                 <div class="swiper-slide swiper-slide" role="group" aria-label="8 / 9" style="margin-right: 40px;">
-                    <img src="/storage/images/kazan.jpg" alt="" srcset="">
+                    <img src="/img/tours/kazan.jpg" alt="" srcset="">
                     <p>Детям</p>
-                    <a href="#"></a>
+                    <a href="{{ route('excursions') }}"></a>
                 </div>
                 <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
             </div>

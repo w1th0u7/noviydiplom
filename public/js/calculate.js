@@ -758,8 +758,8 @@ document.addEventListener("DOMContentLoaded", function () {
             hotel.image.startsWith("/img")
               ? hotel.image
               : hotel.isExcursion 
-                ? "/img/excursions/" + hotel.image
-                : "/img/tours/" + hotel.image
+                ? "/img/excursions/" + hotel.image.replace('excursions/', '')
+                : "/img/tours/" + hotel.image.replace('tours/', '')
           }" alt="${hotel.name}">
           <div class="hotel-duration">${hotel.excursionData.duration}</div>
         </div>
@@ -792,8 +792,8 @@ document.addEventListener("DOMContentLoaded", function () {
             hotel.image.startsWith("/img")
               ? hotel.image
               : hotel.isExcursion 
-                ? "/img/excursions/" + hotel.image
-                : "/img/tours/" + hotel.image
+                ? "/img/excursions/" + hotel.image.replace('excursions/', '')
+                : "/img/tours/" + hotel.image.replace('tours/', '')
           }" alt="${hotel.name}">
           <div class="hotel-duration">${hotel.tourData.nights} ${getNightsWord(
         hotel.tourData.nights
@@ -881,7 +881,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const hotelData = {
         name: tour.name,
         location: tour.location,
-        image: tour.image_path || "/img/tour-placeholder.jpg", // Используем путь к изображению или заглушку
+        image: tour.image_path || "/img/tours/tour-placeholder.jpg", // Используем путь к изображению или заглушку
         stars:
           tour.type === "Люкс"
             ? 5
@@ -908,7 +908,7 @@ document.addEventListener("DOMContentLoaded", function () {
         rating: 4.0, // По умолчанию
         reviewsCount: 0,
         description: tour.description,
-        images: [tour.image_path || "/img/tour-placeholder.jpg"],
+        images: [tour.image_path || "/img/tours/tour-placeholder.jpg"],
         features: tour.features || [],
         // Добавляем данные из параметров поиска
         tourData: {
@@ -1340,7 +1340,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Устанавливаем основное изображение
         const mainImage = document.getElementById("tour-main-image");
         if (mainImage) {
-          mainImage.src = tourData.image || "/img/tour-placeholder.jpg";
+          mainImage.src = tourData.image || "/img/tours/tour-placeholder.jpg";
           mainImage.alt = tourData.name;
         }
 

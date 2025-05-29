@@ -42,7 +42,8 @@
                             } elseif (str_starts_with($tour->image, 'http')) {
                                 $imageUrl = $tour->image;
                             } else {
-                                $imageUrl = asset('img/' . $tour->image);
+                                $cleanImage = str_replace('tours/', '', $tour->image);
+                                $imageUrl = asset('img/tours/' . $cleanImage);
                             }
                         } else {
                             $imageUrl = asset('img/tours/placeholder.jpg');
@@ -76,7 +77,8 @@
                                     } elseif (str_starts_with($tour->image, 'http')) {
                                         $imageUrl = $tour->image;
                                     } else {
-                                        $imageUrl = asset('img/' . $tour->image);
+                                        $cleanImage = str_replace('tours/', '', $tour->image);
+                                        $imageUrl = asset('img/tours/' . $cleanImage);
                                     }
                                 } else {
                                     $imageUrl = asset('img/tours/placeholder.jpg');
@@ -110,7 +112,8 @@
                                 } elseif (str_starts_with($tour->image, 'http')) {
                                     $imageUrl = $tour->image;
                                 } else {
-                                    $imageUrl = asset('img/' . $tour->image);
+                                    $cleanImage = str_replace('tours/', '', $tour->image);
+                                    $imageUrl = asset('img/tours/' . $cleanImage);
                                 }
                             } else {
                                 $imageUrl = asset('img/tours/placeholder.jpg');
@@ -144,7 +147,8 @@
                                 } elseif (str_starts_with($tour->image, 'http')) {
                                     $imageUrl = $tour->image;
                                 } else {
-                                    $imageUrl = asset('img/' . $tour->image);
+                                    $cleanImage = str_replace('tours/', '', $tour->image);
+                                    $imageUrl = asset('img/tours/' . $cleanImage);
                                 }
                             } else {
                                 $imageUrl = asset('img/tours/placeholder.jpg');
@@ -179,7 +183,8 @@
                                 } elseif (str_starts_with($tour->image, 'http')) {
                                     $imageUrl = $tour->image;
                                 } else {
-                                    $imageUrl = asset('img/' . $tour->image);
+                                    $cleanImage = str_replace('tours/', '', $tour->image);
+                                    $imageUrl = asset('img/tours/' . $cleanImage);
                                 }
                             } else {
                                 $imageUrl = asset('img/tours/placeholder.jpg');
@@ -212,7 +217,8 @@
                             } elseif (str_starts_with($tour->image, 'http')) {
                                 $imageUrl = $tour->image;
                             } else {
-                                $imageUrl = asset('img/' . $tour->image);
+                                $cleanImage = str_replace('tours/', '', $tour->image);
+                                $imageUrl = asset('img/tours/' . $cleanImage);
                             }
                         } else {
                             $imageUrl = asset('img/tours/placeholder.jpg');
@@ -244,7 +250,8 @@
                             } elseif (str_starts_with($tour->image, 'http')) {
                                 $imageUrl = $tour->image;
                             } else {
-                                $imageUrl = asset('img/' . $tour->image);
+                                $cleanImage = str_replace('tours/', '', $tour->image);
+                                $imageUrl = asset('img/tours/' . $cleanImage);
                             }
                         } else {
                             $imageUrl = asset('img/tours/placeholder.jpg');

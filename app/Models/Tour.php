@@ -45,7 +45,9 @@ class Tour extends Model
     public function getImagePathAttribute()
     {
         if ($this->image && !str_starts_with($this->image, 'http')) {
-            return asset('img/tours/' . $this->image);
+            // Убираем возможное дублирование пути tours/
+            $imageName = str_replace('tours/', '', $this->image);
+            return asset('img/tours/' . $imageName);
         }
         return $this->image;
     }

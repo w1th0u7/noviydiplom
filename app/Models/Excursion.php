@@ -66,7 +66,9 @@ class Excursion extends Model
     public function getImagePathAttribute()
     {
         if ($this->image && !str_starts_with($this->image, 'http')) {
-            return asset('img/excursions/' . $this->image);
+            // Убираем возможное дублирование пути excursions/
+            $imageName = str_replace('excursions/', '', $this->image);
+            return asset('img/excursions/' . $imageName);
         }
         return $this->image;
     }
