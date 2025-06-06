@@ -105,7 +105,7 @@
                 <div class="max">
                     <nav class>
                         <div class="close-menu">
-                            <img src="/img/close-menu.svg">
+                            <img src="/icons/close.svg">
                         </div>
                         <div class="soc mob">
                             <a href="http:// " class="tg" target="_blank">
