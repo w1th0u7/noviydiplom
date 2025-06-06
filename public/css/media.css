@@ -6744,6 +6744,7 @@ header.home {
   .zag-btn .btn--white.mob {
     display: -webkit-box;
     display: flex;
+    color: black;
   }
 
   .otz .btns-block,

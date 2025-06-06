@@ -4076,6 +4076,7 @@ footer .soc {
     border: 1.5px dashed rgba(239, 243, 246, 0.1019607843);
     border-radius: 12px;
     margin-bottom: 0;
+    width: 100%;
   }
 
   footer .block .info .info-icon::after {
