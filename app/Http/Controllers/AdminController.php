@@ -69,7 +69,7 @@ class AdminController extends Controller
     public function edit($id)
     {
         $tour = Tour::findOrFail($id); // Находим тур по ID или возвращаем 404
-        return view('admin.tours.edit', compact('tour')); // Создайте представление для редактирования тура
+        return view('admin.tours.edit', compact('tour'));
     }
 
     /**
@@ -226,7 +226,7 @@ class AdminController extends Controller
         ]);
 
         // Сохранение изображения
-        $imagePath = $request->file('image')->store('tours', 'public');
+        $imagePath = $request->file('image')->store('img/tours', 'public');
 
         Tour::create([
             'name' => $validatedData['name'],
@@ -277,7 +277,7 @@ class AdminController extends Controller
             }
             
             // Сохраняем новое изображение
-            $imagePath = $request->file('image')->store('tours', 'public');
+            $imagePath = $request->file('image')->store('img/tours', 'public');
             $tour->image = $imagePath;
         }
 

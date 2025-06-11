@@ -10,7 +10,7 @@ class TourController extends Controller
    
    {  public function index()
     {
-        // Получаем данные из базы 
+        
         $newTours = Tour::orderBy('created_at', 'desc')->get();
         $upcomingTours = Tour::orderBy('start_date', 'asc')->where('start_date', '>', now())->get();
         $popularTours = Tour::orderBy('price', 'desc')->get();
@@ -189,7 +189,7 @@ class TourController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '_' . $image->getClientOriginalName();
-            $imagePath = $image->storeAs('images', $imageName, 'public');
+            $imagePath = $image->storeAs('img/tours', $imageName, 'public');
         }
 
         $tour = Tour::create([
@@ -318,7 +318,7 @@ class TourController extends Controller
             $tour->description = $description;
             // Используем изображения из storage, с разными вариантами для разнообразия
             $imageNames = ['beach.jpg', 'mountain.jpg', 'city.jpg', 'resort.jpg', 'hotel.jpg'];
-            $imagePath = 'tours/' . $imageNames[array_rand($imageNames)];
+            $imagePath = 'img/tours/' . $imageNames[array_rand($imageNames)];
             $tour->image = $imagePath;
             $tour->start_date = Carbon::now()->addDays($startOffset)->format('Y-m-d');
             $tour->end_date = Carbon::now()->addDays($startOffset + $duration)->format('Y-m-d');

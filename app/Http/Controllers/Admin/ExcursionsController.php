@@ -61,7 +61,7 @@ class ExcursionsController extends Controller
         }
 
         // Загрузка изображения
-        $imagePath = $request->file('image')->store('excursions', 'public');
+        $imagePath = $request->file('image')->store('img/excursions', 'public');
 
         // Создание новой экскурсии
         Excursion::create([
@@ -130,7 +130,7 @@ class ExcursionsController extends Controller
             if ($excursion->image && Storage::disk('public')->exists($excursion->image)) {
                 Storage::disk('public')->delete($excursion->image);
             }
-            $excursion->image = $request->file('image')->store('excursions', 'public');
+            $excursion->image = $request->file('image')->store('img/excursions', 'public');
         }
 
         // Обновление данных экскурсии

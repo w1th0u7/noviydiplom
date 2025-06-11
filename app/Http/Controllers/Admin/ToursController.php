@@ -63,7 +63,7 @@ class ToursController extends Controller
         }
 
         // Загрузка изображения
-        $imagePath = $request->file('image')->store('tours', 'public');
+        $imagePath = $request->file('image')->store('img/tours', 'public');
 
         // Создание нового тура
         Tour::create([
@@ -135,7 +135,7 @@ class ToursController extends Controller
             if ($tour->image && Storage::disk('public')->exists($tour->image) && !str_starts_with($tour->image, 'img/')) {
                 Storage::disk('public')->delete($tour->image);
             }
-            $tour->image = $request->file('image')->store('tours', 'public');
+            $tour->image = $request->file('image')->store('img/tours', 'public');
         }
 
         // Обновление данных тура

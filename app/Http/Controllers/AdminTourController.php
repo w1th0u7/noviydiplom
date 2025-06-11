@@ -31,7 +31,7 @@ class AdminTourController extends Controller
         ]);
 
         // Сохранение изображения
-        $imagePath = $request->file('image')->store('images', 'public');
+        $imagePath = $request->file('image')->store('img/tours', 'public');
 
         Tour::create([
             'name' => $request->name,
@@ -61,7 +61,7 @@ class AdminTourController extends Controller
 
         // Сохранение изображения, если оно было загружено
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
+            $imagePath = $request->file('image')->store('img/tours', 'public');
             $tour->image = $imagePath;
         }
 
