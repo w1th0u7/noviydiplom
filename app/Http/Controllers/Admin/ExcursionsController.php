@@ -61,7 +61,7 @@ class ExcursionsController extends Controller
         }
 
         // Загрузка изображения
-        $imagePath = $request->file('image')->store('img/excursions', 'public');
+        $imagePath = $request->file('image')->store('excursions', 'public');
 
         // Создание новой экскурсии
         Excursion::create([
@@ -71,7 +71,7 @@ class ExcursionsController extends Controller
             'region' => $validatedData['region'],
             'duration' => $validatedData['duration'],
             'price' => $validatedData['price'],
-            'image' => $imagePath,
+            'image' => 'img/' . $imagePath,
             'audience_type' => $validatedData['audience_type'],
             'min_age' => $validatedData['min_age'],
             'max_age' => $validatedData['max_age'],
@@ -130,7 +130,8 @@ class ExcursionsController extends Controller
             if ($excursion->image && Storage::disk('public')->exists($excursion->image)) {
                 Storage::disk('public')->delete($excursion->image);
             }
-            $excursion->image = $request->file('image')->store('img/excursions', 'public');
+            $imagePath = $request->file('image')->store('excursions', 'public');
+            $excursion->image = 'img/' . $imagePath;
         }
 
         // Обновление данных экскурсии

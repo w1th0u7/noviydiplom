@@ -229,7 +229,7 @@ class AdminController extends Controller
         ]);
 
         // Сохранение изображения
-        $imagePath = $request->file('image')->store('img/tours', 'public');
+        $imagePath = $request->file('image')->store('tours', 'public');
 
         Tour::create([
             'name' => $validatedData['name'],
@@ -237,7 +237,7 @@ class AdminController extends Controller
             'season' => $validatedData['season'],
             'data' => $validatedData['data'],
             'price' => $validatedData['price'],
-            'image' => $imagePath,
+            'image' => 'img/' . $imagePath,
         ]);
 
         return redirect()->route('admin.tours')->with('success', 'Тур успешно создан!');
@@ -280,8 +280,8 @@ class AdminController extends Controller
             }
             
             // Сохраняем новое изображение
-            $imagePath = $request->file('image')->store('img/tours', 'public');
-            $tour->image = $imagePath;
+            $imagePath = $request->file('image')->store('tours', 'public');
+            $tour->image = 'img/' . $imagePath;
         }
 
         $tour->save();

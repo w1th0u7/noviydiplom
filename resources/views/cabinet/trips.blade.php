@@ -55,8 +55,8 @@
                         <div class="booking-left">
                             @if($booking->bookable)
                                 <img src="{{ $booking->bookable_type == 'App\\Models\\Tour' ? 
-                                    asset('img/tours/' . ($booking->bookable->image ?? 'placeholder.jpg')) : 
-                                    asset('img/excursions/' . ($booking->bookable->image ?? 'placeholder.jpg')) }}" 
+                                    \App\Helpers\ImageHelper::getImageUrl($booking->bookable->image_path ?? $booking->bookable->image, 'img/tours/placeholder.jpg') : 
+                                    \App\Helpers\ImageHelper::getImageUrl($booking->bookable->image_path ?? $booking->bookable->image, 'img/excursions/placeholder.jpg') }}" 
                                     alt="{{ $booking->bookable->name }}" class="booking-image">
                             @else
                                 <img src="{{ asset('img/tours/placeholder.jpg') }}" alt="Изображение недоступно" class="booking-image">

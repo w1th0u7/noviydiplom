@@ -14,7 +14,7 @@ class ImageHelper
     public static function getImageUrl($imagePath, $defaultImage = 'img/tours/placeholder.jpg')
     {
         if (!$imagePath) {
-            return asset('img/' . $defaultImage);
+            return asset($defaultImage);
         }
         
         if (str_starts_with($imagePath, 'img/')) {

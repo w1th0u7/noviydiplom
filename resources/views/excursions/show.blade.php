@@ -11,7 +11,7 @@
 <section class="excursion-detail">
     <div class="max">
         <div class="excursion-header">
-            <img class="excursion-header-image" src="{{ isset($excursion['image']) ? asset('img/' . $excursion['image']) : asset('img/' . ($excursion->image_path ?? 'excursions/placeholder.jpg')) }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
+            <img class="excursion-header-image" src="{{ \App\Helpers\ImageHelper::getImageUrl($excursion->image_path ?? $excursion['image'] ?? null, 'img/excursions/placeholder.jpg') }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
             <div class="excursion-title-card">
                 <h1>{{ $excursion['name'] ?? $excursion->name }}</h1>
                 <div class="excursion-location">
@@ -192,7 +192,7 @@
                 @foreach($similarExcursions as $similarExcursion)
                 <div class="excursion-card">
                     <div class="excursion-image">
-                        <img src="{{ isset($similarExcursion['image']) ? asset('img/' . $similarExcursion['image']) : asset('img/' . ($similarExcursion->image_path ?? 'excursions/placeholder.jpg')) }}" alt="{{ $similarExcursion['name'] ?? $similarExcursion->name }}">
+                        <img src="{{ \App\Helpers\ImageHelper::getImageUrl($similarExcursion->image_path ?? $similarExcursion['image'] ?? null, 'img/excursions/placeholder.jpg') }}" alt="{{ $similarExcursion['name'] ?? $similarExcursion->name }}">
                         <div class="excursion-duration">{{ $similarExcursion['duration'] ?? $similarExcursion->duration }} {{ ($similarExcursion['duration'] ?? $similarExcursion->duration) == 1 ? 'день' : 'дня' }}</div>
                     </div>
                     <div class="excursion-info">

@@ -66,11 +66,18 @@ class Excursion extends Model
     public function getImagePathAttribute()
     {
         if ($this->image && !str_starts_with($this->image, 'http')) {
-            // Убираем возможное дублирование пути excursions/
-            $imageName = str_replace('excursions/', '', $this->image);
-            return 'excursions/' . $imageName;
+            // Если путь уже содержит img/, возвращаем как есть
+            if (str_starts_with($this->image, 'img/')) {
+                return $this->image;
+            }
+            // Если путь уже содержит excursions/, возвращаем как есть
+            if (str_starts_with($this->image, 'excursions/')) {
+                return $this->image;
+            }
+            // Иначе добавляем excursions/
+            return 'excursions/' . $this->image;
         }
-        return $this->image;
+        return $this->image ?: 'excursions/placeholder.jpg';
     }
 
     /**

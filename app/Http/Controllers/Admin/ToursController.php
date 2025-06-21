@@ -63,7 +63,7 @@ class ToursController extends Controller
         }
 
         // Загрузка изображения
-        $imagePath = $request->file('image')->store('img/tours', 'public');
+        $imagePath = $request->file('image')->store('tours', 'public');
 
         // Создание нового тура
         Tour::create([
@@ -77,7 +77,7 @@ class ToursController extends Controller
             'data' => Carbon::now(), // Используем текущую дату для поля data
             'start_date' => $validatedData['start_date'],
             'end_date' => $validatedData['end_date'],
-            'image' => $imagePath,
+            'image' => 'img/' . $imagePath,
             'audience_type' => $validatedData['audience_type'],
             'available_seats' => $validatedData['available_seats'] ?? 20,
             'features' => $features,
@@ -135,7 +135,8 @@ class ToursController extends Controller
             if ($tour->image && Storage::disk('public')->exists($tour->image) && !str_starts_with($tour->image, 'img/')) {
                 Storage::disk('public')->delete($tour->image);
             }
-            $tour->image = $request->file('image')->store('img/tours', 'public');
+            $imagePath = $request->file('image')->store('tours', 'public');
+            $tour->image = 'img/' . $imagePath;
         }
 
         // Обновление данных тура

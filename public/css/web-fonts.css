@@ -4,7 +4,6 @@
  */
 
 /* Подключение шрифтов с preload для быстрой загрузки */
-@import url("https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
@@ -27,7 +26,7 @@ button,
     "Roboto", "Helvetica Neue", Arial, sans-serif !important;
 }
 
-/* Заголовки используют Yeseva One */
+/* Заголовки используют Montserrat */
 h1,
 h2,
 h3,
@@ -36,7 +35,7 @@ h5,
 h6,
 .YesevaOne-Regular,
 .YeseaOne {
-  font-family: "Yeseva One", Georgia, "Times New Roman", Times, serif !important;
+  font-family: "Montserrat", Georgia, "Times New Roman", Times, serif !important;
 }
 
 /* Соответствие старым классам шрифтов Manrope */
@@ -76,13 +75,13 @@ h6,
   font-weight: 800 !important;
 }
 
-/* TTNorms заменяем на Montserrat для совместимости */
+/* TTNorms заменяем на Manrope для совместимости */
 .TTNormsPro-Bold,
 .TTNormsPro-Bold-2,
 .TTNormsPro_Bold,
 .TTNormsPro-Medium,
 .TTNormsPro-Regular {
-  font-family: "Montserrat", sans-serif !important;
+  font-family: "Manrope", sans-serif !important;
 }
 
 .TTNormsPro-Bold,
@@ -115,8 +114,8 @@ h6,
 }
 
 @font-face {
-  font-family: "Yeseva-fallback";
-  src: local("Georgia"), local("Times New Roman"), local("serif");
+  font-family: "Montserrat-fallback";
+  src: local("Arial"), local("Helvetica"), local("sans-serif");
   font-display: swap;
 }
 
@@ -152,5 +151,5 @@ h6,
 .modal h1,
 .modal h2,
 .modal h3 {
-  font-family: "Yeseva One", serif;
+  font-family: "Montserrat", serif;
 }

@@ -41,15 +41,29 @@ class Tour extends Model
         'max_age' => 'integer',
     ];
 
+    /**
+     * Аксессоры, которые добавляются к результату модели.
+     *
+     * @var array
+     */
+    protected $appends = ['image_path'];
+
     // Метод для получения относительного пути к изображению
     public function getImagePathAttribute()
     {
         if ($this->image && !str_starts_with($this->image, 'http')) {
-            // Убираем возможное дублирование пути tours/
-            $imageName = str_replace('tours/', '', $this->image);
-            return asset('img/tours/' . $imageName);
+            // Если путь уже содержит img/, возвращаем как есть
+            if (str_starts_with($this->image, 'img/')) {
+                return $this->image;
+            }
+            // Если путь уже содержит tours/, возвращаем как есть
+            if (str_starts_with($this->image, 'tours/')) {
+                return $this->image;
+            }
+            // Иначе добавляем tours/
+            return 'tours/' . $this->image;
         }
-        return $this->image;
+        return $this->image ?: 'tours/placeholder.jpg';
     }
     
     // Метод для получения строки с длительностью в днях и ночах

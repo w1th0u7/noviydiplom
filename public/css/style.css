@@ -190,7 +190,7 @@ h2,
 h3,
 h4,
 h5 {
-  font-family: "Yeseva One", serif;
+  font-family: "Montserrat", serif;
 }
 
 html {
@@ -808,7 +808,7 @@ h2 {
 }
 
 .vidy-turov .swiper-slide p {
-  font-family: Manrope;
+  font-family: "Manrope";
   position: absolute;
   left: 30px;
   bottom: 30px;
@@ -925,7 +925,7 @@ swiper-container .swiper-notification {
 .tabs.tury .tabs__pane li {
   padding: 14px 20px;
   background: #eff3f6;
-  font-family: Manrope-Regular;
+  font-family: "Manrope";
   font-size: 14px;
   font-weight: 500;
   line-height: 19.6px;

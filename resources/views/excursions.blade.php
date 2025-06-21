@@ -82,7 +82,7 @@
                 @foreach($preschoolExcursions as $excursion)
                 <div class="excursion-card" data-region="{{ $excursion['region'] ?? $excursion->region }}" data-duration="{{ $excursion['duration'] ?? $excursion->duration }}" data-price="{{ $excursion['price'] ?? $excursion->price }}" data-type="preschool">
                     <div class="excursion-image">
-                        <img src="{{ asset('img/' . (isset($excursion['image']) ? $excursion['image'] : ($excursion->image_path ?? 'excursions/placeholder.jpg'))) }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
+                        <img src="{{ \App\Helpers\ImageHelper::getImageUrl($excursion->image_path ?? $excursion['image'] ?? null, 'img/excursions/placeholder.jpg') }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
                         <div class="excursion-duration">{{ $excursion['duration'] ?? $excursion->duration }} {{ ($excursion['duration'] ?? $excursion->duration) == 1 ? 'день' : 'дня' }}</div>
                     </div>
                     <div class="excursion-info">
@@ -107,7 +107,7 @@
                 @if(!$preschoolExcursions->contains('id', $excursion['id'] ?? $excursion->id))
                 <div class="excursion-card" data-region="{{ $excursion['region'] ?? $excursion->region }}" data-duration="{{ $excursion['duration'] ?? $excursion->duration }}" data-price="{{ $excursion['price'] ?? $excursion->price }}" data-type="school">
                     <div class="excursion-image">
-                        <img src="{{ asset('img/' . (isset($excursion['image']) ? $excursion['image'] : ($excursion->image_path ?? 'excursions/placeholder.jpg'))) }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
+                        <img src="{{ \App\Helpers\ImageHelper::getImageUrl($excursion->image_path ?? $excursion['image'] ?? null, 'img/excursions/placeholder.jpg') }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
                         <div class="excursion-duration">{{ $excursion['duration'] ?? $excursion->duration }} {{ ($excursion['duration'] ?? $excursion->duration) == 1 ? 'день' : 'дня' }}</div>
                     </div>
                     <div class="excursion-info">
@@ -134,7 +134,7 @@
                     !$schoolExcursions->contains('id', $excursion['id'] ?? $excursion->id))
                 <div class="excursion-card" data-region="{{ $excursion['region'] ?? $excursion->region }}" data-duration="{{ $excursion['duration'] ?? $excursion->duration }}" data-price="{{ $excursion['price'] ?? $excursion->price }}" data-type="adult">
                     <div class="excursion-image">
-                        <img src="{{ asset('img/' . (isset($excursion['image']) ? $excursion['image'] : ($excursion->image_path ?? 'excursions/placeholder.jpg'))) }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
+                        <img src="{{ \App\Helpers\ImageHelper::getImageUrl($excursion->image_path ?? $excursion['image'] ?? null, 'img/excursions/placeholder.jpg') }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
                         <div class="excursion-duration">{{ $excursion['duration'] ?? $excursion->duration }} {{ ($excursion['duration'] ?? $excursion->duration) == 1 ? 'день' : 'дня' }}</div>
                     </div>
                     <div class="excursion-info">
@@ -164,7 +164,7 @@
                 @foreach($preschoolExcursions as $excursion)
                 <div class="excursion-card" data-region="{{ $excursion['region'] ?? $excursion->region }}" data-duration="{{ $excursion['duration'] ?? $excursion->duration }}" data-price="{{ $excursion['price'] ?? $excursion->price }}">
                     <div class="excursion-image">
-                        <img src="{{ asset('img/' . (isset($excursion['image']) ? $excursion['image'] : ($excursion->image_path ?? 'excursions/placeholder.jpg'))) }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
+                        <img src="{{ \App\Helpers\ImageHelper::getImageUrl($excursion->image_path ?? $excursion['image'] ?? null, 'img/excursions/placeholder.jpg') }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
                         <div class="excursion-duration">{{ $excursion['duration'] ?? $excursion->duration }} {{ ($excursion['duration'] ?? $excursion->duration) == 1 ? 'день' : 'дня' }}</div>
                     </div>
                     <div class="excursion-info">
@@ -193,7 +193,7 @@
                 @foreach($schoolExcursions as $excursion)
                 <div class="excursion-card" data-region="{{ $excursion['region'] ?? $excursion->region }}" data-duration="{{ $excursion['duration'] ?? $excursion->duration }}" data-price="{{ $excursion['price'] ?? $excursion->price }}">
                     <div class="excursion-image">
-                        <img src="{{ asset('img/' . (isset($excursion['image']) ? $excursion['image'] : ($excursion->image_path ?? 'excursions/placeholder.jpg'))) }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
+                        <img src="{{ \App\Helpers\ImageHelper::getImageUrl($excursion->image_path ?? $excursion['image'] ?? null, 'img/excursions/placeholder.jpg') }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
                         <div class="excursion-duration">{{ $excursion['duration'] ?? $excursion->duration }} {{ ($excursion['duration'] ?? $excursion->duration) == 1 ? 'день' : 'дня' }}</div>
                     </div>
                     <div class="excursion-info">
@@ -222,7 +222,7 @@
                 @foreach($adultExcursions as $excursion)
                 <div class="excursion-card" data-region="{{ $excursion['region'] ?? $excursion->region }}" data-duration="{{ $excursion['duration'] ?? $excursion->duration }}" data-price="{{ $excursion['price'] ?? $excursion->price }}">
                     <div class="excursion-image">
-                        <img src="{{ asset('img/' . (isset($excursion['image']) ? $excursion['image'] : ($excursion->image_path ?? 'excursions/placeholder.jpg'))) }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
+                        <img src="{{ \App\Helpers\ImageHelper::getImageUrl($excursion->image_path ?? $excursion['image'] ?? null, 'img/excursions/placeholder.jpg') }}" alt="{{ $excursion['name'] ?? $excursion->name }}">
                         <div class="excursion-duration">{{ $excursion['duration'] ?? $excursion->duration }} {{ ($excursion['duration'] ?? $excursion->duration) == 1 ? 'день' : 'дня' }}</div>
                     </div>
                     <div class="excursion-info">
