@@ -29,8 +29,6 @@ class BookingController extends Controller
             return redirect()->route('login')
                 ->with('error', 'Для бронирования тура необходимо авторизоваться');
         }
-
-        
         try {
             // Используем блокировку транзакции для предотвращения конкурентных обращений
             return DB::transaction(function() use ($request, $id) {
@@ -45,7 +43,6 @@ class BookingController extends Controller
                     'guest_phone' => 'required|string|max:20',
                     'notes' => 'nullable|string',
                 ]);
-
                 if ($validator->fails()) {
 
                     return redirect()->back()
