@@ -30,7 +30,6 @@
                     <select name="status" class="form-control">
                         <option value="">Все статусы</option>
                         <option value="new" {{ request('status') === 'new' ? 'selected' : '' }}>Новые</option>
-                        <option value="assigned" {{ request('status') === 'assigned' ? 'selected' : '' }}>Назначенные</option>
                         <option value="processed" {{ request('status') === 'processed' ? 'selected' : '' }}>Обработанные</option>
                     </select>
                 </div>
@@ -53,7 +52,6 @@
                             <th>Телефон</th>
                             <th>Сообщение</th>
                             <th>Статус</th>
-                            <th>Менеджер</th>
                             <th>Дата создания</th>
                             <th>Действия</th>
                         </tr>
@@ -62,33 +60,26 @@
                         @forelse ($inquiries as $inquiry)
                         <tr>
                             <td>{{ $inquiry->id }}</td>
-                            <td>{{ $inquiry->name }}</td>
-                            <td>{{ $inquiry->phone }}</td>
-                            <td>{{ Str::limit($inquiry->message, 30) }}</td>
+                            <td><strong>{{ $inquiry->name }}</strong></td>
+                            <td><a href="tel:{{ $inquiry->phone }}" class="text-primary">{{ $inquiry->phone }}</a></td>
+                            <td>{{ Str::limit($inquiry->message, 50) }}</td>
                             <td>
-                                <span class="badge badge-{{ $inquiry->status === 'new' ? 'danger' : ($inquiry->status === 'assigned' ? 'warning' : 'success') }}">
-                                    {{ $inquiry->getStatusText() }}
+                                <span class="badge badge-{{ $inquiry->status === 'new' ? 'danger' : 'success' }} inquiry-status">
+                                    {{ $inquiry->status === 'new' ? 'Новая' : 'Обработана' }}
                                 </span>
                             </td>
-                            <td>{{ $inquiry->assignedManager ? $inquiry->assignedManager->name : 'Не назначен' }}</td>
                             <td>{{ $inquiry->created_at->format('d.m.Y H:i') }}</td>
                             <td>
-                                <div class="btn-group">
-                                    <a href="{{ route('admin.inquiries.show', $inquiry) }}" class="btn btn-sm btn-info">
+                                <div class="btn-group inquiry-actions">
+                                    <a href="{{ route('admin.inquiries.show', $inquiry) }}" class="btn btn-sm btn-info" title="Просмотреть">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                     
-                                    @if($inquiry->isNew())
-                                    <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#assignModal{{ $inquiry->id }}">
-                                        <i class="fas fa-user-tag"></i>
-                                    </button>
-                                    @endif
-                                    
-                                    @if($inquiry->isAssigned())
+                                    @if($inquiry->status === 'new')
                                     <form action="{{ route('admin.inquiries.mark-processed', $inquiry) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('PATCH')
-                                        <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Отметить как обработанную?')">
+                                        <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Отметить как обработанную?')" title="Отметить как обработанную">
                                             <i class="fas fa-check"></i>
                                         </button>
                                     </form>
@@ -97,49 +88,16 @@
                                     <form action="{{ route('admin.inquiries.destroy', $inquiry) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Вы уверены, что хотите удалить эту заявку?')">
+                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Вы уверены, что хотите удалить эту заявку?')" title="Удалить">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
-                                </div>
-                                
-                                <!-- Модальное окно для назначения менеджера -->
-                                <div class="modal fade" id="assignModal{{ $inquiry->id }}" tabindex="-1" role="dialog" aria-labelledby="assignModalLabel{{ $inquiry->id }}" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="assignModalLabel{{ $inquiry->id }}">Назначить заявку #{{ $inquiry->id }}</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <form action="{{ route('admin.inquiries.assign', $inquiry) }}" method="POST">
-                                                @csrf
-                                                @method('PATCH')
-                                                <div class="modal-body">
-                                                    <div class="form-group">
-                                                        <label for="manager_id">Выберите менеджера</label>
-                                                        <select name="manager_id" id="manager_id" class="form-control" required>
-                                                            <option value="">-- Выберите менеджера --</option>
-                                                            @foreach($managers as $manager)
-                                                            <option value="{{ $manager->id }}">{{ $manager->name }} ({{ $manager->email }})</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                                                    <button type="submit" class="btn btn-primary">Назначить</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
                                 </div>
                             </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="8" class="text-center">Заявок не найдено</td>
+                            <td colspan="7" class="text-center">Заявок не найдено</td>
                         </tr>
                         @endforelse
                     </tbody>

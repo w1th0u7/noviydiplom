@@ -21,8 +21,8 @@
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <span>Информация о заявке</span>
-                <span class="badge badge-{{ $inquiry->status === 'new' ? 'danger' : ($inquiry->status === 'assigned' ? 'warning' : 'success') }}">
-                    {{ $inquiry->getStatusText() }}
+                <span class="badge badge-{{ $inquiry->status === 'new' ? 'danger' : 'success' }} inquiry-status">
+                    {{ $inquiry->status === 'new' ? 'Новая' : 'Обработана' }}
                 </span>
             </div>
         </div>
@@ -46,7 +46,7 @@
                             </tr>
                             <tr>
                                 <th>Статус:</th>
-                                <td>{{ $inquiry->getStatusText() }}</td>
+                                <td>{{ $inquiry->status === 'new' ? 'Новая' : 'Обработана' }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -59,10 +59,7 @@
                                 <th>Дата создания:</th>
                                 <td>{{ $inquiry->created_at->format('d.m.Y H:i') }}</td>
                             </tr>
-                            <tr>
-                                <th>Назначенный менеджер:</th>
-                                <td>{{ $inquiry->assignedManager ? $inquiry->assignedManager->name : 'Не назначен' }}</td>
-                            </tr>
+
                             <tr>
                                 <th>Дата обработки:</th>
                                 <td>{{ $inquiry->processed_at ? $inquiry->processed_at->format('d.m.Y H:i') : 'Не обработана' }}</td>
@@ -76,13 +73,7 @@
         <div class="card-footer">
             <div class="d-flex justify-content-between">
                 <div>
-                    @if($inquiry->isNew())
-                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#assignModal">
-                        <i class="fas fa-user-tag"></i> Назначить менеджера
-                    </button>
-                    @endif
-                    
-                    @if($inquiry->isAssigned())
+                    @if($inquiry->status === 'new')
                     <form action="{{ route('admin.inquiries.mark-processed', $inquiry) }}" method="POST" class="d-inline">
                         @csrf
                         @method('PATCH')
@@ -103,38 +94,6 @@
             </div>
         </div>
     </div>
-    
-    <!-- Модальное окно для назначения менеджера -->
-    <div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="assignModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="assignModalLabel">Назначить заявку #{{ $inquiry->id }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="{{ route('admin.inquiries.assign', $inquiry) }}" method="POST">
-                    @csrf
-                    @method('PATCH')
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="manager_id">Выберите менеджера</label>
-                            <select name="manager_id" id="manager_id" class="form-control" required>
-                                <option value="">-- Выберите менеджера --</option>
-                                @foreach(App\Models\User::where('role', 'manager')->orWhere('role', 'admin')->get() as $manager)
-                                <option value="{{ $manager->id }}">{{ $manager->name }} ({{ $manager->email }})</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                        <button type="submit" class="btn btn-primary">Назначить</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+
 </div>
 @endsection 

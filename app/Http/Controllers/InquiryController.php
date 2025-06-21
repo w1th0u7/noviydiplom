@@ -45,7 +45,15 @@ class InquiryController extends Controller
                 'phone' => $inquiry->phone
             ]);
 
-            // Редирект с сообщением об успехе
+            // Проверяем тип запроса
+            if ($request->wantsJson() || $request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Спасибо за вашу заявку! Наш менеджер свяжется с вами в ближайшее время.'
+                ]);
+            }
+
+            // Редирект с сообщением об успехе для обычных запросов
             return redirect()->back()->with('success', 'Спасибо за вашу заявку! Наш менеджер свяжется с вами в ближайшее время.');
 
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -53,6 +61,15 @@ class InquiryController extends Controller
                 'errors' => $e->errors(),
                 'data' => $request->all()
             ]);
+            
+            if ($request->wantsJson() || $request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Ошибки валидации',
+                    'errors' => $e->errors()
+                ], 422);
+            }
+            
             return redirect()->back()->withErrors($e->errors())->withInput();
 
         } catch (\Exception $e) {
@@ -62,6 +79,14 @@ class InquiryController extends Controller
                 'line' => $e->getLine(),
                 'data' => $request->all()
             ]);
+            
+            if ($request->wantsJson() || $request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Произошла ошибка при отправке заявки. Пожалуйста, попробуйте еще раз.'
+                ], 500);
+            }
+            
             return redirect()->back()->with('error', 'Произошла ошибка при отправке заявки. Пожалуйста, попробуйте еще раз.')->withInput();
         }
     }

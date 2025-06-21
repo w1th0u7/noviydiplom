@@ -1,75 +1,139 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Находим форму с id "order-call-form" на странице
-    const orderCallForm = document.getElementById("order-call-form");
-    
-    if (orderCallForm) {
-        // Добавляем обработчик события отправки формы
-        orderCallForm.addEventListener("submit", function(e) {
-            e.preventDefault();
-            console.log("Form submitted");
+document.addEventListener("DOMContentLoaded", function () {
+  // Находим форму с id "order-call-form" на странице
+  const orderCallForm = document.getElementById("order-call-form");
 
-            // Собираем данные формы
-            const formData = new FormData(this);
-            const data = {};
+  if (orderCallForm) {
+    // Добавляем обработчик события отправки формы
+    orderCallForm.addEventListener("submit", function (e) {
+      e.preventDefault(); // Предотвращаем стандартную отправку
+      console.log("Form submitted via AJAX");
 
-            for (const [key, value] of formData) {
-                data[key] = value;
-            }
+      // Собираем данные формы
+      const formData = new FormData(this);
+      const submitButton = this.querySelector('button[type="submit"]');
+      const originalButtonText = submitButton.textContent;
 
-            // Сохраняем данные в localStorage (для демонстрации)
-            localStorage.setItem("orderCallsPage", JSON.stringify(data));
+      // Показываем индикатор загрузки
+      submitButton.disabled = true;
+      submitButton.textContent = "Отправка...";
 
-            // Очищаем форму
-            this.reset();
-
-            // Создаем и добавляем сообщение об успешной отправке
-            const formBlock = orderCallForm.closest(".block");
-            
-            // Проверяем, существует ли уже сообщение об успехе
-            let successMessage = formBlock.querySelector(".success-message");
-            
-            // Если сообщение еще не существует, создаем его
-            if (!successMessage) {
-                successMessage = document.createElement("div");
-                successMessage.className = "success-message";
-                formBlock.appendChild(successMessage);
-            }
-
-            // Устанавливаем содержимое и стиль сообщения
-            successMessage.innerHTML = "<p>Спасибо, что заказали звонок. Менеджер в ближайшее время позвонит Вам.</p>";
-            successMessage.style.display = "block";
-            successMessage.style.backgroundColor = "#e6f7e9";
-            successMessage.style.color = "#2e7d32";
-            successMessage.style.padding = "15px 20px";
-            successMessage.style.borderRadius = "8px";
-            successMessage.style.marginTop = "20px";
-            successMessage.style.borderLeft = "4px solid #4caf50";
-            
-            // Скрываем форму
-            const formInputs = orderCallForm.querySelectorAll("input, button");
-            formInputs.forEach(input => {
-                input.style.opacity = "0.5";
-                input.disabled = true;
-            });
-            
-            // Восстанавливаем форму через 3 секунды
-            setTimeout(function() {
-                // Скрываем сообщение
-                successMessage.style.opacity = "0";
-                successMessage.style.transition = "opacity 0.5s ease";
-                
-                // Возвращаем доступность поля формы
-                setTimeout(function() {
-                    successMessage.style.display = "none";
-                    successMessage.style.opacity = "1";
-                    formInputs.forEach(input => {
-                        input.style.opacity = "1";
-                        input.disabled = false;
-                    });
-                }, 500);
-            }, 3000);
+      // Отправляем AJAX запрос
+      fetch(this.action, {
+        method: "POST",
+        body: formData,
+        headers: {
+          "X-Requested-With": "XMLHttpRequest",
+          Accept: "application/json",
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            return response.json().then((data) => Promise.reject(data));
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Успешная отправка
+          showSuccessMessage();
+          this.reset(); // Очищаем форму
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          if (error.errors) {
+            showErrorMessage("Пожалуйста, исправьте ошибки в форме");
+          } else {
+            showErrorMessage(
+              "Произошла ошибка при отправке. Попробуйте еще раз."
+            );
+          }
+        })
+        .finally(() => {
+          // Восстанавливаем кнопку
+          submitButton.disabled = false;
+          submitButton.textContent = originalButtonText;
         });
-    } else {
-        console.log("Form element not found");
+    });
+
+    // Функция показа сообщения об успехе
+    function showSuccessMessage() {
+      const formBlock = orderCallForm.closest(".block");
+
+      // Удаляем предыдущие сообщения
+      const existingMessages = formBlock.querySelectorAll(".form-message");
+      existingMessages.forEach((msg) => msg.remove());
+
+      // Создаем сообщение об успехе
+      const successMessage = document.createElement("div");
+      successMessage.className = "form-message success-message";
+      successMessage.innerHTML = `
+                <div class="message-content">
+                    <i class="message-icon">✓</i>
+                    <div class="message-text">
+                        <h4>Спасибо за вашу заявку!</h4>
+                        <p>Наш менеджер свяжется с вами в ближайшее время.</p>
+                    </div>
+                </div>
+            `;
+
+      // Вставляем сообщение перед формой
+      formBlock.insertBefore(successMessage, orderCallForm);
+
+      // Добавляем анимацию появления
+      setTimeout(() => {
+        successMessage.classList.add("show");
+      }, 100);
+
+      // Скрываем сообщение через 5 секунд
+      setTimeout(() => {
+        successMessage.classList.remove("show");
+        setTimeout(() => {
+          if (successMessage.parentNode) {
+            successMessage.remove();
+          }
+        }, 500);
+      }, 5000);
     }
-}); 
+
+    // Функция показа сообщения об ошибке
+    function showErrorMessage(message) {
+      const formBlock = orderCallForm.closest(".block");
+
+      // Удаляем предыдущие сообщения
+      const existingMessages = formBlock.querySelectorAll(".form-message");
+      existingMessages.forEach((msg) => msg.remove());
+
+      // Создаем сообщение об ошибке
+      const errorMessage = document.createElement("div");
+      errorMessage.className = "form-message error-message";
+      errorMessage.innerHTML = `
+                <div class="message-content">
+                    <i class="message-icon">⚠</i>
+                    <div class="message-text">
+                        <h4>Ошибка отправки</h4>
+                        <p>${message}</p>
+                    </div>
+                </div>
+            `;
+
+      // Вставляем сообщение перед формой
+      formBlock.insertBefore(errorMessage, orderCallForm);
+
+      // Добавляем анимацию появления
+      setTimeout(() => {
+        errorMessage.classList.add("show");
+      }, 100);
+
+      // Скрываем сообщение через 4 секунды
+      setTimeout(() => {
+        errorMessage.classList.remove("show");
+        setTimeout(() => {
+          if (errorMessage.parentNode) {
+            errorMessage.remove();
+          }
+        }, 500);
+      }, 4000);
+    }
+  } else {
+    console.log("Form element not found");
+  }
+});

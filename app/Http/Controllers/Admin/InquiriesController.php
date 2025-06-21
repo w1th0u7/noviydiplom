@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Inquiry;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class InquiriesController extends Controller
@@ -14,38 +13,22 @@ class InquiriesController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Получаем заявки с менеджерами и пагинацией
-        $inquiries = Inquiry::with('assignedManager')
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        $query = Inquiry::query();
 
-        // Получаем список менеджеров для назначения
-        $managers = User::where('role', 'manager')->orWhere('role', 'admin')->get();
+        // Фильтрация по статусу
+        if ($request->has('status') && $request->status !== '') {
+            $query->where('status', $request->status);
+        }
 
-        return view('admin.inquiries.index', compact('inquiries', 'managers'));
+        // Получаем заявки с пагинацией
+        $inquiries = $query->orderBy('created_at', 'desc')->paginate(10);
+
+        return view('admin.inquiries.index', compact('inquiries'));
     }
 
-    /**
-     * Назначает заявку менеджеру
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Inquiry  $inquiry
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function assign(Request $request, Inquiry $inquiry)
-    {
-        $validatedData = $request->validate([
-            'manager_id' => 'required|exists:users,id',
-        ]);
 
-        $manager = User::findOrFail($validatedData['manager_id']);
-        $inquiry->assignTo($manager);
-
-        return redirect()->route('admin.inquiries.index')
-            ->with('success', "Заявка №{$inquiry->id} назначена менеджеру {$manager->name}");
-    }
 
     /**
      * Отмечает заявку как обработанную.
@@ -55,7 +38,10 @@ class InquiriesController extends Controller
      */
     public function markProcessed(Inquiry $inquiry)
     {
-        $inquiry->markAsProcessed();
+        $inquiry->update([
+            'status' => 'processed',
+            'processed_at' => now()
+        ]);
 
         return redirect()->route('admin.inquiries.index')
             ->with('success', "Заявка №{$inquiry->id} отмечена как обработанная");

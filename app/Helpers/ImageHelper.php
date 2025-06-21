@@ -11,7 +11,7 @@ class ImageHelper
      * @param string $defaultImage Путь к изображению по умолчанию
      * @return string URL изображения
      */
-    public static function getImageUrl($imagePath, $defaultImage = 'tours/placeholder.jpg')
+    public static function getImageUrl($imagePath, $defaultImage = 'img/tours/placeholder.jpg')
     {
         if (!$imagePath) {
             return asset('img/' . $defaultImage);

@@ -822,7 +822,7 @@ class TourCalculatorController extends Controller
             $tour->type = $tourType;
             $tour->description = $tourDescription;
             $tour->price = round($price);
-            $tour->image_path = 'tours/more.jpg';
+            $tour->image_path = 'img/tours/more.jpg';
             $tour->location = $location;
             $tour->duration = intval($data['nights']);
             $tour->features = $features;
