@@ -61,6 +61,22 @@ class User extends Authenticatable
         return $this->hasMany(Booking::class);
     }
 
+    /**
+     * Получить заявки, назначенные менеджеру.
+     */
+    public function assignedInquiries()
+    {
+        return $this->hasMany(Inquiry::class, 'assigned_manager_id');
+    }
+
+    /**
+     * Проверяет, является ли пользователь менеджером
+     */
+    public function isManager()
+    {
+        return $this->role === 'manager';
+    }
+
     // Optionally, add this if you need an attribute accessor for isAdmin (less common)
     
 

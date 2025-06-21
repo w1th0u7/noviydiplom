@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tour; // Укажите модель Tour (предполагается, что она у вас есть)
 use App\Models\User;
+use App\Models\Inquiry; // Добавляем импорт модели Inquiry
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -135,6 +136,7 @@ class AdminController extends Controller
         $tourCount = Tour::count();
         $excursionCount = \App\Models\Excursion::count();
         $adminCount = User::where('is_admin', 1)->count();
+        $inquiryCount = Inquiry::count(); // Обновляем подсчет заявок
         
         // Формируем доступные разделы админ-панели
         $adminSections = [
@@ -160,11 +162,11 @@ class AdminController extends Controller
                 'description' => 'Управление пользователями',
             ],
             [
-                'title' => 'Заказы',
-                'icon' => 'fa-shopping-cart',
-                'count' => 0, // пока нет модели заказов
-                'route' => route('admin.orders'),
-                'description' => 'Управление заказами',
+                'title' => 'Заявки',
+                'icon' => 'fa-envelope',
+                'count' => $inquiryCount,
+                'route' => route('admin.inquiries.index'),
+                'description' => 'Управление заявками',
             ],
             [
                 'title' => 'Настройки',
@@ -175,7 +177,7 @@ class AdminController extends Controller
             ],
         ];
         
-        return view('admin.dashboard', compact('adminSections', 'userCount', 'tourCount', 'excursionCount', 'adminCount'));
+        return view('admin.dashboard', compact('adminSections', 'userCount', 'tourCount', 'excursionCount', 'adminCount', 'inquiryCount'));
     }
 
     /**
@@ -192,7 +194,8 @@ class AdminController extends Controller
      */
     public function orders()
     {
-        return view('admin.orders.index');
+        // Перенаправляем на страницу заявок
+        return redirect()->route('admin.inquiries.index');
     }
 
     /**

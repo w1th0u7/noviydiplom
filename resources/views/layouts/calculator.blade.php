@@ -13,6 +13,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Калькулятор туров | Rodina-tur')</title>
     <script src="{{ asset('/js/fixes.js') }}" defer></script>
+    <script src="{{ asset('/js/modal.js') }}" defer></script>
     @yield('styles')
 </head>
 <body class>

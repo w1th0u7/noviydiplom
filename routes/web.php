@@ -68,6 +68,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/excursions/{excursion}', [\App\Http\Controllers\Admin\ExcursionsController::class, 'update'])->name('excursions.update');
     Route::delete('/excursions/{excursion}', [\App\Http\Controllers\Admin\ExcursionsController::class, 'destroy'])->name('excursions.destroy');
     
+    // Маршруты для заявок
+    Route::get('/inquiries', [\App\Http\Controllers\Admin\InquiriesController::class, 'index'])->name('inquiries.index');
+    Route::get('/inquiries/{inquiry}', [\App\Http\Controllers\Admin\InquiriesController::class, 'show'])->name('inquiries.show');
+    Route::patch('/inquiries/{inquiry}/assign', [\App\Http\Controllers\Admin\InquiriesController::class, 'assign'])->name('inquiries.assign');
+    Route::patch('/inquiries/{inquiry}/mark-processed', [\App\Http\Controllers\Admin\InquiriesController::class, 'markProcessed'])->name('inquiries.mark-processed');
+    Route::delete('/inquiries/{inquiry}', [\App\Http\Controllers\Admin\InquiriesController::class, 'destroy'])->name('inquiries.destroy');
+    
     // Маршрут для переключения роли пользователя
     Route::patch('/users/{user}/toggle-role', [\App\Http\Controllers\AdminController::class, 'toggleUserRole'])->name('users.toggle-role');
     
@@ -145,6 +152,9 @@ Route::get('/bookings/confirmation/{id}', [BookingController::class, 'confirmati
 
 // Тестовый маршрут для отладки бронирования через GET-запрос
 Route::get('/test-booking', [BookingController::class, 'testBookTour'])->middleware('auth')->name('test.booking');
+
+// Маршрут для создания заявки от пользователей
+Route::post('/inquiries', [\App\Http\Controllers\InquiryController::class, 'store'])->name('inquiries.store');
 
 
 

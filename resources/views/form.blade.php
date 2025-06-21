@@ -9,9 +9,34 @@
                         <p class="txt">Оставьте заявку и мы перезвоним Вам. Предложим варианты и организуем отдых Вашей
                             мечты.
                         </p>
-                        <form id="order-call-form" method="post" onsubmit="ym(9209041383,'reachGoal','order-call'); return true;">
-                            <input type="name" id="ordercalls-name" name="OrderCalls[name]" placeholder="Имя *" aria-required="true" required>
-                            <input type="tel" id="ordercalls-phone" name="OrderCalls[phone]" placeholder="Телефон *" aria-required="true" required>
+                        
+                        @if(session('success'))
+                        <div class="alert alert-success mt-3">
+                            {{ session('success') }}
+                        </div>
+                        @endif
+                        
+                        @if(session('error'))
+                        <div class="alert alert-danger mt-3">
+                            {{ session('error') }}
+                        </div>
+                        @endif
+
+                        @if($errors->any())
+                        <div class="alert alert-danger mt-3">
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
+                        
+                        <form id="order-call-form" action="{{ route('inquiries.store') }}" method="post">
+                            @csrf
+                            <input type="text" id="name" name="name" placeholder="Имя *" aria-required="true" required value="{{ old('name') }}">
+                            <input type="tel" id="phone" name="phone" placeholder="Телефон *" aria-required="true" required value="{{ old('phone') }}">
+                            <textarea name="message" id="message" rows="3" placeholder="Ваше сообщение (необязательно)">{{ old('message') }}</textarea>
                             <div class="chekbox">
                                 <input id="politika" type="checkbox" aria-required="true" checked required>
                                 <label for="politika"></label>
