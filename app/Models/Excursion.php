@@ -68,7 +68,7 @@ class Excursion extends Model
         if ($this->image && !str_starts_with($this->image, 'http')) {
             // Убираем возможное дублирование пути excursions/
             $imageName = str_replace('excursions/', '', $this->image);
-            return asset('img/excursions/' . $imageName);
+            return 'excursions/' . $imageName;
         }
         return $this->image;
     }

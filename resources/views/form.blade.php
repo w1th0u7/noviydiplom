@@ -34,9 +34,8 @@
                         
                         <form id="order-call-form" action="{{ route('inquiries.store') }}" method="post">
                             @csrf
-                            <input type="text" id="name" name="name" placeholder="Имя *" aria-required="true" required value="{{ old('name') }}">
+                            <input type="name" id="name" name="name" placeholder="Имя *" aria-required="true" required value="{{ old('name') }}">
                             <input type="tel" id="phone" name="phone" placeholder="Телефон *" aria-required="true" required value="{{ old('phone') }}">
-                            <textarea name="message" id="message" rows="3" placeholder="Ваше сообщение (необязательно)">{{ old('message') }}</textarea>
                             <div class="chekbox">
                                 <input id="politika" type="checkbox" aria-required="true" checked required>
                                 <label for="politika"></label>

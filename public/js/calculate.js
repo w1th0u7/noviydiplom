@@ -757,9 +757,9 @@ document.addEventListener("DOMContentLoaded", function () {
           <img src="${
             hotel.image.startsWith("/img")
               ? hotel.image
-              : hotel.isExcursion 
-                ? "/img/excursions/" + hotel.image.replace('excursions/', '')
-                : "/img/tours/" + hotel.image.replace('tours/', '')
+              : hotel.isExcursion
+              ? "/img/excursions/" + hotel.image.replace("excursions/", "")
+              : "/img/tours/" + hotel.image.replace("tours/", "")
           }" alt="${hotel.name}">
           <div class="hotel-duration">${hotel.excursionData.duration}</div>
         </div>
@@ -791,9 +791,9 @@ document.addEventListener("DOMContentLoaded", function () {
           <img src="${
             hotel.image.startsWith("/img")
               ? hotel.image
-              : hotel.isExcursion 
-                ? "/img/excursions/" + hotel.image.replace('excursions/', '')
-                : "/img/tours/" + hotel.image.replace('tours/', '')
+              : hotel.isExcursion
+              ? "/img/excursions/" + hotel.image.replace("excursions/", "")
+              : "/img/tours/" + hotel.image.replace("tours/", "")
           }" alt="${hotel.name}">
           <div class="hotel-duration">${hotel.tourData.nights} ${getNightsWord(
         hotel.tourData.nights
@@ -881,7 +881,9 @@ document.addEventListener("DOMContentLoaded", function () {
       const hotelData = {
         name: tour.name,
         location: tour.location,
-        image: tour.image_path || "/img/tours/tour-placeholder.jpg", // Используем путь к изображению или заглушку
+        image: tour.image_path
+          ? "/img/" + tour.image_path
+          : "/img/tours/placeholder.jpg", // Используем путь к изображению или заглушку
         stars:
           tour.type === "Люкс"
             ? 5
@@ -908,7 +910,11 @@ document.addEventListener("DOMContentLoaded", function () {
         rating: 4.0, // По умолчанию
         reviewsCount: 0,
         description: tour.description,
-        images: [tour.image_path || "/img/tours/tour-placeholder.jpg"],
+        images: [
+          tour.image_path
+            ? "/img/" + tour.image_path
+            : "/img/tours/placeholder.jpg",
+        ],
         features: tour.features || [],
         // Добавляем данные из параметров поиска
         tourData: {
@@ -944,7 +950,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const excursionData = {
           name: excursion.name,
           location: excursion.location + ", " + excursion.region,
-          image: excursion.image_path || "/img/excursion-placeholder.jpg",
+          image: excursion.image_path
+            ? "/img/" + excursion.image_path
+            : "/img/excursions/placeholder.jpg",
           stars: 4, // Условное значение для экскурсии
           reviews: "0 отзывов",
           price: excursion.price,
@@ -953,7 +961,11 @@ document.addEventListener("DOMContentLoaded", function () {
           rating: 4.0,
           reviewsCount: 0,
           description: excursion.description,
-          images: [excursion.image_path || "/img/excursion-placeholder.jpg"],
+          images: [
+            excursion.image_path
+              ? "/img/" + excursion.image_path
+              : "/img/excursions/placeholder.jpg",
+          ],
           features: excursion.features || [],
           isExcursion: true, // Помечаем, что это экскурсия
           // Данные специфичные для экскурсии
