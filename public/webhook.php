@@ -1,7 +1,7 @@
 <?php
 
 // Секретный токен - ИЗМЕНИТЕ НА СВОЙ!
-$secret = 'your_secret_token_here';
+$secret = 'e8d71c9020c83aab24ed23b41a982f05';
 
 // Проверка токена
 if (!isset($_GET['token']) || $_GET['token'] !== $secret) {
