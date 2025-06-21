@@ -16,6 +16,25 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Database\Capsule\Manager as Capsule;
+
+// Настройка подключения к базе данных
+$capsule = new Capsule;
+
+$capsule->addConnection([
+    'driver' => 'mysql',
+    'host' => 'localhost',
+    'database' => 'denispr1_laravel',
+    'username' => 'denispr1_laravel',
+    'password' => 'nF0eM7fI8p',
+    'charset' => 'utf8mb4',
+    'collation' => 'utf8mb4_unicode_ci',
+    'prefix' => '',
+]);
+
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
+
 echo "<!DOCTYPE html>
 <html>
 <head>
@@ -40,13 +59,13 @@ try {
     } else {
         echo "Создаем таблицу cache...\n";
         
-        Schema::create('cache', function (Blueprint $table) {
-            $table->string('key')->unique();
+        Capsule::schema()->create('cache', function ($table) {
+            $table->string('key')->primary();
             $table->mediumText('value');
             $table->integer('expiration');
         });
         
-        echo "Таблица cache успешно создана\n";
+        echo "✅ Таблица 'cache' успешно создана!\n";
     }
     
     // Проверяем существование таблицы для тегов кеша
@@ -55,13 +74,13 @@ try {
     } else {
         echo "Создаем таблицу cache_locks...\n";
         
-        Schema::create('cache_locks', function (Blueprint $table) {
+        Capsule::schema()->create('cache_locks', function ($table) {
             $table->string('key')->primary();
             $table->string('owner');
             $table->integer('expiration');
         });
         
-        echo "Таблица cache_locks успешно создана\n";
+        echo "✅ Таблица 'cache_locks' успешно создана!\n";
     }
     
     // Проверяем наличие записей в таблице migrations
