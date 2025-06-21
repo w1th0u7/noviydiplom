@@ -50,7 +50,6 @@
                             <th>ID</th>
                             <th>Имя</th>
                             <th>Телефон</th>
-                            <th>Сообщение</th>
                             <th>Статус</th>
                             <th>Дата создания</th>
                             <th>Действия</th>
@@ -62,7 +61,6 @@
                             <td>{{ $inquiry->id }}</td>
                             <td><strong>{{ $inquiry->name }}</strong></td>
                             <td><a href="tel:{{ $inquiry->phone }}" class="text-primary">{{ $inquiry->phone }}</a></td>
-                            <td>{{ Str::limit($inquiry->message, 50) }}</td>
                             <td>
                                 <span class="badge badge-{{ $inquiry->status === 'new' ? 'danger' : 'success' }} inquiry-status">
                                     {{ $inquiry->status === 'new' ? 'Новая' : 'Обработана' }}
@@ -97,7 +95,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="7" class="text-center">Заявок не найдено</td>
+                            <td colspan="6" class="text-center">Заявок не найдено</td>
                         </tr>
                         @endforelse
                     </tbody>

@@ -38,11 +38,7 @@
                             </tr>
                             <tr>
                                 <th>Телефон:</th>
-                                <td>{{ $inquiry->phone }}</td>
-                            </tr>
-                            <tr>
-                                <th>Сообщение:</th>
-                                <td>{{ $inquiry->message ?? 'Не указано' }}</td>
+                                <td><a href="tel:{{ $inquiry->phone }}" class="phone-link">{{ $inquiry->phone }}</a></td>
                             </tr>
                             <tr>
                                 <th>Статус:</th>

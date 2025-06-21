@@ -27,14 +27,13 @@ class InquiryController extends Controller
             $validatedData = $request->validate([
                 'name' => 'required|string|max:255',
                 'phone' => 'required|string|max:20',
-                'message' => 'nullable|string',
             ]);
 
-            // Создаем новую заявку
+            // Создаем новую заявку (message не нужно, так как поле убрано из формы)
             $inquiry = Inquiry::create([
                 'name' => $validatedData['name'],
                 'phone' => $validatedData['phone'],
-                'message' => $validatedData['message'] ?? null,
+                'message' => null, // Всегда null, так как поле убрано
                 'status' => 'new',
             ]);
 
@@ -65,7 +64,7 @@ class InquiryController extends Controller
             if ($request->wantsJson() || $request->ajax()) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Ошибки валидации',
+                    'message' => 'Пожалуйста, заполните все обязательные поля',
                     'errors' => $e->errors()
                 ], 422);
             }
