@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Тест шрифтов - Родина-тур</title>
+    <link rel="stylesheet" href="/css/web-fonts.css" />
+    <style>
+      body {
+        margin: 40px;
+        line-height: 1.6;
+        background: #f5f5f5;
+      }
+      .test-block {
+        background: white;
+        padding: 30px;
+        margin: 20px 0;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .font-name {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 10px;
+        font-family: monospace;
+      }
+      .test-text {
+        font-size: 24px;
+        margin-bottom: 15px;
+      }
+      .small-text {
+        font-size: 16px;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🔤 Тест шрифтов сайта Родина-тур</h1>
+
+    <div class="test-block">
+      <div class="font-name">Yeseva One (заголовки)</div>
+      <h1 class="test-text">Путешествуй по великой России с нами</h1>
+      <div class="small-text">Используется для всех заголовков h1-h6</div>
+    </div>
+
+    <div class="test-block">
+      <div class="font-name">Manrope Regular (основной текст)</div>
+      <p class="test-text">
+        Широкий выбор туров любой направленности. Организация групповых и
+        индивидуальных программ.
+      </p>
+      <div class="small-text">
+        Основной шрифт для текста, параграфов, ссылок
+      </div>
+    </div>
+
+    <div class="test-block">
+      <div class="font-name">Manrope Bold</div>
+      <p class="test-text" style="font-weight: 700">
+        Заказать звонок • Личный кабинет • Выбрать тур
+      </p>
+      <div class="small-text">Жирный вариант для кнопок и акцентов</div>
+    </div>
+
+    <div class="test-block">
+      <div class="font-name">Montserrat (замена TTNorms)</div>
+      <p class="test-text TTNormsPro-Bold">Специальные предложения и акции</p>
+      <div class="small-text">
+        Используется вместо TTNorms Pro для совместимости
+      </div>
+    </div>
+
+    <div class="test-block">
+      <div class="font-name">Тест старых классов</div>
+      <p class="Manrope-Light">Manrope Light (300)</p>
+      <p class="Manrope-Regular">Manrope Regular (400)</p>
+      <p class="Manrope-Medium">Manrope Medium (500)</p>
+      <p class="Manrope-SemiBold">Manrope SemiBold (600)</p>
+      <p class="Manrope-Bold">Manrope Bold (700)</p>
+    </div>
+
+    <div class="test-block">
+      <div class="font-name">Проверка кириллицы</div>
+      <h2>АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ</h2>
+      <p>абвгдеёжзийклмнопрстуфхцчшщъыьэюя</p>
+      <p>Цифры: 0123456789</p>
+      <p>Знаки: .,!?;:()[]{}«»"'</p>
+    </div>
+
+    <script>
+      // Проверяем загрузку шрифтов
+      document.fonts.ready.then(function () {
+        console.log("✅ Все шрифты загружены");
+
+        // Проверяем каждый шрифт
+        const fonts = ["Yeseva One", "Manrope", "Montserrat"];
+        fonts.forEach((font) => {
+          if (document.fonts.check(`16px "${font}"`)) {
+            console.log(`✅ ${font} - загружен`);
+          } else {
+            console.log(`❌ ${font} - НЕ загружен`);
+          }
+        });
+      });
+
+      // Информация о браузере
+      console.log("Браузер:", navigator.userAgent);
+      console.log("Платформа:", navigator.platform);
+    </script>
+  </body>
+</html>

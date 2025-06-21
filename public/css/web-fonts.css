@@ -1,94 +1,156 @@
-/* Шрифты через Google Fonts */
+/* 
+ * ШРИФТЫ ЧЕРЕЗ Google Fonts с fallback для совместимости
+ * Обновлено для работы на всех устройствах
+ */
 
-/* Подключение шрифта Yeseva One */
-@import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
+/* Подключение шрифтов с preload для быстрой загрузки */
+@import url("https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
-/* Подключение шрифта Manrope во всех вариантах начертания */
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
-
-/* Подключение шрифта Montserrat во всех вариантах начертания */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
-/* Переопределяем шрифты для совместимости со стилями */
-
-
-body, p, div, span, a, 
+/* Базовые определения с fallback шрифтами */
+body,
+p,
+div,
+span,
+a,
+input,
+textarea,
+button,
 .font-manrope {
-    font-family: 'Manrope', sans-serif !important;
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Helvetica Neue", Arial, sans-serif !important;
 }
 
 .font-montserrat {
-    font-family: 'Montserrat', sans-serif !important;
+  font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Helvetica Neue", Arial, sans-serif !important;
 }
 
-/* Задаем соответствие классам из старых стилей */
+/* Заголовки используют Yeseva One */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
 .YesevaOne-Regular,
 .YeseaOne {
-    font-family: 'Yeseva One', serif !important;
+  font-family: "Yeseva One", Georgia, "Times New Roman", Times, serif !important;
 }
 
+/* Соответствие старым классам шрифтов Manrope */
 .Manrope-ExtraLight {
-    font-family: 'Manrope', sans-serif !important;
-    font-weight: 200 !important;
+  font-family: "Manrope", sans-serif !important;
+  font-weight: 200 !important;
 }
 
 .Manrope-Light {
-    font-family: 'Manrope', sans-serif !important;
-    font-weight: 300 !important;
+  font-family: "Manrope", sans-serif !important;
+  font-weight: 300 !important;
 }
 
 .Manrope-Regular {
-    font-family: 'Manrope', sans-serif !important;
-    font-weight: 400 !important;
+  font-family: "Manrope", sans-serif !important;
+  font-weight: 400 !important;
 }
 
 .Manrope-Medium {
-    font-family: 'Manrope', sans-serif !important;
-    font-weight: 500 !important;
+  font-family: "Manrope", sans-serif !important;
+  font-weight: 500 !important;
 }
 
 .Manrope-SemiBold,
 .Manrope-Semibold {
-    font-family: 'Manrope', sans-serif !important;
-    font-weight: 600 !important;
+  font-family: "Manrope", sans-serif !important;
+  font-weight: 600 !important;
 }
 
 .Manrope-Bold {
-    font-family: 'Manrope', sans-serif !important;
-    font-weight: 700 !important;
+  font-family: "Manrope", sans-serif !important;
+  font-weight: 700 !important;
 }
 
 .Manrope-ExtraBold {
-    font-family: 'Manrope', sans-serif !important;
-    font-weight: 800 !important;
+  font-family: "Manrope", sans-serif !important;
+  font-weight: 800 !important;
 }
 
-/* TTNorms заменим на Montserrat для совместимости */
+/* TTNorms заменяем на Montserrat для совместимости */
 .TTNormsPro-Bold,
 .TTNormsPro-Bold-2,
 .TTNormsPro_Bold,
-h1, h2, h3, h4, h5 {
-    font-family: 'Montserrat', sans-serif !important;
-    font-weight: 700 !important;
+.TTNormsPro-Medium,
+.TTNormsPro-Regular {
+  font-family: "Montserrat", sans-serif !important;
 }
 
-/* Добавляем другие вариации шрифта TTNormsPro */
+.TTNormsPro-Bold,
+.TTNormsPro-Bold-2,
+.TTNormsPro_Bold {
+  font-weight: 700 !important;
+}
+
 .TTNormsPro-Medium {
-    font-family: 'Montserrat', sans-serif !important; 
-    font-weight: 500 !important;
+  font-weight: 500 !important;
 }
 
 .TTNormsPro-Regular {
-    font-family: 'Montserrat', sans-serif !important;
-    font-weight: 400 !important;
+  font-weight: 400 !important;
 }
 
-/* Добавляем явное определение через @font-face для совместимости */
+/* Специальные шрифты для отзывов */
+.otz .info .name,
+.cont-tury .block p.name,
+.form .name {
+  font-family: "Montserrat", sans-serif !important;
+  font-weight: 500 !important;
+}
+
+/* Обеспечиваем загрузку шрифтов */
 @font-face {
-    font-family: 'TTNormsPro-Bold';
-    src: local('Montserrat Bold'), local('Montserrat-Bold'),
-         url('https://fonts.gstatic.com/s/montserrat/v25/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM73w5aX8.ttf') format('truetype');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-} 
+  font-family: "Manrope-fallback";
+  src: local("Arial"), local("Helvetica"), local("sans-serif");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Yeseva-fallback";
+  src: local("Georgia"), local("Times New Roman"), local("serif");
+  font-display: swap;
+}
+
+/* Медиа-запросы для оптимизации на мобильных */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.3;
+  }
+}
+
+/* Принудительное применение шрифтов */
+* {
+  font-family: inherit;
+}
+
+/* Фиксы для специфичных элементов */
+.calculator-container,
+.admin-wrapper,
+.cabinet-wrapper {
+  font-family: "Manrope", sans-serif;
+}
+
+.modal h1,
+.modal h2,
+.modal h3 {
+  font-family: "Yeseva One", serif;
+}

@@ -1,3 +1,9 @@
+/* 
+ * ШРИФТЫ ТЕПЕРЬ ПОДКЛЮЧАЮТСЯ ЧЕРЕЗ Google Fonts в web-fonts.css
+ * Локальные шрифты отключены для совместимости на всех устройствах
+ */
+
+/*
 @font-face {
   font-family: "YesevaOne-Regular";
   src: local("YesevaOne-Regular"),
@@ -123,6 +129,7 @@
   font-style: normal;
   font-display: wrap;
 }
+*/
 
 .swiper-android .swiper-slide,
 .swiper-wrapper {
@@ -183,7 +190,7 @@ h2,
 h3,
 h4,
 h5 {
-  font-family: "TTNormsPro-Bold";
+  font-family: "Yeseva One", serif;
 }
 
 html {
@@ -196,7 +203,7 @@ body {
   min-width: 300px;
   margin: 0;
   padding: 0;
-  font-family: "Manrope";
+  font-family: "Manrope", sans-serif;
   font-weight: 400;
   line-height: 160%;
   color: #6c757b;
