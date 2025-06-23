@@ -904,6 +904,8 @@ swiper-container .swiper-notification {
   align-items: flex-end;
   flex-wrap: wrap;
   margin-bottom: 60px;
+  /* Плавный скролл для всех браузеров */
+  scroll-behavior: smooth;
 }
 
 .tabs.tury .tabs__pane {
@@ -915,11 +917,15 @@ swiper-container .swiper-notification {
 .tabs.tury .tabs__pane li.active {
   color: #fff;
   background: #1d639a;
+  /* Добавляем тень для активной кнопки */
+  box-shadow: 0 4px 12px rgba(29, 99, 154, 0.3);
 }
 
 .tabs.tury .tabs__pane li:hover {
   color: #fff;
   background: #307ebc;
+  /* Плавная тень при наведении */
+  box-shadow: 0 2px 8px rgba(48, 126, 188, 0.2);
 }
 
 .tabs.tury .tabs__pane li {
@@ -931,8 +937,13 @@ swiper-container .swiper-notification {
   line-height: 19.6px;
   color: #1e2226;
   border-radius: 12px;
-  transition: 0.3s;
+  transition: all 0.3s ease;
   cursor: pointer;
+  /* Предотвращаем выделение текста */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .btn--white:hover {
