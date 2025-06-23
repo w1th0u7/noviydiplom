@@ -805,7 +805,6 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="hotel-location"><i class="fas fa-map-marker-alt"></i> ${
               hotel.location
             }</div>
-            <div class="hotel-stars">${stars}</div>
             <div class="hotel-description">${hotel.description.substring(
               0,
               100
