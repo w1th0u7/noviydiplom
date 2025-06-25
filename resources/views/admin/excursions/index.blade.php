@@ -40,7 +40,7 @@
                     <td>{{ $excursion->id }}</td>
                     <td>
                         @if($excursion->image)
-                            <img src="{{ asset('img/' . $excursion->image) }}" alt="{{ $excursion->name }}" class="excursion-thumbnail">
+                            <img src="{{ asset($excursion->image) }}" alt="{{ $excursion->name }}" class="excursion-thumbnail">
                         @else
                             <span class="no-image">Нет изображения</span>
                         @endif
@@ -91,7 +91,7 @@
     </div>
 
     <div class="pagination-container">
-        {{ $excursions->links() }}
+        {{ $excursions->links('vendor.pagination.admin') }}
     </div>
 </div>
 @endsection 

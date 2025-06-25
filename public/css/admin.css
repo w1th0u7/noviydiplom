@@ -249,6 +249,14 @@
   border-radius: 4px;
 }
 
+/* Стили для миниатюр экскурсий в списке */
+.excursion-thumbnail {
+  max-width: 80px;
+  max-height: 60px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
 .actions {
   white-space: nowrap;
 }
@@ -404,14 +412,51 @@ textarea.form-control {
   margin-top: 5px;
 }
 
+/* Стили для превью изображений в формах */
+.excursion-image-preview,
+.tour-image-preview {
+  max-width: 200px;
+  max-height: 150px;
+  border-radius: 4px;
+  border: 1px solid var(--admin-border);
+  object-fit: cover;
+  margin-top: 10px;
+}
+
+/* Стили для контейнера текущего изображения */
 .current-image {
   margin-bottom: 15px;
 }
 
-.tour-image-preview {
+.current-image p {
+  margin-bottom: 10px;
+  font-weight: 500;
+  color: var(--admin-text);
+}
+
+/* Стили для превью при выборе файла */
+.image-preview-container {
+  margin-top: 15px;
+  display: none;
+}
+
+.image-preview-container.show {
+  display: block;
+}
+
+.image-preview-container img {
   max-width: 200px;
+  max-height: 150px;
   border-radius: 4px;
   border: 1px solid var(--admin-border);
+  object-fit: cover;
+}
+
+/* Стили для текста "Нет изображения" */
+.no-image {
+  color: #999;
+  font-style: italic;
+  font-size: 0.9rem;
 }
 
 .form-actions {
@@ -702,4 +747,130 @@ textarea.form-control {
 
 .alert:last-child {
   margin-bottom: 0;
+}
+
+/* Стили для кастомной пагинации админки */
+.admin-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  gap: 5px;
+}
+
+.admin-pagination li {
+  margin: 0;
+}
+
+.admin-pagination-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 8px 12px;
+  border: 1px solid var(--admin-border);
+  background-color: #fff;
+  color: var(--admin-text);
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.admin-pagination-btn:hover {
+  background-color: var(--admin-primary);
+  color: #fff;
+  border-color: var(--admin-primary);
+  text-decoration: none;
+}
+
+.admin-pagination .active .admin-pagination-btn {
+  background-color: var(--admin-primary);
+  color: #fff;
+  border-color: var(--admin-primary);
+}
+
+.admin-pagination .disabled .admin-pagination-btn {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  border-color: #dee2e6;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.admin-pagination .disabled .admin-pagination-btn:hover {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  border-color: #dee2e6;
+}
+
+/* Стили для контейнера пагинации */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  padding: 20px 0;
+}
+
+/* Стили для Font Awesome иконок */
+.fas,
+.far,
+.fab {
+  font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+  font-weight: 900 !important;
+  font-style: normal !important;
+}
+
+/* Дополнительные стили для иконок стрелок */
+.fa-chevron-left,
+.fa-chevron-right,
+.fa-arrow-left {
+  font-size: 14px !important;
+  line-height: 1 !important;
+}
+
+/* Исправление отображения кнопок со стрелками */
+.admin-btn i,
+.secondary-btn i {
+  margin-right: 5px;
+  font-size: 14px;
+}
+
+/* Стили для back кнопок */
+.secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Дополнительные стили для тестирования Font Awesome */
+.fa-test {
+  font-family: "Font Awesome 6 Free" !important;
+  font-weight: 900 !important;
+}
+
+/* Альтернативный способ загрузки стрелок, если Font Awesome не работает */
+.admin-pagination-btn[data-direction="prev"]::before {
+  content: "‹";
+  font-size: 18px;
+  line-height: 1;
+}
+
+.admin-pagination-btn[data-direction="next"]::before {
+  content: "›";
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* Убираем content для иконок Font Awesome, если они есть */
+.admin-pagination-btn .fas {
+  font-size: 14px;
+}
+
+.admin-pagination-btn .fas::before {
+  content: initial;
 }

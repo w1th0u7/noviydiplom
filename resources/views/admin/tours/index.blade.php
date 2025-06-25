@@ -74,7 +74,7 @@
     </div>
 
     <div class="pagination-container">
-        {{ $tours->links() }}
+        {{ $tours->links('vendor.pagination.admin') }}
     </div>
 </div>
 @endsection 

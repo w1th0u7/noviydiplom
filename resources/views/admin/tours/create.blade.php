@@ -147,6 +147,11 @@
                     <input type="file" id="image" name="image" accept="image/jpeg,image/png,image/jpg" required class="form-control">
                     <div class="file-upload-info">Поддерживаемые форматы: JPG, JPEG, PNG. Максимальный размер: 2MB.</div>
                 </div>
+                <!-- Контейнер для превью изображения -->
+                <div class="image-preview-container" id="imagePreviewContainer">
+                    <p>Превью изображения:</p>
+                    <img id="imagePreview" src="" alt="Превью изображения">
+                </div>
                 @error('image')
                     <span class="error-message">{{ $message }}</span>
                 @enderror

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Excursion;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ExcursionsController extends Controller
 {
@@ -61,7 +60,10 @@ class ExcursionsController extends Controller
         }
 
         // Загрузка изображения
-        $imagePath = $request->file('image')->store('excursions', 'public');
+        $image = $request->file('image');
+        $imageName = time() . '_' . $image->getClientOriginalName();
+        $image->move(public_path('img/excursions'), $imageName);
+        $imagePath = 'img/excursions/' . $imageName;
 
         // Создание новой экскурсии
         Excursion::create([
@@ -71,7 +73,7 @@ class ExcursionsController extends Controller
             'region' => $validatedData['region'],
             'duration' => $validatedData['duration'],
             'price' => $validatedData['price'],
-            'image' => 'img/' . $imagePath,
+            'image' => $imagePath,
             'audience_type' => $validatedData['audience_type'],
             'min_age' => $validatedData['min_age'],
             'max_age' => $validatedData['max_age'],
@@ -126,12 +128,15 @@ class ExcursionsController extends Controller
 
         // Обновление изображения, если загружено новое
         if ($request->hasFile('image')) {
-            // Удаляем старое изображение, если оно существует
-            if ($excursion->image && Storage::disk('public')->exists($excursion->image)) {
-                Storage::disk('public')->delete($excursion->image);
+            // Удаляем старое изображение, если оно существует и не является стандартным
+            if ($excursion->image && file_exists(public_path($excursion->image))) {
+                unlink(public_path($excursion->image));
             }
-            $imagePath = $request->file('image')->store('excursions', 'public');
-            $excursion->image = 'img/' . $imagePath;
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('img/excursions'), $imageName);
+            $imagePath = 'img/excursions/' . $imageName;
+            $excursion->image = $imagePath;
         }
 
         // Обновление данных экскурсии
@@ -159,9 +164,9 @@ class ExcursionsController extends Controller
      */
     public function destroy(Excursion $excursion)
     {
-        // Удаляем изображение, если оно существует
-        if ($excursion->image && Storage::disk('public')->exists($excursion->image)) {
-            Storage::disk('public')->delete($excursion->image);
+        // Удаляем изображение, если оно существует и не является стандартным
+        if ($excursion->image && file_exists(public_path($excursion->image))) {
+            unlink(public_path($excursion->image));
         }
 
         // Удаляем экскурсию

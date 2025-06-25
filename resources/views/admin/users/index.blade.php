@@ -60,7 +60,7 @@
     </div>
 
     <div class="pagination-container">
-        {{ $users->links() }}
+        {{ $users->links('vendor.pagination.admin') }}
     </div>
 </div>
 @endsection 

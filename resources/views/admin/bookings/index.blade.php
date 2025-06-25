@@ -133,7 +133,7 @@
     </div>
 
     <div class="pagination-container">
-        {{ $bookings->links() }}
+        {{ $bookings->links('vendor.pagination.admin') }}
     </div>
 </div>
 

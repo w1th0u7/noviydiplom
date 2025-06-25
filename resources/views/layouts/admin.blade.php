@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/admin.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 <body>
     <div class="admin-wrapper">
@@ -110,7 +112,7 @@
         </div>
     </div>
 
-    <script src="http://127.0.0.1:8000/js/admin.js"></script>
+    <script src="{{ asset('js/admin.js') }}"></script>
     @yield('scripts')
 </body>
 </html> 

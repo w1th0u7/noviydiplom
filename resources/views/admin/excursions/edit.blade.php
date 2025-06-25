@@ -136,12 +136,17 @@
                 @if($excursion->image)
                 <div class="current-image">
                     <p>Текущее изображение:</p>
-                    <img src="{{ asset('img/' . $excursion->image) }}" alt="{{ $excursion->name }}" class="excursion-image-preview">
+                    <img src="{{ asset($excursion->image) }}" alt="{{ $excursion->name }}" class="excursion-image-preview">
                 </div>
                 @endif
                 <div class="file-upload-wrapper">
                     <input type="file" id="image" name="image" accept="image/jpeg,image/png,image/jpg" class="form-control">
                     <div class="file-upload-info">Поддерживаемые форматы: JPG, JPEG, PNG. Максимальный размер: 2MB. Оставьте пустым, чтобы сохранить текущее изображение.</div>
+                </div>
+                <!-- Контейнер для превью нового изображения -->
+                <div class="image-preview-container" id="imagePreviewContainer">
+                    <p>Превью нового изображения:</p>
+                    <img id="imagePreview" src="" alt="Превью изображения">
                 </div>
                 @error('image')
                     <span class="error-message">{{ $message }}</span>

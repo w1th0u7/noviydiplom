@@ -103,7 +103,7 @@
             </div>
             
             <div class="pagination-wrapper">
-                {{ $inquiries->appends(request()->query())->links() }}
+                {{ $inquiries->appends(request()->query())->links('vendor.pagination.admin') }}
             </div>
         </div>
     </div>
