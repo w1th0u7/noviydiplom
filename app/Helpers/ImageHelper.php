@@ -13,6 +13,7 @@ class ImageHelper
      */
     public static function getImageUrl($imagePath, $defaultImage = 'img/tours/placeholder.jpg')
     {
+        // Если путь пустой, возвращаем изображение по умолчанию
         if (!$imagePath) {
             return asset($defaultImage);
         }
@@ -22,7 +23,17 @@ class ImageHelper
             return $imagePath;
         }
         
-        // Для всех остальных случаев используем asset
+        // Если путь не содержит 'img/', но содержит 'excursions/', добавляем 'img/'
+        if (!str_starts_with($imagePath, 'img/') && str_starts_with($imagePath, 'excursions/')) {
+            return asset('img/' . $imagePath);
+        }
+        
+        // Если путь не содержит 'img/excursions/', но это имя файла без пути
+        if (!str_starts_with($imagePath, 'img/') && !str_contains($imagePath, '/')) {
+            return asset('img/excursions/' . $imagePath);
+        }
+        
+        // Для всех остальных случаев используем asset как есть
         return asset($imagePath);
     }
 } 

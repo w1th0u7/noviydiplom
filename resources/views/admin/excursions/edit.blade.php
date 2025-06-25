@@ -136,7 +136,7 @@
                 @if($excursion->image)
                 <div class="current-image">
                     <p>Текущее изображение:</p>
-                    <img src="{{ asset($excursion->image) }}" alt="{{ $excursion->name }}" class="excursion-image-preview">
+                    <img src="{{ \App\Helpers\ImageHelper::getImageUrl($excursion->image) }}" alt="{{ $excursion->name }}" class="excursion-image-preview">
                 </div>
                 @endif
                 <div class="file-upload-wrapper">
