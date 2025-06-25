@@ -316,9 +316,8 @@ class BookingController extends Controller
                 
             \Log::info("Полученные бронирования через Query Builder: " . json_encode($rawBookings));
             
-            // Улучшенный запрос для получения бронирований через Eloquent
+            // Улучшенный запрос для получения бронирований через Eloquent без предзагрузки полиморфных связей
             $bookings = Booking::where('user_id', $userId)
-                ->with('bookable') // Загружаем связанные модели
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
             
@@ -328,7 +327,12 @@ class BookingController extends Controller
             // Логируем объекты бронирований для отладки
             foreach ($bookings as $index => $booking) {
                 \Log::info("Бронирование #{$index}: ID={$booking->id}, user_id={$booking->user_id}, bookable_type={$booking->bookable_type}, bookable_id={$booking->bookable_id}");
-                \Log::info("Имеется ли связанный объект: " . ($booking->bookable ? 'Да' : 'Нет'));
+                // Проверяем связанный объект только для валидных типов
+                if ($booking->bookable_type && class_exists($booking->bookable_type)) {
+                    \Log::info("Имеется ли связанный объект: " . ($booking->bookable ? 'Да' : 'Нет'));
+                } else {
+                    \Log::info("Бронирование из калькулятора или недопустимый тип");
+                }
             }
             
             // Возвращаем представление с данными о бронированиях
@@ -431,10 +435,19 @@ class BookingController extends Controller
      */
     public function bookFromCalculator(Request $request)
     {
+        // Простое логирование для отладки
+        file_put_contents(storage_path('logs/calculator_debug.log'), 
+            date('Y-m-d H:i:s') . " - Метод bookFromCalculator вызван\n", FILE_APPEND);
+        file_put_contents(storage_path('logs/calculator_debug.log'), 
+            date('Y-m-d H:i:s') . " - Данные: " . json_encode($request->all()) . "\n", FILE_APPEND);
+        
         \Log::info("Начало процесса бронирования через калькулятор");
         \Log::info("Данные запроса: " . json_encode($request->all()));
         
         try {
+            file_put_contents(storage_path('logs/calculator_debug.log'), 
+                date('Y-m-d H:i:s') . " - Начало валидации\n", FILE_APPEND);
+                
             // Валидация данных
             $validator = Validator::make($request->all(), [
                 'booking_date' => 'required|date|after_or_equal:today',
@@ -444,24 +457,41 @@ class BookingController extends Controller
                 'guest_phone' => 'required|string|max:20',
                 'total_price' => 'required|numeric|min:0',
                 'special_requests' => 'nullable|string|max:1000',
+                'calculator_data' => 'nullable|string',
+                'calculator_country' => 'nullable|string|max:255',
+                'calculator_resort' => 'nullable|string|max:255',
+                'calculator_tour_type' => 'nullable|string|max:255',
+                'calculator_hotel_class' => 'nullable|string|max:255',
+                'calculator_meal' => 'nullable|string|max:255',
+                'calculator_nights' => 'nullable|integer|min:1|max:30',
             ]);
 
             if ($validator->fails()) {
+                file_put_contents(storage_path('logs/calculator_debug.log'), 
+                    date('Y-m-d H:i:s') . " - ОШИБКА валидации: " . json_encode($validator->errors()->toArray()) . "\n", FILE_APPEND);
                 \Log::warning("Ошибка валидации при бронировании через калькулятор: " . json_encode($validator->errors()->toArray()));
                 return redirect()->back()
                     ->withErrors($validator)
                     ->withInput();
             }
             
+            file_put_contents(storage_path('logs/calculator_debug.log'), 
+                date('Y-m-d H:i:s') . " - Валидация прошла успешно\n", FILE_APPEND);
+            
             DB::beginTransaction();
+            file_put_contents(storage_path('logs/calculator_debug.log'), 
+                date('Y-m-d H:i:s') . " - Начата транзакция\n", FILE_APPEND);
             
             // Получаем данные пользователя
             $user = Auth::user();
-            \Log::info("Пользователь: {$user->name} (ID: {$user->id})");
+            file_put_contents(storage_path('logs/calculator_debug.log'), 
+                date('Y-m-d H:i:s') . " - Пользователь: " . ($user ? $user->name . " (ID: {$user->id})" : 'НЕ АВТОРИЗОВАН') . "\n", FILE_APPEND);
             
             // Создаем объект бронирования
             $booking = new Booking();
-            $booking->user_id = $user->id;
+            
+            // Устанавливаем user_id в зависимости от наличия пользователя
+            $booking->user_id = $user ? $user->id : null;
             $booking->guest_name = $request->guest_name;
             $booking->guest_email = $request->guest_email;
             $booking->guest_phone = $request->guest_phone;
@@ -471,15 +501,31 @@ class BookingController extends Controller
             $booking->status = 'pending';
             $booking->notes = $request->special_requests;
             
-            // Для бронирований через калькулятор создаем специальный тип
-            $booking->bookable_type = 'calculator';
-            $booking->bookable_id = 0; // Используем 0 для калькулятора
+            // Для бронирований через калькулятор используем null для полиморфных связей
+            $booking->bookable_type = null;
+            $booking->bookable_id = null;
+            
+            // Сохраняем данные калькулятора
+            $booking->calculator_data = $request->calculator_data;
+            $booking->calculator_country = $request->calculator_country;
+            $booking->calculator_resort = $request->calculator_resort;
+            $booking->calculator_tour_type = $request->calculator_tour_type;
+            $booking->calculator_hotel_class = $request->calculator_hotel_class;
+            $booking->calculator_meal = $request->calculator_meal;
+            $booking->calculator_nights = $request->calculator_nights;
+            
+            file_put_contents(storage_path('logs/calculator_debug.log'), 
+                date('Y-m-d H:i:s') . " - Модель бронирования создана, пытаемся сохранить\n", FILE_APPEND);
             
             // Сохраняем бронирование
             $booking->save();
+            file_put_contents(storage_path('logs/calculator_debug.log'), 
+                date('Y-m-d H:i:s') . " - Бронирование сохранено с ID: {$booking->id}\n", FILE_APPEND);
             \Log::info("Бронирование через калькулятор создано: #{$booking->id}");
             
             DB::commit();
+            file_put_contents(storage_path('logs/calculator_debug.log'), 
+                date('Y-m-d H:i:s') . " - Транзакция подтверждена\n", FILE_APPEND);
             
             // Создаём данные для уведомления
             $notification = [
@@ -491,13 +537,21 @@ class BookingController extends Controller
             session()->flash('booking_notification', $notification);
             session()->flash('global_alert', 'Заявка успешно отправлена! Скоро с вами свяжется менеджер.');
             
-            // Редирект на страницу подтверждения
+            file_put_contents(storage_path('logs/calculator_debug.log'), 
+                date('Y-m-d H:i:s') . " - Сессии установлены, готовимся к редиректу\n", FILE_APPEND);
+            
+            // Редирект обратно на калькулятор с сообщением об успехе
             return redirect()
-                ->route('bookings.confirmation', $booking->id)
-                ->with('success', 'Ваша заявка успешно создана и ожидает обработки менеджером.');
+                ->route('calculate')
+                ->with('success', 'Ваша заявка успешно создана и ожидает обработки менеджером.')
+                ->with('booking_notification', $notification);
                 
         } catch (\Exception $e) {
             DB::rollback();
+            file_put_contents(storage_path('logs/calculator_debug.log'), 
+                date('Y-m-d H:i:s') . " - ИСКЛЮЧЕНИЕ: " . $e->getMessage() . "\n", FILE_APPEND);
+            file_put_contents(storage_path('logs/calculator_debug.log'), 
+                date('Y-m-d H:i:s') . " - Стек: " . $e->getTraceAsString() . "\n", FILE_APPEND);
             \Log::error('Ошибка при создании бронирования через калькулятор: ' . $e->getMessage());
             
             return redirect()->back()

@@ -38,6 +38,7 @@ class CabinetController extends Controller
     public function trips()
     {
         // Получаем все бронирования текущего пользователя
+        // Не загружаем связь bookable автоматически, так как для записей из калькулятора она null
         $bookings = Booking::where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
             ->paginate(10);

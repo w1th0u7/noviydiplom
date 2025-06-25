@@ -36,30 +36,52 @@
                         'completed' => 'Завершено'
                     ][$booking->status] ?? 'Неизвестный статус';
                     
-                    $bookableType = isset($booking->bookable_type) && $booking->bookable_type == 'App\\Models\\Tour' ? 'Тур' : 'Экскурсия';
+                    // Определяем тип бронирования
+                    if ($booking->isFromCalculator()) {
+                        $bookableType = 'Индивидуальный тур';
+                        $bookableName = $booking->getBookableName();
+                    } else {
+                        $bookableType = $booking->bookable_type == 'App\\Models\\Tour' ? 'Тур' : 'Экскурсия';
+                        // Безопасное получение названия объекта
+                        try {
+                            $bookableName = $booking->bookable ? $booking->bookable->name : 'Удалено';
+                        } catch (\Exception $e) {
+                            $bookableName = 'Объект недоступен';
+                        }
+                    }
                 @endphp
                 
                 <div class="booking-card">
                     <div class="booking-header">
                         <h3>
-                            @if($booking->bookable)
-                                {{ $bookableType }}: {{ $booking->bookable->name }}
-                            @else
-                                {{ $bookableType }}: <span class="deleted-item">Удалено</span>
-                            @endif
+                            {{ $bookableType }}: {{ $bookableName }}
                         </h3>
                         <span class="booking-status {{ $statusClass }}">{{ $statusText }}</span>
                     </div>
                     
                     <div class="booking-details">
                         <div class="booking-left">
-                            @if($booking->bookable)
-                                <img src="{{ $booking->bookable_type == 'App\\Models\\Tour' ? 
-                                    \App\Helpers\ImageHelper::getImageUrl($booking->bookable->image_path ?? $booking->bookable->image, 'img/tours/placeholder.jpg') : 
-                                    \App\Helpers\ImageHelper::getImageUrl($booking->bookable->image_path ?? $booking->bookable->image, 'img/excursions/placeholder.jpg') }}" 
-                                    alt="{{ $booking->bookable->name }}" class="booking-image">
+                            @if($booking->isFromCalculator())
+                                <img src="{{ asset($booking->getCalculatorImage()) }}" alt="Индивидуальный тур" class="booking-image">
                             @else
-                                <img src="{{ asset('img/tours/placeholder.jpg') }}" alt="Изображение недоступно" class="booking-image">
+                                @php
+                                    try {
+                                        $hasBookable = $booking->bookable;
+                                        if ($hasBookable) {
+                                            $imagePath = $booking->bookable_type == 'App\\Models\\Tour' ? 
+                                                \App\Helpers\ImageHelper::getImageUrl($booking->bookable->image_path ?? $booking->bookable->image, 'img/tours/placeholder.jpg') : 
+                                                \App\Helpers\ImageHelper::getImageUrl($booking->bookable->image_path ?? $booking->bookable->image, 'img/excursions/placeholder.jpg');
+                                            $altText = $booking->bookable->name;
+                                        } else {
+                                            $imagePath = asset('img/tours/placeholder.jpg');
+                                            $altText = 'Изображение недоступно';
+                                        }
+                                    } catch (\Exception $e) {
+                                        $imagePath = asset('img/tours/placeholder.jpg');
+                                        $altText = 'Изображение недоступно';
+                                    }
+                                @endphp
+                                <img src="{{ $imagePath }}" alt="{{ $altText }}" class="booking-image">
                             @endif
                         </div>
                         <div class="booking-right">

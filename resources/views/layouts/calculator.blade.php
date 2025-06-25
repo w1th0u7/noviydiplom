@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{ asset('/css/pages/responsive.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/calculate.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="user-authenticated" content="{{ Auth::check() ? 'true' : 'false' }}">
     <title>@yield('title', 'Калькулятор туров | Rodina-tur')</title>
     <script src="{{ asset('/js/fixes.js') }}" defer></script>
     <script src="{{ asset('/js/modal.js') }}" defer></script>
@@ -48,16 +49,17 @@
                         <p>+7 (920) 904-13-83</p>
                         <p>Заказать звонок</p>
                     </div>
-                    <a href="{{ route('login') }}">
-                        <div class="login">
+                    @auth
+                        <a href="{{ route('cabinet') }}">
+                            <div class="login">
                                 <svg width="30" height="29" viewBox="0 0 30 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <g filter="url(#filter0_d_974_66_calculator)">
+                                    <g filter="url(#filter0_d_974_66_auth)">
                                     <path d="M25.501 10.5C25.501 16.0012 20.8219 20.5 15.0005 20.5C9.17903 20.5 4.5 16.0012 4.5 10.5C4.5 4.99884 9.17903 0.5 15.0005 0.5C20.8219 0.5 25.501 4.99884 25.501 10.5Z" stroke="#EEBB07" shape-rendering="crispEdges"/>
                                     </g>
                                     <path d="M17.9886 7.58333C17.9886 9.60247 16.4922 11.1667 14.7323 11.1667C12.9724 11.1667 11.4761 9.60247 11.4761 7.58333C11.4761 5.56419 12.9724 4 14.7323 4C16.4922 4 17.9886 5.56419 17.9886 7.58333Z" stroke="#EEBB07"/>
                                     <path d="M21.7082 18.6667H8.29297C8.29297 15.9167 10.5764 12.25 14.8579 12.25C18.9744 12.25 21.7082 15.4583 21.7082 18.6667Z" stroke="#EEBB07"/>
                                     <defs>
-                                    <filter id="filter0_d_974_66_calculator" x="0" y="0" width="30.001" height="29" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                    <filter id="filter0_d_974_66_auth" x="0" y="0" width="30.001" height="29" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
                                     <feFlood flood-opacity="0" result="BackgroundImageFix"/>
                                     <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
                                     <feOffset dy="4"/>
@@ -69,9 +71,35 @@
                                     </filter>
                                     </defs>
                                 </svg>
-                            <p>ВОЙТИ</p>
-                        </div>
-                    </a>
+                                <p>КАБИНЕТ</p>
+                            </div>
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}">
+                            <div class="login">
+                                <svg width="30" height="29" viewBox="0 0 30 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g filter="url(#filter0_d_974_66_login)">
+                                    <path d="M25.501 10.5C25.501 16.0012 20.8219 20.5 15.0005 20.5C9.17903 20.5 4.5 16.0012 4.5 10.5C4.5 4.99884 9.17903 0.5 15.0005 0.5C20.8219 0.5 25.501 4.99884 25.501 10.5Z" stroke="#EEBB07" shape-rendering="crispEdges"/>
+                                    </g>
+                                    <path d="M17.9886 7.58333C17.9886 9.60247 16.4922 11.1667 14.7323 11.1667C12.9724 11.1667 11.4761 9.60247 11.4761 7.58333C11.4761 5.56419 12.9724 4 14.7323 4C16.4922 4 17.9886 5.56419 17.9886 7.58333Z" stroke="#EEBB07"/>
+                                    <path d="M21.7082 18.6667H8.29297C8.29297 15.9167 10.5764 12.25 14.8579 12.25C18.9744 12.25 21.7082 15.4583 21.7082 18.6667Z" stroke="#EEBB07"/>
+                                    <defs>
+                                    <filter id="filter0_d_974_66_login" x="0" y="0" width="30.001" height="29" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                    <feOffset dy="4"/>
+                                    <feGaussianBlur stdDeviation="2"/>
+                                    <feComposite in2="hardAlpha" operator="out"/>
+                                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_974_66"/>
+                                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_974_66" result="shape"/>
+                                    </filter>
+                                    </defs>
+                                </svg>
+                                <p>ВОЙТИ</p>
+                            </div>
+                        </a>
+                    @endauth
                     <div class="menu-btn">
                         <img src="/img/menu-btn.svg" alt="" >
                     </div>

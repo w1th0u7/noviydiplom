@@ -10,7 +10,49 @@
 @endsection
 
 @section('content')
+<!-- Отладочный блок -->
+@if(config('app.debug'))
+<div style="background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 10px; margin: 10px 0; border-radius: 5px;">
+    <strong>DEBUG INFO:</strong><br>
+    User authenticated: {{ Auth::check() ? 'YES' : 'NO' }}<br>
+    @if(Auth::check())
+        User ID: {{ Auth::id() }}<br>
+        User Name: {{ Auth::user()->name }}<br>
+        User Email: {{ Auth::user()->email }}<br>
+    @endif
+    Meta tag content: {{ Auth::check() ? 'true' : 'false' }}
+</div>
+@endif
+
 <div class="container">
+    <!-- Уведомления -->
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible" style="background-color: #d4edda; border: 1px solid #c3e6cb; border-radius: 5px; padding: 15px; margin-bottom: 20px; color: #155724; position: relative;">
+            <i class="fas fa-check-circle" style="margin-right: 8px;"></i>
+            {{ session('success') }}
+            <button type="button" class="close-alert" style="position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 18px; cursor: pointer; color: #155724;" onclick="this.parentElement.style.display='none'">&times;</button>
+        </div>
+    @endif
+    
+    @if(session('global_alert'))
+        <div class="alert alert-info alert-dismissible" style="background-color: #e6f3ff; border: 1px solid #0050a0; border-radius: 5px; padding: 15px; margin-bottom: 20px; color: #0050a0; position: relative;">
+            <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
+            {{ session('global_alert') }}
+            <button type="button" class="close-alert" style="position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 18px; cursor: pointer; color: #0050a0;" onclick="this.parentElement.style.display='none'">&times;</button>
+        </div>
+    @endif
+    
+    @if(session('booking_notification'))
+        <div class="alert alert-info alert-dismissible" style="background-color: #e6f3ff; border: 1px solid #0050a0; border-radius: 5px; padding: 15px; margin-bottom: 20px; color: #0050a0; position: relative;">
+            <h4 style="margin-bottom: 10px; color: #0050a0;">
+                <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
+                {{ session('booking_notification')['title'] }}
+            </h4>
+            <p style="margin: 0;">{{ session('booking_notification')['message'] }}</p>
+            <button type="button" class="close-alert" style="position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 18px; cursor: pointer; color: #0050a0;" onclick="this.parentElement.style.display='none'">&times;</button>
+        </div>
+    @endif
+
     <div class="calculator-banner">
         <h1>Умный калькулятор путешествий</h1>
         <p>Спланируйте идеальное путешествие и узнайте точную стоимость в несколько кликов</p>

@@ -25,6 +25,13 @@ class Booking extends Model
         'notes',
         'bookable_type',
         'bookable_id',
+        'calculator_data',
+        'calculator_country',
+        'calculator_resort',
+        'calculator_tour_type',
+        'calculator_hotel_class',
+        'calculator_meal',
+        'calculator_nights',
     ];
 
     /**
@@ -109,5 +116,90 @@ class Booking extends Model
     {
         $this->status = 'completed';
         return $this->save();
+    }
+
+    /**
+     * Проверить, является ли бронирование из калькулятора.
+     */
+    public function isFromCalculator()
+    {
+        return is_null($this->bookable_type) && is_null($this->bookable_id);
+    }
+
+    /**
+     * Получить название забронированного объекта.
+     */
+    public function getBookableName()
+    {
+        if ($this->isFromCalculator()) {
+            // Формируем название на основе данных калькулятора
+            $parts = [];
+            
+            if ($this->calculator_country) {
+                $parts[] = $this->calculator_country;
+            }
+            
+            if ($this->calculator_resort) {
+                $parts[] = $this->calculator_resort;
+            }
+            
+            if (!empty($parts)) {
+                return implode(', ', $parts);
+            }
+            
+            return 'Рассчитан через калькулятор';
+        }
+        
+        if ($this->bookable) {
+            return $this->bookable->name ?? 'Неизвестный объект';
+        }
+        
+        return 'Объект не найден';
+    }
+
+    /**
+     * Получить изображение для бронирования из калькулятора.
+     */
+    public function getCalculatorImage()
+    {
+        if (!$this->isFromCalculator()) {
+            return null;
+        }
+
+        // Соответствие стран и изображений
+        $countryImages = [
+            'Турция' => 'img/tours/beach.jpg',
+            'Египет' => 'img/tours/more.jpg', 
+            'ОАЭ' => 'img/tours/resort.jpg',
+            'Таиланд' => 'img/tours/plyazh.jpg',
+            'Россия' => 'img/tours/city.jpg',
+            'Франция' => 'img/tours/city.jpg',
+            'Италия' => 'img/tours/city.jpg',
+            'Испания' => 'img/tours/beach.jpg',
+            'Греция' => 'img/tours/more.jpg',
+            'Кипр' => 'img/tours/beach.jpg',
+        ];
+
+        // Если есть соответствие стране, используем его
+        if ($this->calculator_country && isset($countryImages[$this->calculator_country])) {
+            return $countryImages[$this->calculator_country];
+        }
+
+        // Если нет соответствия стране, используем изображение по типу тура
+        $tourTypeImages = [
+            'пляжный отдых' => 'img/tours/beach.jpg',
+            'экскурсионный' => 'img/tours/city.jpg', 
+            'горнолыжный' => 'img/tours/mountain.jpg',
+            'лечебный' => 'img/tours/resort.jpg',
+            'круизный' => 'img/tours/more.jpg',
+            'паломнический' => 'img/tours/city.jpg',
+        ];
+
+        if ($this->calculator_tour_type && isset($tourTypeImages[$this->calculator_tour_type])) {
+            return $tourTypeImages[$this->calculator_tour_type];
+        }
+
+        // По умолчанию возвращаем изображение placeholder
+        return 'img/tours/placeholder.jpg';
     }
 }

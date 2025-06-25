@@ -10,6 +10,9 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use Illuminate\Support\Facades\Auth;
 
+// ТЕСТОВЫЙ маршрут для бронирования из калькулятора
+Route::post('/calculator/book', [BookingController::class, 'bookFromCalculator'])->name('calculator.book');
+
 Route::post('register', [UserController::class, 'registerWeb']);
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLink']);
 Route::post('password/reset', [ResetPasswordController::class, 'reset']);
@@ -134,7 +137,8 @@ Route::get('/calculate', [TourCalculatorController::class, 'index'])->name('calc
 Route::post('/calculate/get-resorts', [TourCalculatorController::class, 'getResorts'])->name('calculate.getResorts');
 Route::post('/calculate/get-hotels', [TourCalculatorController::class, 'getHotels'])->name('calculate.getHotels');
 Route::post('/calculate/price', [TourCalculatorController::class, 'calculate'])->name('calculate.price');
-Route::post('/calculator/book', [BookingController::class, 'bookFromCalculator'])->name('calculator.book')->middleware('auth');
+
+// Маршрут перенесен в начало файла
 
 // Маршруты для бронирования
 Route::middleware(['auth'])->group(function () {

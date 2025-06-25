@@ -220,6 +220,13 @@
                         {{ session('success') }}
                     </div>
                 @endif
+                
+                @if(session('global_alert'))
+                    <div class="alert alert-info mt-3" style="background-color: #e6f3ff; border: 1px solid #0050a0; border-radius: 5px; padding: 15px; margin-top: 15px; color: #0050a0;">
+                        <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
+                        {{ session('global_alert') }}
+                    </div>
+                @endif
             </div>
 
             {{-- Отображение уведомления о бронировании --}}
@@ -290,35 +297,54 @@
             </div>
             
             <div class="detail-section">
-                <h3>Информация о {{ $booking->bookable_type == 'App\\Models\\Tour' ? 'туре' : 'экскурсии' }}</h3>
-                
-                @if($booking->bookable)
+                @if($booking->isFromCalculator())
+                    <h3>Информация об индивидуальном туре</h3>
+                    
                     <div class="detail-item">
-                        <span class="detail-label">Название:</span>
-                        <span class="detail-value">{{ $booking->bookable->name }}</span>
+                        <span class="detail-label">Тип:</span>
+                        <span class="detail-value">Индивидуальный тур</span>
                     </div>
                     
                     <div class="detail-item">
-                        <span class="detail-label">Локация:</span>
-                        <span class="detail-value">{{ $booking->bookable->location }}</span>
+                        <span class="detail-label">Источник:</span>
+                        <span class="detail-value">Рассчитан через калькулятор</span>
                     </div>
                     
-                    @if($booking->bookable_type == 'App\\Models\\Tour')
+                    <div class="detail-item">
+                        <span class="detail-label">Статус:</span>
+                        <span class="detail-value">Ожидает уточнения деталей менеджером</span>
+                    </div>
+                @else
+                    <h3>Информация о {{ $booking->bookable_type == 'App\\Models\\Tour' ? 'туре' : 'экскурсии' }}</h3>
+                    
+                    @if($booking->bookable)
                         <div class="detail-item">
-                            <span class="detail-label">Продолжительность:</span>
-                            <span class="detail-value">{{ $booking->bookable->duration_text }}</span>
+                            <span class="detail-label">Название:</span>
+                            <span class="detail-value">{{ $booking->bookable->name }}</span>
                         </div>
+                        
+                        <div class="detail-item">
+                            <span class="detail-label">Локация:</span>
+                            <span class="detail-value">{{ $booking->bookable->location }}</span>
+                        </div>
+                        
+                        @if($booking->bookable_type == 'App\\Models\\Tour')
+                            <div class="detail-item">
+                                <span class="detail-label">Продолжительность:</span>
+                                <span class="detail-value">{{ $booking->bookable->duration_text }}</span>
+                            </div>
+                        @else
+                            <div class="detail-item">
+                                <span class="detail-label">Продолжительность:</span>
+                                <span class="detail-value">{{ $booking->bookable->duration }} {{ trans_choice('час|часа|часов', $booking->bookable->duration) }}</span>
+                            </div>
+                        @endif
                     @else
                         <div class="detail-item">
-                            <span class="detail-label">Продолжительность:</span>
-                            <span class="detail-value">{{ $booking->bookable->duration }} {{ trans_choice('час|часа|часов', $booking->bookable->duration) }}</span>
+                            <span class="detail-label">Информация:</span>
+                            <span class="detail-value deleted-item">Объект был удалён из системы</span>
                         </div>
                     @endif
-                @else
-                    <div class="detail-item">
-                        <span class="detail-label">Информация:</span>
-                        <span class="detail-value deleted-item">Объект был удалён из системы</span>
-                    </div>
                 @endif
             </div>
             
@@ -330,7 +356,11 @@
             @endif
             
             <div class="booking-actions">
-                @if($booking->bookable)
+                @if($booking->isFromCalculator())
+                    <a href="{{ route('calculate') }}" class="booking-button">
+                        Вернуться к калькулятору
+                    </a>
+                @elseif($booking->bookable)
                     <a href="{{ $booking->bookable_type == 'App\\Models\\Tour' ? route('tours.show', $booking->bookable->id) : route('excursions.show', $booking->bookable->id) }}" class="booking-button">
                         Вернуться к {{ $booking->bookable_type == 'App\\Models\\Tour' ? 'туру' : 'экскурсии' }}
                     </a>

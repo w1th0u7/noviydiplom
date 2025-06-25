@@ -74,10 +74,10 @@ class Excursion extends Model
             if (str_starts_with($this->image, 'excursions/')) {
                 return $this->image;
             }
-            // Иначе добавляем excursions/
-            return 'excursions/' . $this->image;
+            // Иначе добавляем img/excursions/
+            return 'img/excursions/' . $this->image;
         }
-        return $this->image ?: 'excursions/placeholder.jpg';
+        return $this->image ?: 'img/excursions/placeholder.jpg';
     }
 
     /**
