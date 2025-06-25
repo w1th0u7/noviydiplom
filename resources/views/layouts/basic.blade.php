@@ -369,10 +369,10 @@
             <div class="cont">
                 <h3>Не нашли подходящий тур?</h3>
                 <p class="txt">Оставьте заявку и мы перезвоним Вам. Предложим варианты и организуем отдых Вашей мечты.</p>
-                <form action="index.html" onsubmit="ym('98198773','reachGoal','order-call-modal'); return true;">
-                    <input type="name" id="ordercalls-name" name="OrderCalls[name]" placeholder="Имя *" aria-required="true" required="">
-                    <input type="tel" id="ordercalls-phone" name="OrderCalls[phone]" placeholder="Телефон *" aria-required="true" required="">
-                    <input type="hidden" id="ordercalls-type" name="OrderCalls[type]" aria-required="true" value="0" required="">
+                <form action="{{ route('inquiries.store') }}" method="POST" onsubmit="ym('98198773','reachGoal','order-call-modal'); return true;">
+                    @csrf
+                    <input type="text" id="ordercalls-name" name="name" placeholder="Имя *" aria-required="true" required="">
+                    <input type="tel" id="ordercalls-phone" name="phone" placeholder="Телефон *" aria-required="true" required="">
                     <div class="chekbox">
                         <input id="polit" type="checkbox" aria-required="true" checked="" required="">
                         <label for="polit"></label>

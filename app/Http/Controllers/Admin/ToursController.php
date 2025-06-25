@@ -63,7 +63,10 @@ class ToursController extends Controller
         }
 
         // Загрузка изображения
-        $imagePath = $request->file('image')->store('tours', 'public');
+        $image = $request->file('image');
+        $imageName = time() . '_' . $image->getClientOriginalName();
+        $image->move(public_path('img/tours'), $imageName);
+        $imagePath = 'img/tours/' . $imageName;
 
         // Создание нового тура
         Tour::create([
@@ -77,7 +80,7 @@ class ToursController extends Controller
             'data' => Carbon::now(), // Используем текущую дату для поля data
             'start_date' => $validatedData['start_date'],
             'end_date' => $validatedData['end_date'],
-            'image' => 'img/' . $imagePath,
+            'image' => $imagePath,
             'audience_type' => $validatedData['audience_type'],
             'available_seats' => $validatedData['available_seats'] ?? 20,
             'features' => $features,
@@ -132,11 +135,14 @@ class ToursController extends Controller
         // Обновление изображения, если загружено новое
         if ($request->hasFile('image')) {
             // Удаляем старое изображение, если оно существует и не является стандартным
-            if ($tour->image && Storage::disk('public')->exists($tour->image) && !str_starts_with($tour->image, 'img/')) {
-                Storage::disk('public')->delete($tour->image);
+            if ($tour->image && file_exists(public_path($tour->image))) {
+                unlink(public_path($tour->image));
             }
-            $imagePath = $request->file('image')->store('tours', 'public');
-            $tour->image = 'img/' . $imagePath;
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('img/tours'), $imageName);
+            $imagePath = 'img/tours/' . $imageName;
+            $tour->image = $imagePath;
         }
 
         // Обновление данных тура
@@ -166,8 +172,8 @@ class ToursController extends Controller
     public function destroy(Tour $tour)
     {
         // Удаляем изображение, если оно существует и не является стандартным
-        if ($tour->image && Storage::disk('public')->exists($tour->image) && !str_starts_with($tour->image, 'img/')) {
-            Storage::disk('public')->delete($tour->image);
+        if ($tour->image && file_exists(public_path($tour->image))) {
+            unlink(public_path($tour->image));
         }
 
         // Удаляем тур

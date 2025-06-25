@@ -17,6 +17,20 @@ div.login svg,
   display: block !important;
 }
 
+/* Улучшение видимости иконки пользователя */
+.login svg path {
+  stroke: #eebb07 !important;
+  stroke-width: 1px !important;
+  fill: none !important;
+  opacity: 1 !important;
+}
+
+/* Улучшение контрастности при наведении */
+.login:hover svg path {
+  stroke: #1e2226 !important;
+  stroke-width: 1.2px !important;
+}
+
 /* Исправления для медиа-запросов */
 @media (max-width: 1400px) {
   header .header-info .login svg,

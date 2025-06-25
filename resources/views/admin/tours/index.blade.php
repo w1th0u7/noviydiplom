@@ -34,7 +34,7 @@
                     <td>{{ $tour->id }}</td>
                     <td>
                         @if($tour->image)
-                            <img src="{{ asset(str_starts_with($tour->image, 'img/') ? $tour->image : 'storage/' . $tour->image) }}" alt="{{ $tour->name }}" class="tour-thumbnail">
+                            <img src="{{ asset($tour->image) }}" alt="{{ $tour->name }}" class="tour-thumbnail">
                         @else
                             <span class="no-image">Нет изображения</span>
                         @endif

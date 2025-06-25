@@ -229,7 +229,10 @@ class AdminController extends Controller
         ]);
 
         // Сохранение изображения
-        $imagePath = $request->file('image')->store('tours', 'public');
+        $image = $request->file('image');
+        $imageName = time() . '_' . $image->getClientOriginalName();
+        $image->move(public_path('img/tours'), $imageName);
+        $imagePath = 'img/tours/' . $imageName;
 
         Tour::create([
             'name' => $validatedData['name'],
@@ -237,7 +240,7 @@ class AdminController extends Controller
             'season' => $validatedData['season'],
             'data' => $validatedData['data'],
             'price' => $validatedData['price'],
-            'image' => 'img/' . $imagePath,
+            'image' => $imagePath,
         ]);
 
         return redirect()->route('admin.tours')->with('success', 'Тур успешно создан!');
@@ -275,13 +278,16 @@ class AdminController extends Controller
         // Обновление изображения, если оно было загружено
         if ($request->hasFile('image')) {
             // Удаляем старое изображение, если оно существует
-            if ($tour->image && Storage::disk('public')->exists($tour->image)) {
-                Storage::disk('public')->delete($tour->image);
+            if ($tour->image && file_exists(public_path($tour->image))) {
+                unlink(public_path($tour->image));
             }
             
             // Сохраняем новое изображение
-            $imagePath = $request->file('image')->store('tours', 'public');
-            $tour->image = 'img/' . $imagePath;
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('img/tours'), $imageName);
+            $imagePath = 'img/tours/' . $imageName;
+            $tour->image = $imagePath;
         }
 
         $tour->save();
@@ -295,8 +301,8 @@ class AdminController extends Controller
     public function destroyTour(Tour $tour)
     {
         // Удаляем изображение, если оно существует
-        if ($tour->image && Storage::disk('public')->exists($tour->image)) {
-            Storage::disk('public')->delete($tour->image);
+        if ($tour->image && file_exists(public_path($tour->image))) {
+            unlink(public_path($tour->image));
         }
         
         $tour->delete();

@@ -147,7 +147,7 @@
                 @if($tour->image)
                 <div class="current-image">
                     <p>Текущее изображение:</p>
-                    <img src="{{ asset(str_starts_with($tour->image, 'img/') ? $tour->image : 'storage/' . $tour->image) }}" alt="{{ $tour->name }}" class="tour-image-preview">
+                    <img src="{{ asset($tour->image) }}" alt="{{ $tour->name }}" class="tour-image-preview">
                 </div>
                 @endif
                 <div class="file-upload-wrapper">

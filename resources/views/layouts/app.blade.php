@@ -52,9 +52,9 @@
                             <div class="login">
                                 <svg width="30" height="29" viewBox="0 0 30 29" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <g filter="url(#filter0_d_974_66_auth)">
-                                    <path d="M25.501 10.5C25.501 16.0012 20.8219 20.5 15.0005 20.5C9.17903 20.5 4.5 16.0012 4.5 10.5C4.5 4.99884 9.17903 0.5 15.0005 0.5C20.8219 0.5 25.501 4.99884 25.501 10.5Z"  shape-rendering="crispEdges"/>
+                                    <path d="M25.501 10.5C25.501 16.0012 20.8219 20.5 15.0005 20.5C9.17903 20.5 4.5 16.0012 4.5 10.5C4.5 4.99884 9.17903 0.5 15.0005 0.5C20.8219 0.5 25.501 4.99884 25.501 10.5Z" stroke="#EEBB07" shape-rendering="crispEdges"/>
                                     </g>
-                                    <path d="M17.9886 7.58333C17.9886 9.60247 16.4922 11.1667 14.7323 11.1667C12.9724 11.1667 11.4761 9.60247 11.4761 7.58333C11.4761 5.56419 12.9724 4 14.7323 4C16.4922 4 17.9886 5.56419 17.9886 7.58333Z"/>
+                                    <path d="M17.9886 7.58333C17.9886 9.60247 16.4922 11.1667 14.7323 11.1667C12.9724 11.1667 11.4761 9.60247 11.4761 7.58333C11.4761 5.56419 12.9724 4 14.7323 4C16.4922 4 17.9886 5.56419 17.9886 7.58333Z" stroke="#EEBB07"/>
                                     <path d="M21.7082 18.6667H8.29297C8.29297 15.9167 10.5764 12.25 14.8579 12.25C18.9744 12.25 21.7082 15.4583 21.7082 18.6667Z" stroke="#EEBB07"/>
                                     <defs>
                                     <filter id="filter0_d_974_66_auth" x="0" y="0" width="30.001" height="29" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
@@ -567,10 +567,10 @@
             <div class="cont">
                 <h3>Не нашли подходящий тур?</h3>
                 <p class="txt">Оставьте заявку и мы перезвоним Вам. Предложим варианты и организуем отдых Вашей мечты.</p>
-                <form action="index.html" onsubmit="ym('98198773','reachGoal','order-call-modal'); return true;">
-                    <input type="name" id="ordercalls-name" name="OrderCalls[name]" placeholder="Имя *" aria-required="true" required="">
-                    <input type="tel" id="ordercalls-phone" name="OrderCalls[phone]" placeholder="Телефон *" aria-required="true" required="">
-                    <input type="hidden" id="ordercalls-type" name="OrderCalls[type]" aria-required="true" value="0" required="">
+                <form action="{{ route('inquiries.store') }}" method="POST" onsubmit="ym('98198773','reachGoal','order-call-modal'); return true;">
+                    @csrf
+                    <input type="name" id="ordercalls-name" name="name" placeholder="Имя *" aria-required="true" required="">
+                    <input type="tel" id="ordercalls-phone" name="phone" placeholder="Телефон *" aria-required="true" required="">
                     <div class="chekbox">
                         <input id="polit" type="checkbox" aria-required="true" checked="" required="">
                         <label for="polit"></label>

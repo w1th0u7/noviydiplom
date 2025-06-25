@@ -17,19 +17,12 @@ class ImageHelper
             return asset($defaultImage);
         }
         
-        if (str_starts_with($imagePath, 'img/')) {
-            return asset($imagePath);
-        }
-        
+        // Если путь начинается с http, это внешняя ссылка
         if (str_starts_with($imagePath, 'http')) {
             return $imagePath;
         }
         
-        // Перенаправляем пути из storage в img
-        if (str_starts_with($imagePath, 'tours/') || str_starts_with($imagePath, 'excursions/')) {
-            return asset('img/' . $imagePath);
-        }
-        
-        return asset('img/' . $imagePath);
+        // Для всех остальных случаев используем asset
+        return asset($imagePath);
     }
 } 
