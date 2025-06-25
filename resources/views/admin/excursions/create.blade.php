@@ -120,6 +120,24 @@
                     @enderror
                 </div>
             </div>
+
+            <div class="form-row">
+                <div class="form-group half">
+                    <label for="start_date">Дата начала проведения</label>
+                    <input type="date" id="start_date" name="start_date" value="{{ old('start_date') }}" class="form-control">
+                    @error('start_date')
+                        <span class="error-message">{{ $message }}</span>
+                    @enderror
+                </div>
+                
+                <div class="form-group half">
+                    <label for="end_date">Дата окончания проведения</label>
+                    <input type="date" id="end_date" name="end_date" value="{{ old('end_date') }}" class="form-control">
+                    @error('end_date')
+                        <span class="error-message">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
             
             <div class="form-group">
                 <label for="features">Особенности экскурсии (каждая с новой строки)</label>

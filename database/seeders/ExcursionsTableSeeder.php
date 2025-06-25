@@ -31,6 +31,8 @@ class ExcursionsTableSeeder extends Seeder
                 'max_age' => null,
                 'available_seats' => 20,
                 'features' => json_encode(['Профессиональный гид', 'Входные билеты', 'Экскурсия на русском языке', 'Встреча у метро']),
+                'start_date' => '2025-06-29',
+                'end_date' => '2025-12-31',
             ],
             [
                 'name' => 'Образовательный тур "Старый город"',
@@ -45,6 +47,8 @@ class ExcursionsTableSeeder extends Seeder
                 'max_age' => 17,
                 'available_seats' => 25,
                 'features' => json_encode(['Адаптированная под школьную программу', 'Посещение 3-х музеев', 'Интерактивные задания', 'Обед в кафе']),
+                'start_date' => '2025-07-01',
+                'end_date' => '2025-12-31',
             ],
             [
                 'name' => 'Художественный тур "Третьяковская галерея"',
@@ -59,6 +63,8 @@ class ExcursionsTableSeeder extends Seeder
                 'max_age' => null,
                 'available_seats' => 15,
                 'features' => json_encode(['Профессиональный искусствовед', 'Входные билеты', 'Аудиогид', 'Буклет о галерее']),
+                'start_date' => '2025-06-28',
+                'end_date' => '2025-11-30',
             ],
             [
                 'name' => 'Интерактивная экскурсия "В мире животных"',
@@ -73,6 +79,8 @@ class ExcursionsTableSeeder extends Seeder
                 'max_age' => 6,
                 'available_seats' => 10,
                 'features' => json_encode(['Игровая форма', 'Кормление животных', 'Фотосессия', 'Подарок каждому ребенку']),
+                'start_date' => '2025-07-05',
+                'end_date' => '2025-11-15',
             ],
             [
                 'name' => 'Природный тур "Заповедные места"',
@@ -87,6 +95,8 @@ class ExcursionsTableSeeder extends Seeder
                 'max_age' => null,
                 'available_seats' => 20,
                 'features' => json_encode(['Наблюдение за дикой природой', 'Пикник на природе', 'Фотосессия', 'Сувениры из природных материалов']),
+                'start_date' => '2025-07-15',
+                'end_date' => '2025-09-30',
             ],
             [
                 'name' => 'Музыкальное путешествие "Звуки природы"',
@@ -101,6 +111,8 @@ class ExcursionsTableSeeder extends Seeder
                 'max_age' => 6,
                 'available_seats' => 15,
                 'features' => json_encode(['Игра на музыкальных инструментах', 'Мастер-класс по изготовлению шумелок', 'Музыкальная сказка', 'Небольшой концерт']),
+                'start_date' => '2025-07-01',
+                'end_date' => '2025-08-31',
             ],
         ];
         

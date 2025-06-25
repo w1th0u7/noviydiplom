@@ -27,6 +27,8 @@ class Excursion extends Model
         'max_age',
         'available_seats',
         'features',
+        'start_date',
+        'end_date',
     ];
 
     /**
@@ -35,6 +37,16 @@ class Excursion extends Model
      * @var array
      */
     protected $appends = ['image_path'];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
+    ];
 
     /**
      * Преобразование строки JSON в массив

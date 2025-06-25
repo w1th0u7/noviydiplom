@@ -50,6 +50,8 @@ class ExcursionsController extends Controller
             'max_age' => 'nullable|integer|min:0',
             'available_seats' => 'nullable|integer|min:0',
             'features' => 'nullable|string',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
         ]);
 
         // Обработка особенностей экскурсии
@@ -79,6 +81,8 @@ class ExcursionsController extends Controller
             'max_age' => $validatedData['max_age'],
             'available_seats' => $validatedData['available_seats'] ?? 20,
             'features' => $features,
+            'start_date' => $validatedData['start_date'] ?? null,
+            'end_date' => $validatedData['end_date'] ?? null,
         ]);
 
         return redirect()->route('admin.excursions.index')->with('success', 'Экскурсия успешно создана!');
@@ -117,6 +121,8 @@ class ExcursionsController extends Controller
             'max_age' => 'nullable|integer|min:0',
             'available_seats' => 'nullable|integer|min:0',
             'features' => 'nullable|string',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
         ]);
 
         // Обработка особенностей экскурсии
@@ -151,6 +157,8 @@ class ExcursionsController extends Controller
             'min_age' => $validatedData['min_age'],
             'max_age' => $validatedData['max_age'],
             'available_seats' => $validatedData['available_seats'] ?? 20,
+            'start_date' => $validatedData['start_date'] ?? null,
+            'end_date' => $validatedData['end_date'] ?? null,
         ]);
 
         return redirect()->route('admin.excursions.index')->with('success', 'Экскурсия успешно обновлена!');

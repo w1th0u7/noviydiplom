@@ -267,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Проверяем соответствие региону
       const regionMatches =
-        region === "all" || card.getAttribute("data-region").includes(region);
+        region === "all" || card.getAttribute("data-region") === region;
 
       // Проверяем соответствие продолжительности
       const cardDuration = parseInt(card.getAttribute("data-duration"));
