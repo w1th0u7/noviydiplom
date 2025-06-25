@@ -1871,3 +1871,226 @@ body {
 .hotel-card-image {
   position: relative;
 }
+
+/* Дополнительные стили для модального окна бронирования из калькулятора */
+.booking-tour-info {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 25px;
+  border-left: 4px solid #3490dc;
+}
+
+.tour-summary h4 {
+  color: #2c3e50;
+  margin: 0 0 15px 0;
+  font-size: 1.3em;
+  font-weight: 600;
+}
+
+.tour-details p {
+  margin: 8px 0;
+  color: #555;
+  font-size: 0.95em;
+}
+
+.tour-details strong {
+  color: #333;
+  font-weight: 600;
+}
+
+.price-summary {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 2px solid #e9ecef;
+}
+
+.total-price {
+  color: #3490dc !important;
+  font-size: 1.2em !important;
+  margin: 0 !important;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+  font-size: 0.95em;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #e1e8ed;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background-color: #fff;
+}
+
+.form-control:focus {
+  border-color: #3490dc;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 144, 220, 0.1);
+}
+
+.form-control:invalid {
+  border-color: #e74c3c;
+}
+
+.form-control::placeholder {
+  color: #a0a0a0;
+  font-style: italic;
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e9ecef;
+}
+
+.btn {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  min-width: 120px;
+  justify-content: center;
+}
+
+.btn-primary {
+  background-color: #3490dc;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2980b9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(52, 144, 220, 0.3);
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  transform: translateY(-1px);
+}
+
+.btn i {
+  font-size: 0.9em;
+}
+
+/* Стили для ошибок валидации */
+.form-group.error .form-control {
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 0.85em;
+  margin-top: 5px;
+  display: none;
+}
+
+.form-group.error .error-message {
+  display: block;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .modal-content {
+    margin: 2% auto;
+    width: 95%;
+    max-height: 95vh;
+    overflow-y: auto;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .tour-summary h4 {
+    font-size: 1.1em;
+  }
+
+  .form-control {
+    font-size: 16px; /* Предотвращает зум на iOS */
+  }
+}
+
+/* Анимация появления модального окна */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal {
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+  animation: modalFadeIn 0.3s ease;
+}
+
+/* Улучшенные стили для кнопки "Забронировать тур" */
+#bookTourButton {
+  background: linear-gradient(135deg, #3490dc 0%, #2980b9 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 15px rgba(52, 144, 220, 0.3);
+}
+
+#bookTourButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(52, 144, 220, 0.4);
+  background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+}
+
+#bookTourButton:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(52, 144, 220, 0.3);
+}

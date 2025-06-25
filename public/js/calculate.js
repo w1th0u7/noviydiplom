@@ -738,6 +738,198 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // Обработчик для кнопки бронирования тура в результатах калькулятора
+  document.addEventListener("click", function (e) {
+    if (e.target && e.target.id === "bookTourButton") {
+      console.log("Book tour button clicked");
+      e.preventDefault();
+
+      // Проверяем авторизацию пользователя
+      const isLoggedIn =
+        document
+          .querySelector('meta[name="user-authenticated"]')
+          ?.getAttribute("content") === "true";
+
+      if (!isLoggedIn) {
+        // Если пользователь не авторизован, перенаправляем на страницу входа
+        const currentUrl = encodeURIComponent(window.location.href);
+        window.location.href = `/login?redirect=${currentUrl}`;
+        return;
+      }
+
+      // Если пользователь авторизован, показываем форму бронирования
+      showBookingModalFromCalculator();
+    }
+  });
+
+  // Функция показа модального окна бронирования из калькулятора
+  function showBookingModalFromCalculator() {
+    // Показываем модальное окно бронирования
+    let bookingModal = document.getElementById("booking-modal");
+    if (bookingModal) {
+      bookingModal.style.display = "block";
+
+      // Заполняем данные из калькулятора
+      fillBookingFormFromCalculatorResults();
+    } else {
+      // Если модальное окно бронирования не найдено, создаем его
+      createBookingModalForCalculator();
+    }
+  }
+
+  // Функция заполнения формы бронирования данными из результатов калькулятора
+  function fillBookingFormFromCalculatorResults() {
+    try {
+      // Получаем данные из localStorage (сохраненные после расчета)
+      const calculatorData = JSON.parse(
+        localStorage.getItem("calculatorData") || "{}"
+      );
+      const resultData = JSON.parse(
+        localStorage.getItem("calculatorResult") || "{}"
+      );
+
+      // Заполняем поля формы
+      const form = document.getElementById("booking-form");
+      if (form && calculatorData && resultData) {
+        // Дата поездки
+        const dateField = form.querySelector('input[name="booking_date"]');
+        if (dateField && calculatorData.departureDate) {
+          dateField.value = calculatorData.departureDate;
+        }
+
+        // Количество человек
+        const personsField = form.querySelector('input[name="persons"]');
+        if (personsField && calculatorData.tourists) {
+          personsField.value = calculatorData.tourists;
+        }
+
+        // Общая стоимость
+        const priceField = form.querySelector('input[name="total_price"]');
+        if (priceField && resultData.totalPrice) {
+          priceField.value = resultData.totalPrice;
+        }
+
+        // Отображаем информацию о туре
+        const tourInfo = form.querySelector(".booking-tour-info");
+        if (tourInfo) {
+          tourInfo.innerHTML = `
+            <div class="tour-summary">
+              <h4>${calculatorData.country || "Выбранная страна"}, ${
+            calculatorData.resort || "Выбранный курорт"
+          }</h4>
+              <div class="tour-details">
+                <p><strong>Продолжительность:</strong> ${
+                  calculatorData.nights || 7
+                } ${getNightsWord(calculatorData.nights || 7)}</p>
+                <p><strong>Количество туристов:</strong> ${
+                  calculatorData.tourists || 2
+                } ${getPersonsWord(calculatorData.tourists || 2)}</p>
+                <p><strong>Класс отеля:</strong> ${
+                  calculatorData.hotelClass || "стандарт"
+                }</p>
+                <p><strong>Питание:</strong> ${getMealDescription(
+                  calculatorData.meal || "завтрак"
+                )}</p>
+                <p><strong>Дата вылета:</strong> ${
+                  calculatorData.departureDate
+                    ? formatDateForDisplay(calculatorData.departureDate)
+                    : "Не указана"
+                }</p>
+                <div class="price-summary">
+                  <p class="total-price"><strong>Общая стоимость: ${(
+                    resultData.totalPrice || 0
+                  ).toLocaleString()} ₽</strong></p>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+      }
+    } catch (error) {
+      console.error("Ошибка при заполнении формы бронирования:", error);
+    }
+  }
+
+  // Функция создания модального окна бронирования для калькулятора
+  function createBookingModalForCalculator() {
+    const modalHtml = `
+      <div id="booking-modal" class="modal">
+        <div class="modal-content">
+          <span class="close-modal" onclick="closeBookingModal()">&times;</span>
+          <h2>Забронировать рассчитанный тур</h2>
+          
+          <div class="booking-tour-info"></div>
+          
+          <form id="booking-form" action="/calculator/book" method="POST" class="main-booking-form">
+            <input type="hidden" name="_token" value="${
+              document
+                .querySelector('meta[name="csrf-token"]')
+                ?.getAttribute("content") || ""
+            }">
+            <input type="hidden" name="tour_type" value="calculator">
+            <input type="hidden" name="total_price" value="">
+            
+            <div class="form-group">
+              <label for="guest_name">Ваше имя *</label>
+              <input type="text" id="guest_name" name="guest_name" required class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="guest_email">Email *</label>
+              <input type="email" id="guest_email" name="guest_email" required class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="guest_phone">Телефон *</label>
+              <input type="tel" id="guest_phone" name="guest_phone" required class="form-control" placeholder="+7 (xxx) xxx-xx-xx">
+            </div>
+            
+            <div class="form-group">
+              <label for="booking_date">Дата поездки *</label>
+              <input type="date" id="booking_date" name="booking_date" required class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="persons">Количество человек *</label>
+              <input type="number" id="persons" name="persons" min="1" max="10" required class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="special_requests">Особые пожелания</label>
+              <textarea id="special_requests" name="special_requests" class="form-control" rows="3" placeholder="Укажите дополнительные пожелания к поездке..."></textarea>
+            </div>
+            
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-paper-plane"></i> Отправить заявку
+              </button>
+              <button type="button" class="btn btn-secondary" onclick="closeBookingModal()">
+                <i class="fas fa-times"></i> Отмена
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    `;
+
+    document.body.insertAdjacentHTML("beforeend", modalHtml);
+
+    // Показываем созданное модальное окно
+    const bookingModal = document.getElementById("booking-modal");
+    if (bookingModal) {
+      bookingModal.style.display = "block";
+      fillBookingFormFromCalculatorResults();
+    }
+  }
+
+  // Функция закрытия модального окна бронирования
+  window.closeBookingModal = function () {
+    const bookingModal = document.getElementById("booking-modal");
+    if (bookingModal) {
+      bookingModal.style.display = "none";
+    }
+  };
+
   // Функция для создания карточки отеля или экскурсии
   function createHotelCard(hotel) {
     const cardDiv = document.createElement("div");

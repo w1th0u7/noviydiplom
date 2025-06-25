@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/mobile.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="user-authenticated" content="{{ Auth::check() ? 'true' : 'false' }}">
     <title>@yield('title', 'Родина-тур')</title>
     <script src="{{ asset('/js/fixes.js') }}" defer></script>
 </head>

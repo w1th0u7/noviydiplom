@@ -422,4 +422,87 @@ class BookingController extends Controller
                 ->withInput();
         }
     }
+
+    /**
+     * Создание бронирования через калькулятор туров
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function bookFromCalculator(Request $request)
+    {
+        \Log::info("Начало процесса бронирования через калькулятор");
+        \Log::info("Данные запроса: " . json_encode($request->all()));
+        
+        try {
+            // Валидация данных
+            $validator = Validator::make($request->all(), [
+                'booking_date' => 'required|date|after_or_equal:today',
+                'persons' => 'required|integer|min:1|max:10',
+                'guest_name' => 'required|string|max:255',
+                'guest_email' => 'required|email|max:255',
+                'guest_phone' => 'required|string|max:20',
+                'total_price' => 'required|numeric|min:0',
+                'special_requests' => 'nullable|string|max:1000',
+            ]);
+
+            if ($validator->fails()) {
+                \Log::warning("Ошибка валидации при бронировании через калькулятор: " . json_encode($validator->errors()->toArray()));
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+            
+            DB::beginTransaction();
+            
+            // Получаем данные пользователя
+            $user = Auth::user();
+            \Log::info("Пользователь: {$user->name} (ID: {$user->id})");
+            
+            // Создаем объект бронирования
+            $booking = new Booking();
+            $booking->user_id = $user->id;
+            $booking->guest_name = $request->guest_name;
+            $booking->guest_email = $request->guest_email;
+            $booking->guest_phone = $request->guest_phone;
+            $booking->booking_date = $request->booking_date;
+            $booking->persons = $request->persons;
+            $booking->total_price = $request->total_price;
+            $booking->status = 'pending';
+            $booking->notes = $request->special_requests;
+            
+            // Для бронирований через калькулятор создаем специальный тип
+            $booking->bookable_type = 'calculator';
+            $booking->bookable_id = 0; // Используем 0 для калькулятора
+            
+            // Сохраняем бронирование
+            $booking->save();
+            \Log::info("Бронирование через калькулятор создано: #{$booking->id}");
+            
+            DB::commit();
+            
+            // Создаём данные для уведомления
+            $notification = [
+                'title' => 'Заявка успешно создана!',
+                'message' => 'Ваш расчет сохранен. В ближайшее время с Вами свяжется менеджер для уточнения деталей поездки.'
+            ];
+            
+            // Устанавливаем флеш-сообщения
+            session()->flash('booking_notification', $notification);
+            session()->flash('global_alert', 'Заявка успешно отправлена! Скоро с вами свяжется менеджер.');
+            
+            // Редирект на страницу подтверждения
+            return redirect()
+                ->route('bookings.confirmation', $booking->id)
+                ->with('success', 'Ваша заявка успешно создана и ожидает обработки менеджером.');
+                
+        } catch (\Exception $e) {
+            DB::rollback();
+            \Log::error('Ошибка при создании бронирования через калькулятор: ' . $e->getMessage());
+            
+            return redirect()->back()
+                ->with('error', 'Произошла ошибка при создании заявки. Пожалуйста, попробуйте еще раз.')
+                ->withInput();
+        }
+    }
 }

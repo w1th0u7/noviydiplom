@@ -214,9 +214,172 @@ document.addEventListener("DOMContentLoaded", function () {
   const bookTourButton = document.querySelector(".btn-book-tour");
   if (bookTourButton) {
     bookTourButton.addEventListener("click", function () {
-      alert("Функция бронирования будет доступна в ближайшее время!");
+      // Проверяем авторизацию пользователя
+      const isLoggedIn =
+        document
+          .querySelector('meta[name="user-authenticated"]')
+          ?.getAttribute("content") === "true";
+
+      if (!isLoggedIn) {
+        // Если пользователь не авторизован, перенаправляем на страницу входа
+        const currentUrl = encodeURIComponent(window.location.href);
+        window.location.href = `/login?redirect=${currentUrl}`;
+        return;
+      }
+
+      // Если пользователь авторизован, показываем форму бронирования
+      showBookingModal();
     });
   }
+
+  // Функция показа модального окна бронирования
+  function showBookingModal() {
+    // Закрываем модальное окно тура
+    if (tourModal) {
+      tourModal.style.display = "none";
+    }
+
+    // Показываем модальное окно бронирования
+    const bookingModal = document.getElementById("booking-modal");
+    if (bookingModal) {
+      bookingModal.style.display = "block";
+
+      // Заполняем данные из калькулятора
+      fillBookingFormFromCalculator();
+    } else {
+      // Если модальное окно бронирования не найдено, создаем его
+      createBookingModal();
+    }
+  }
+
+  // Функция заполнения формы бронирования данными из калькулятора
+  function fillBookingFormFromCalculator() {
+    try {
+      // Получаем данные из localStorage (сохраненные после расчета)
+      const calculatorData = JSON.parse(
+        localStorage.getItem("calculatorData") || "{}"
+      );
+      const resultData = JSON.parse(
+        localStorage.getItem("calculatorResult") || "{}"
+      );
+
+      // Заполняем поля формы
+      const form = document.getElementById("booking-form");
+      if (form && calculatorData && resultData) {
+        // Дата поездки
+        const dateField = form.querySelector('input[name="booking_date"]');
+        if (dateField && calculatorData.departureDate) {
+          dateField.value = calculatorData.departureDate;
+        }
+
+        // Количество человек
+        const personsField = form.querySelector('input[name="persons"]');
+        if (personsField && calculatorData.tourists) {
+          personsField.value = calculatorData.tourists;
+        }
+
+        // Общая стоимость
+        const priceField = form.querySelector('input[name="total_price"]');
+        if (priceField && resultData.totalPrice) {
+          priceField.value = resultData.totalPrice;
+        }
+
+        // Отображаем информацию о туре
+        const tourInfo = form.querySelector(".booking-tour-info");
+        if (tourInfo) {
+          tourInfo.innerHTML = `
+            <h4>${calculatorData.country}, ${calculatorData.resort}</h4>
+            <p>${calculatorData.nights} ночей, ${
+            calculatorData.tourists
+          } человек</p>
+            <p>Класс отеля: ${calculatorData.hotelClass}</p>
+            <p>Питание: ${calculatorData.meal}</p>
+            <p><strong>Стоимость: ${
+              resultData.totalPrice?.toLocaleString() || 0
+            } ₽</strong></p>
+          `;
+        }
+      }
+    } catch (error) {
+      console.error("Ошибка при заполнении формы бронирования:", error);
+    }
+  }
+
+  // Функция создания модального окна бронирования (если его нет)
+  function createBookingModal() {
+    const modalHtml = `
+      <div id="booking-modal" class="modal">
+        <div class="modal-content">
+          <span class="close-modal" onclick="closeBookingModal()">&times;</span>
+          <h2>Бронирование тура</h2>
+          
+          <div class="booking-tour-info"></div>
+          
+          <form id="booking-form" action="/calculator/book" method="POST" class="main-booking-form">
+            <input type="hidden" name="_token" value="${
+              document
+                .querySelector('meta[name="csrf-token"]')
+                ?.getAttribute("content") || ""
+            }">
+            <input type="hidden" name="tour_type" value="calculator">
+            <input type="hidden" name="total_price" value="">
+            
+            <div class="form-group">
+              <label for="guest_name">Ваше имя *</label>
+              <input type="text" id="guest_name" name="guest_name" required class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="guest_email">Email *</label>
+              <input type="email" id="guest_email" name="guest_email" required class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="guest_phone">Телефон *</label>
+              <input type="tel" id="guest_phone" name="guest_phone" required class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="booking_date">Дата поездки *</label>
+              <input type="date" id="booking_date" name="booking_date" required class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="persons">Количество человек *</label>
+              <input type="number" id="persons" name="persons" min="1" max="10" required class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="special_requests">Особые пожелания</label>
+              <textarea id="special_requests" name="special_requests" class="form-control" rows="3"></textarea>
+            </div>
+            
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Отправить заявку</button>
+              <button type="button" class="btn btn-secondary" onclick="closeBookingModal()">Отмена</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    `;
+
+    document.body.insertAdjacentHTML("beforeend", modalHtml);
+
+    // Показываем созданное модальное окно
+    const bookingModal = document.getElementById("booking-modal");
+    if (bookingModal) {
+      bookingModal.style.display = "block";
+      fillBookingFormFromCalculator();
+    }
+  }
+
+  // Функция закрытия модального окна бронирования
+  window.closeBookingModal = function () {
+    const bookingModal = document.getElementById("booking-modal");
+    if (bookingModal) {
+      bookingModal.style.display = "none";
+    }
+  };
 
   // Обработчик для кнопки "В избранное"
   const addFavoriteButton = document.querySelector(".btn-add-favorite");

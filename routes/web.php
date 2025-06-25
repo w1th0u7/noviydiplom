@@ -134,6 +134,7 @@ Route::get('/calculate', [TourCalculatorController::class, 'index'])->name('calc
 Route::post('/calculate/get-resorts', [TourCalculatorController::class, 'getResorts'])->name('calculate.getResorts');
 Route::post('/calculate/get-hotels', [TourCalculatorController::class, 'getHotels'])->name('calculate.getHotels');
 Route::post('/calculate/price', [TourCalculatorController::class, 'calculate'])->name('calculate.price');
+Route::post('/calculator/book', [BookingController::class, 'bookFromCalculator'])->name('calculator.book')->middleware('auth');
 
 // Маршруты для бронирования
 Route::middleware(['auth'])->group(function () {
