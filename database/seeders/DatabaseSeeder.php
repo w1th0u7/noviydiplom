@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
         $userEmail = 'unique_email666@example.com';
         
         if (!User::where('email', $userEmail)->exists()) {
-            $faker = FakerFactory::create();
+            $faker = Factory::create();
             
             $user = User::create([
                 'name' => 'Artem',
