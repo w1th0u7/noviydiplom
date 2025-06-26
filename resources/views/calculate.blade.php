@@ -10,19 +10,6 @@
 @endsection
 
 @section('content')
-<!-- Отладочный блок -->
-@if(config('app.debug'))
-<div style="background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 10px; margin: 10px 0; border-radius: 5px;">
-    <strong>DEBUG INFO:</strong><br>
-    User authenticated: {{ Auth::check() ? 'YES' : 'NO' }}<br>
-    @if(Auth::check())
-        User ID: {{ Auth::id() }}<br>
-        User Name: {{ Auth::user()->name }}<br>
-        User Email: {{ Auth::user()->email }}<br>
-    @endif
-    Meta tag content: {{ Auth::check() ? 'true' : 'false' }}
-</div>
-@endif
 
 <div class="container">
     <!-- Уведомления -->
