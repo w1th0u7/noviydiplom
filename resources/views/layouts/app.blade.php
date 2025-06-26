@@ -282,7 +282,7 @@
                             <span>Раскрыть отзыв</span>
                             <img src="/img/arrow-btn.svg" alt="">
                         </button>
-                        <p class="data">13.08.2024</p>
+                        <p class="data">14.02.2025</p>
                     </div>
                 </div>
                 <div class="swiper-slide swiper-slide-active" role="group" aria-label="2 / 9" style="margin-right: 40px;">
@@ -326,7 +326,7 @@
                             <span>Раскрыть отзыв</span>
                             <img src="/img/arrow-btn.svg" alt="">
                         </button>
-                        <p class="data">13.08.2024</p>
+                        <p class="data">03.05.2025</p>
                     </div>
                 </div>
                 <div class="swiper-slide swiper-slide-active" role="group" aria-label="5 / 9" style="margin-right: 40px;">
@@ -348,7 +348,7 @@
                             <span>Раскрыть отзыв</span>
                             <img src="/img/arrow-btn.svg" alt="">
                         </button>
-                        <p class="data">13.08.2024</p>
+                        <p class="data">12.04.2025</p>
                     </div>
                 </div>
                 <div class="swiper-slide swiper-slide-active" role="group" aria-label="6 / 9" style="margin-right: 40px;">
@@ -370,7 +370,7 @@
                             <span>Раскрыть отзыв</span>
                             <img src="/img/arrow-btn.svg" alt="">
                         </button>
-                        <p class="data">13.08.2024</p>
+                        <p class="data">10.06.2025</p>
                     </div>
                 </div>
                 <div class="swiper-slide swiper-slide-active" role="group" aria-label="8 / 9" style="margin-right: 40px;">
@@ -392,7 +392,7 @@
                             <span>Раскрыть отзыв</span>
                             <img src="/img/arrow-btn.svg" alt="">
                         </button>
-                        <p class="data">13.08.2024</p>
+                        <p class="data">16.08.2024</p>
                     </div>
                 </div>
             </div>
