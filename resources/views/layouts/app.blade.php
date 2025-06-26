@@ -276,7 +276,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi praesentium repellat molestias. Quo, sit harum distinctio, reiciendis explicabo fuga blanditiis molestias et corrupti commodi dolor voluptatibus! Ipsa eaque tempora ratione?</p>
+                    <p class="text">“Хочу поделиться своими впечатлениями о поездке в Казань с “Родина-Тур”! Фотографии говорят сами за себя - город просто великолепен! Программа была насыщенной, гид - знающий и интересный рассказчик. Отдельное спасибо за комфортный отель в центре города. Рекомендую всем!”</p>
                     <div class="btns">
                         <button>
                             <span>Раскрыть отзыв</span>
@@ -298,7 +298,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi praesentium repellat molestias. Quo, sit harum distinctio, reiciendis explicabo fuga blanditiis molestias et corrupti commodi dolor voluptatibus! Ipsa eaque tempora ratione?</p>
+                    <p class="text">“Родина-тур” помогли организовать деловую поездку в Москву для нашей компании. Все было четко, быстро и профессионально. Учли все наши пожелания по размещению и транспорту. Сэкономили нам кучу времени и нервов. Спасибо за отличный сервис!”</p>
                     <div class="btns">
                         <button>
                             <span>Раскрыть отзыв</span>
@@ -320,7 +320,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi praesentium repellat molestias. Quo, sit harum distinctio, reiciendis explicabo fuga blanditiis molestias et corrupti commodi dolor voluptatibus! Ipsa eaque tempora ratione?</p>
+                    <p class="text">“Я много путешествую по России и могу сказать, что “Родина-Тур” - одна из лучших компаний по организации туров. Они предлагают интересные маршруты, учитывают пожелания клиента, и у них всегда есть что-то новое. В этот раз ездили в Карелию - всё было просто замечательно! Рекомендую!”</p>
                     <div class="btns">
                         <button>
                             <span>Раскрыть отзыв</span>
@@ -332,7 +332,7 @@
                 <div class="swiper-slide swiper-slide-active" role="group" aria-label="5 / 9" style="margin-right: 40px;">
                     <div class="info">
                         <div class="cont">
-                            <p class="name">Надежда</p>
+                            <p class="name">Кирилл</p>
                             <div class="star">
                                 <span></span>
                                 <span></span>
@@ -342,7 +342,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi praesentium repellat molestias. Quo, sit harum distinctio, reiciendis explicabo fuga blanditiis molestias et corrupti commodi dolor voluptatibus! Ipsa eaque tempora ratione?</p>
+                    <p class="text">“Искали бюджетный вариант тура по России и нашли “Родина-Тур”. Были приятно удивлены качеством обслуживания за такую цену! Отели скромные, но чистые и уютные, экскурсии интересные. Отличное соотношение цены и качества. Спасибо за доступный отдых!”</p>
                     <div class="btns">
                         <button>
                             <span>Раскрыть отзыв</span>
@@ -354,7 +354,7 @@
                 <div class="swiper-slide swiper-slide-active" role="group" aria-label="6 / 9" style="margin-right: 40px;">
                     <div class="info">
                         <div class="cont">
-                            <p class="name">Надежда</p>
+                            <p class="name">Владислав</p>
                             <div class="star">
                                 <span></span>
                                 <span></span>
@@ -364,7 +364,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi praesentium repellat molestias. Quo, sit harum distinctio, reiciendis explicabo fuga blanditiis molestias et corrupti commodi dolor voluptatibus! Ipsa eaque tempora ratione?</p>
+                    <p class="text">“Замечательный экскурсионный тур в Санкт-Петербург! Очень насыщенная программа, но при этом не было ощущения спешки. Гид - настоящий профессионал, рассказывал очень интересно и увлекательно. Узнал много нового об истории города. “Родина-Тур”, спасибо за прекрасные впечатления!”</p>
                     <div class="btns">
                         <button>
                             <span>Раскрыть отзыв</span>
@@ -386,7 +386,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi praesentium repellat molestias. Quo, sit harum distinctio, reiciendis explicabo fuga blanditiis molestias et corrupti commodi dolor voluptatibus! Ipsa eaque tempora ratione?</p>
+                    <p class="text">“Ездили с “Родина-Тур” в семейный тур по Золотому кольцу. Все было организовано на высшем уровне! Отели хорошие, удобные для семей с детьми, экскурсии интересные и познавательные. Особенно порадовал гид, который умел увлечь и взрослых, и детей. Спасибо за отличный отпуск и яркие воспоминания!”</p>
                     <div class="btns">
                         <button>
                             <span>Раскрыть отзыв</span>
